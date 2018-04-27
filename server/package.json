@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Grivel-l/101-memes#readme",
   "dependencies": {
+    "bunyan": "^1.8.12",
     "eslint": "^4.19.1",
     "mongoose": "^5.0.16",
     "restify": "^7.1.1"
