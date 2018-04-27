@@ -1,0 +1,40 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+		"eol-last": ["error", "always"],
+		"no-duplicate-imports": ["error", {}],
+		"prefer-const": ["error", {
+			"destructuring": "any"
+		}],
+		"prefer-arrow-callback": ["error", {}],
+		"no-var": "error",
+		"camelcase": ["error"],
+		"no-lonely-if": "error",
+		"no-use-before-define": ["error"],
+		"radix": "error",
+		"eqeqeq": "error"
+    }
+}

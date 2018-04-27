@@ -1,0 +1,24 @@
+{
+  "name": "101-memes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --harmony srcs/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grivel-l/101-memes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grivel-l/101-memes/issues"
+  },
+  "homepage": "https://github.com/Grivel-l/101-memes#readme",
+  "dependencies": {
+    "eslint": "^4.19.1",
+    "restify": "^7.1.1"
+  }
+}
