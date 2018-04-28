@@ -10,6 +10,6 @@ const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);
-    routes(server);
+    routes(server, log);
 });
 dtb.init();
