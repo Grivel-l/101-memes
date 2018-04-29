@@ -7,20 +7,19 @@ class Database {
         this.connect = this.connect.bind(this);
     }
 
-    setCallbacks() {
-        mongoose.connection.on("error", () => {
-            setTimeout(this.connect, 5000);
+    connect() {
+        return new Promise(resolve => {
+            mongoose.connect(configs.url, configs.options)
+                .then(() => resolve())
+                .catch(err => {
+                    this.log.error(err);
+                    setTimeout(this.connect, 5000);
+                });
         });
     }
 
-    connect() {
-        mongoose.connect(configs.url, configs.options)
-            .catch(err => this.log.error(err));
-    }
-
     init() {
-        this.setCallbacks();
-        this.connect();
+        return this.connect();
     }
 }
 
