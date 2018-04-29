@@ -10,7 +10,7 @@ class Database {
     connect() {
         return new Promise(resolve => {
             mongoose.connect(configs.url, configs.options)
-                .then(() => resolve())
+                .then(() => resolve(mongoose))
                 .catch(err => {
                     this.log.error(err);
                     setTimeout(this.connect, 5000);

@@ -1,0 +1,23 @@
+const config = require("../../configs/global");
+
+class MediasModel {
+    constructor(dtb) {
+        this.model = dtb.model("Medias", new dtb.Schema({
+            name: String,
+            path: String
+        }));
+    }
+
+    addFile(name, filepath) {
+        return this.model.create({
+            name,
+            path: `${config.imgsDirPath}${filepath.substr(1)}`
+        });
+    }
+
+    getAll() {
+        return this.model.find({});
+    }
+}
+
+module.exports = MediasModel;
