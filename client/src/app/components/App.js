@@ -8,10 +8,15 @@ class App extends Component {
         this.state = {};
     }
 
+    renderMedias() {
+        return this.props.medias.map((media, index) => <img key={`media${index}`} src={media.path} alt={media.name} height={"250px"} className={"mediaImg"} />);
+    }
+
     render() {
-        console.log("Medias: ", this.props.medias);
         return (
-            <div />
+            <div>
+                {this.renderMedias()}
+            </div>
         );
     }
 }
