@@ -9,13 +9,15 @@ class App extends Component {
     }
 
     render() {
-        console.log("Medias: ", this.props);
+        console.log("Medias: ", this.props.medias);
         return (
             <div />
         );
     }
 }
 
-App.propTypes = {};
+App.propTypes = {
+    medias: PropTypes.arrayOf(PropTypes.object)
+};
 
 export default App;

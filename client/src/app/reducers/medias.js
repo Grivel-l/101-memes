@@ -1,17 +1,19 @@
 import {MEDIAS_GET_SUCCESS} from "../actions/medias";
 
-const initialState = {};
+const initialState = {
+    data: []
+};
 
-const toaster = (state = initialState, {type, payload}) => {
+const medias = (state = initialState, {type, payload}) => {
     switch (type) {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            ...payload
+            data: payload
         };
     default:
         return state;
     }
 };
 
-export default toaster;
+export default medias;
