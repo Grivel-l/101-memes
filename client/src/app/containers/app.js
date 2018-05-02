@@ -2,8 +2,8 @@ import {connect} from "react-redux";
 
 import App from "../components/App";
 
-const mapStateToProps = () => {
-    return {};
+const mapStateToProps = ({medias}) => {
+    return {medias};
 };
 
 const mapDispatchToProps = () => {

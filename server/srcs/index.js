@@ -7,6 +7,10 @@ const log = bunyan.createLogger({name: "101_memes"});
 const dtb = new Database(log);
 
 const server = restify.createServer();
+server.pre((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
 server.use(restify.plugins.bodyParser());
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);
