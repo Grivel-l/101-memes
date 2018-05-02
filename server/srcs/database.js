@@ -7,13 +7,16 @@ class Database {
         this.connect = this.connect.bind(this);
     }
 
-    connect() {
+    connect(res = null) {
         return new Promise(resolve => {
             mongoose.connect(configs.url, configs.options)
-                .then(() => resolve(mongoose))
+                .then(() => {
+                    this.log.info("Connected to database");
+                    res === null ? resolve(mongoose) : res(mongoose);
+                })
                 .catch(err => {
                     this.log.error(err);
-                    setTimeout(this.connect, 5000);
+                    setTimeout(() => this.connect(resolve), 5000);
                 });
         });
     }

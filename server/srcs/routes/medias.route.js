@@ -8,6 +8,7 @@ module.exports = (server, plugins, log, dtb) => {
     }));
 
     server.post("/media", (req, res) => {
+        log.info("/media");
         if (req.params.name === undefined) {
             return res.send(400, {error: "name param is missing"});
         } else if (req.files.media === undefined) {
