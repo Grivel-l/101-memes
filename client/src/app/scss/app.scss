@@ -5,5 +5,22 @@ body {
 }
 
 .mediaImg {
-    height: 250px;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.mediaContainer {
+    width: 24.5%;
+    max-height: 250px;
+    flex-wrap: wrap;
+    background-color: $backColorDimmed;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }

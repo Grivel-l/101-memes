@@ -11,12 +11,18 @@ class App extends Component {
     }
 
     renderMedias() {
-        return this.props.medias.map((media, index) => <img key={`media${index}`} src={media.path} alt={media.name} className={"mediaImg"} />);
+        return this.props.medias.map((media, index) => {
+            return (
+                <div key={`media${index}`} className={"mediaContainer"}>
+                    <img src={media.path} alt={media.name} className={"mediaImg"} />
+                </div>
+            );
+        });
     }
 
     render() {
         return (
-            <div>
+            <div className={"wrapper"}>
                 {this.renderMedias()}
             </div>
         );
