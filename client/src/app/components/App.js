@@ -9,6 +9,7 @@ class App extends Component {
     }
 
     render() {
+        console.log("Medias: ", this.props);
         return (
             <div />
         );
