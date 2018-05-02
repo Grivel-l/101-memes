@@ -1,0 +1,50 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+		"react/jsx-uses-react": 2,
+		"react/jsx-uses-vars": 2,
+		"eol-last": ["error", "always"],
+		"no-duplicate-imports": ["error", {}],
+		"prefer-const": ["error", {
+			"destructuring": "any"
+		}],
+		"prefer-arrow-callback": ["error", {}],
+		"no-var": "error",
+		"camelcase": ["error"],
+		"no-lonely-if": "error",
+		"no-use-before-define": ["error"],
+		"radix": "error",
+		"eqeqeq": "error"
+    }
+}
