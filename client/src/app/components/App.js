@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
+import "../scss/app.css";
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -9,7 +11,7 @@ class App extends Component {
     }
 
     renderMedias() {
-        return this.props.medias.map((media, index) => <img key={`media${index}`} src={media.path} alt={media.name} height={"250px"} className={"mediaImg"} />);
+        return this.props.medias.map((media, index) => <img key={`media${index}`} src={media.path} alt={media.name} className={"mediaImg"} />);
     }
 
     render() {
