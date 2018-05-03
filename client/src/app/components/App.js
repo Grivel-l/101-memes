@@ -1,15 +1,10 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
+import PostButton from "../containers/postbutton";
 import "../scss/app.css";
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {};
-    }
-
     renderMedias() {
         return this.props.medias.map((media, index) => {
             return (
@@ -35,6 +30,7 @@ class App extends Component {
         return (
             <div className={"wrapper"}>
                 {this.renderMedias()}
+                <PostButton />
             </div>
         );
     }

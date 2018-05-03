@@ -1,0 +1,52 @@
+@import "./colors.scss";
+
+$circleRadius: 70px;
+
+@media (min-width: 0px) {
+    .postWrapper {
+        width: $circleRadius - 30px;
+        height: $circleRadius - 30px;
+        border-radius: $circleRadius - 30px;
+    }
+}
+
+@media (min-width: 350px) {
+    .postWrapper {
+        width: $circleRadius - 20px;
+        height: $circleRadius - 20px;
+        border-radius: $circleRadius - 20px;
+    }
+}
+
+@media (min-width: 600px) {
+    .postWrapper {
+        width: $circleRadius - 10px;
+        height: $circleRadius - 10px;
+        border-radius: $circleRadius - 10px;
+    }
+}
+
+@media (min-width: 1100px) {
+    .postWrapper {
+        width: $circleRadius;
+        height: $circleRadius;
+        border-radius: $circleRadius;
+    }
+}
+
+.postWrapper {
+    background-color: $lightDimmed;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    margin: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postWrapper:hover {
+    background-color: white;
+    fill: $hoverColor;
+}
