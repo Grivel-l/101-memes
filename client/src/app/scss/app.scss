@@ -11,16 +11,54 @@ body {
 
 .mediaContainer {
     width: 24.5%;
-    max-height: 250px;
     flex-wrap: wrap;
     background-color: $backColorDimmed;
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 5px;
+    height: 250px;
 }
 
 .wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.subMediaContainer {
+    align-items: center;
+    display: flex;
+    max-width: 100%;
+    position: relative;
+}
+
+.mediaHover {
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.mediaHover:hover {
+    opacity: 1;
+}
+
+.downloadButton {
+    border-radius: 3px;
+    background-color: white;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 0px 5px 0px 5px;
+    transition: fill 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.downloadButton:hover {
+    fill: #006ad1;
 }
