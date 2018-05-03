@@ -5,7 +5,7 @@ const MediasModel = require("../models/Medias.model");
 class MediasController {
     constructor(dtb) {
         this.medias = new MediasModel(dtb);
-        this.mediaDir = "./imgs/";
+        this.mediaDir = "./srcs/imgs/";
     }
     
     getName() {

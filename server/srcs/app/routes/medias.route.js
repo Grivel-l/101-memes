@@ -3,8 +3,9 @@ const MediasController = require("../controllers/Medias.controller");
 module.exports = (server, plugins, log, dtb) => {
     const medias = new MediasController(dtb);
 
-    server.get("/imgs/*", plugins.serveStatic({
-        directory: `${__dirname}/../..`
+    server.get("/srcs/imgs/*", plugins.serveStatic({
+        appendRequestPath: false,
+        directory: `${__dirname}/../../imgs/`
     }));
 
     server.post("/media", (req, res) => {

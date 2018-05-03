@@ -9,15 +9,11 @@ import {MEDIAS_GET_SUCCESS} from "../actions/medias";
 
 function *getMedias() {
     try {
-        const response = yield call(getMediasApi);
-        if (response.status === 200) {
-            response.json()
-                .then(function *(payload) {
-                    yield put({payload, type: MEDIAS_GET_SUCCESS});
-                });
-        } else {
-            console.error("An error occured, getting medias from server");
+        const payload = yield call(getMediasApi);
+        if (payload.error !== undefined) {
+            throw payload;
         }
+        yield put({payload, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
         console.error("An error occured");
