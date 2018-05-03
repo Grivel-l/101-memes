@@ -1,12 +1,9 @@
 @import "./colors.scss";
 
+$mediaMaxHeight: 250px;
+
 body {
     background-color: $backColor;
-}
-
-.mediaImg {
-    max-height: 100%;
-    max-width: 100%;
 }
 
 .mediaContainer {
@@ -17,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 5px;
-    height: 250px;
+    height: $mediaMaxHeight;
 }
 
 .wrapper {
@@ -28,9 +25,18 @@ body {
 
 .subMediaContainer {
     align-items: center;
+    justify-content: center;
     display: flex;
+    max-height: 100%;
     max-width: 100%;
     position: relative;
+}
+
+.mediaImg {
+    max-height: $mediaMaxHeight;
+    max-width: 100%;
+    height: auto;
+    width: auto;
 }
 
 .mediaHover {
