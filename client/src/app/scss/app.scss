@@ -2,6 +2,11 @@
 
 $mediaMaxHeight: 250px;
 
+#root, body, html {
+    height: 100%;
+    width: 100%;
+}
+
 body {
     background-color: $backColor;
 }
@@ -44,6 +49,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    width: 100%;
+    height: 100%;
 }
 
 .subMediaContainer {
