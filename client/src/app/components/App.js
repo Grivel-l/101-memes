@@ -5,24 +5,30 @@ import Media from "./Media";
 import "../scss/app.css";
 
 class App extends Component {
-    componentDidMount() {
-        document.body.addEventListener("scroll", event => {
-            console.log('Event', event);
-        });
-    }
-
     renderMedias() {
-        return this.props.medias.map((media, index) => {
+        return this.props.medias.data.map((media, index) => {
             return (
                 <Media key={`media${index}`} media={media} />
             );
         });
     }
 
+    renderPages() {
+        const result = [];
+        let i = 0;
+        while (i < this.props.medias.pageNbr) {
+            result.push(<a>{i}</a>);
+            i += 1;
+        }
+        return result;
+    }
+
     render() {
+        console.log("Pagenbr: ", this.props.medias.pageNbr);
         return (
             <div className={"wrapper"}>
                 {this.renderMedias()}
+                {this.renderPages()}
             </div>
         );
     }
