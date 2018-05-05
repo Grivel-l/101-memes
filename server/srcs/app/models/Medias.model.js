@@ -15,8 +15,9 @@ class MediasModel {
         });
     }
 
-    getAll() {
-        return this.model.find({});
+    getAll(page = 1, limit = 20) {
+        page -= 1;
+        return this.model.find({}, null, {limit, skip: page * limit});
     }
 }
 
