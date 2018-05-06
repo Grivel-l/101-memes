@@ -1,7 +1,8 @@
 import {MEDIAS_GET_SUCCESS} from "../actions/medias";
 
 const initialState = {
-    data: []
+    data: [],
+    pageNbr: 0
 };
 
 const medias = (state = initialState, {type, payload}) => {
@@ -9,7 +10,7 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            data: payload
+            ...payload
         };
     default:
         return state;
