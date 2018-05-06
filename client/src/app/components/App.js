@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import Media from "./Media";
 import config from "../../config/globalConfig";
+import PostButton from "../containers/postbutton";
 import "../scss/app.css";
 
 class App extends Component {
@@ -46,6 +47,7 @@ class App extends Component {
             <div className={"wrapper"}>
                 <div className={"subWrapper"}>
                     {this.renderMedias()}
+                    <PostButton />
                 </div>
                 <div>
                     {this.renderPages()}

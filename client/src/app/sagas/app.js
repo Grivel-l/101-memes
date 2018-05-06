@@ -6,10 +6,14 @@ import {
     fork
 } from "redux-saga/effects";
 
-import {getMediasApi} from "../api/medias";
+import {
+    getMediasApi,
+    publishMediaApi
+} from "../api/medias";
 import {
     MEDIAS_GET,
-    MEDIAS_GET_SUCCESS
+    MEDIAS_GET_SUCCESS,
+    MEDIA_PUBLISH
 } from "../actions/medias";
 
 function *getMedias({payload}) {
@@ -25,13 +29,30 @@ function *getMedias({payload}) {
     }
 }
 
+function* publishMedia({payload}) {
+    try {
+        const result = yield call(publishMediaApi, payload);
+        if (result.error !== undefined) {
+            throw result;
+        }
+    }
+    catch (error) {
+        console.error("An error occured");
+    }
+}
+
 function *getMediasWatcher() {
     yield takeEvery(MEDIAS_GET, getMedias);
 }
 
+function* mediaPublishWatcher() {
+    yield takeEvery(MEDIA_PUBLISH, publishMedia);
+}
+
 function* flow() {
     yield all([
-        fork(getMediasWatcher)
+        fork(getMediasWatcher),
+        fork(mediaPublishWatcher)
     ]);
 }
 
