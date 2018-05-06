@@ -42,6 +42,13 @@ body {
 
 .wrapper {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: purple;
+}
+
+.subWrapper {
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
@@ -90,4 +97,15 @@ body {
 
 .downloadButton:hover {
     fill: #006ad1;
+}
+
+.pageNbr {
+    color: white;
+    border: 3px solid $backColorDimmed;
+    text-decoration: none;
+    margin: 4px;
+}
+
+.pageNbrSelected {
+    border: 3px solid $secondaryColor;
 }

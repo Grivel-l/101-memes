@@ -29,8 +29,8 @@ class MediasController {
         return this.medias.addFile(name, filepath);
     }
 
-    getAll() {
-        return this.medias.getAll();
+    getAll(page, limit) {
+        return this.medias.getAll(page, limit);
     }
 }
 

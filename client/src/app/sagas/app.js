@@ -1,28 +1,37 @@
 import {
     all,
     call,
-    put
+    put,
+    takeEvery,
+    fork
 } from "redux-saga/effects";
 
 import {getMediasApi} from "../api/medias";
-import {MEDIAS_GET_SUCCESS} from "../actions/medias";
+import {
+    MEDIAS_GET,
+    MEDIAS_GET_SUCCESS
+} from "../actions/medias";
 
-function *getMedias() {
+function *getMedias({payload}) {
     try {
-        const payload = yield call(getMediasApi);
-        if (payload.error !== undefined) {
-            throw payload;
+        const result = yield call(getMediasApi, payload);
+        if (result.error !== undefined) {
+            throw result;
         }
-        yield put({payload, type: MEDIAS_GET_SUCCESS});
+        yield put({payload: result, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
         console.error("An error occured");
     }
 }
 
+function *getMediasWatcher() {
+    yield takeEvery(MEDIAS_GET, getMedias);
+}
+
 function* flow() {
     yield all([
-        call(getMedias)
+        fork(getMediasWatcher)
     ]);
 }
 

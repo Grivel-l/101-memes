@@ -11,6 +11,7 @@ server.pre((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     next();
 });
+server.use(restify.plugins.queryParser({mapParams: true}));
 server.use(restify.plugins.bodyParser());
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);

@@ -24,7 +24,7 @@ module.exports = (server, plugins, log, dtb) => {
     });
 
     server.get("/media/all", (req, res) => {
-        medias.getAll()
+        medias.getAll(req.params.page, parseInt(req.params.limit, 10))
             .then(medias => res.send(200, medias))
             .catch(err => {
                 log.error(err);
