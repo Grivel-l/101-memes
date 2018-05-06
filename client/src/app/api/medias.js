@@ -1,7 +1,7 @@
 import config from "../../config/globalConfig";
 
-export const getMediasApi = () => {
-    return fetch(`${config.serverEndpoint}/media/all?page=${1}&limit=24`)
+export const getMediasApi = pageNbr => {
+    return fetch(`${config.serverEndpoint}/media/all?page=${pageNbr}&limit=24`)
         .then(response => {
             if (response.status !== 200) {
                 return {
