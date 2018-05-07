@@ -16,7 +16,7 @@ module.exports = (server, plugins, log, dtb) => {
             return res.send(400, {error: "media param is missing"});
         }
         medias.uploadFile(req.params.name, req.files.media)
-            .then(() => res.send(200))
+            .then(() => res.send(200, {}))
             .catch(err => {
                 log.error(err);
                 res.send(500, {error: "Internal Server Error"});

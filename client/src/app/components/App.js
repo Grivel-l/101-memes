@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {ToastContainer, toast} from "react-toastify";
 
 import Media from "./Media";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import "../scss/app.css";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {
     constructor(props) {
@@ -13,13 +15,22 @@ class App extends Component {
         this.page = 1;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.status === null && nextProps.status === "ERROR") {
+            toast.error("An error occured", {
+                autoClose: false,
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+        }
+    }
+
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
     }
 
     renderMedias() {
-        return this.props.medias.data.map((media, index) => {
+        return this.props.data.map((media, index) => {
             return (
                 <Media key={`media${index}`} media={media} />
             );
@@ -29,7 +40,7 @@ class App extends Component {
     renderPages() {
         let i = 0;
         const result = [];
-        while (i < this.props.medias.pageNbr) {
+        while (i < this.props.pageNbr) {
             result.push(
                 <a
                     key={`page${i}`}
@@ -52,13 +63,16 @@ class App extends Component {
                 <div>
                     {this.renderPages()}
                 </div>
+                <ToastContainer autoClose={4000} />
             </div>
         );
     }
 }
 
 App.propTypes = {
-    medias: PropTypes.object,
+    data: PropTypes.array,
+    pageNbr: PropTypes.number,
+    status: PropTypes.string,
     getMedias: PropTypes.func
 };
 

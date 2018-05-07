@@ -12,7 +12,10 @@ export const getMediasApi = pageNbr => {
                 return response.json();
             }
         })
-        .catch(response => response);
+        .catch(response => ({
+            status: 404,
+            error: response.message
+        }));
 };
 
 export const publishMediaApi = body => {
@@ -30,5 +33,8 @@ export const publishMediaApi = body => {
                 return response.json();
             }
         })
-        .catch(response => response);
+        .catch(response => ({
+            status: 404,
+            error: response.message
+        }));
 };
