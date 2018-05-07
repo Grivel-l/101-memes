@@ -1,10 +1,13 @@
 const restify = require("restify");
 const bunyan = require("bunyan");
+
 const routes = require("./routes/");
 const Database = require("./database");
+const ApiHelper = require("./helpers/api.helper");
 
 const log = bunyan.createLogger({name: "101_memes"});
 const dtb = new Database(log);
+const apiHelper = new ApiHelper();
 
 const server = restify.createServer();
 server.pre((req, res, next) => {
@@ -13,6 +16,7 @@ server.pre((req, res, next) => {
 });
 server.use(restify.plugins.queryParser({mapParams: true}));
 server.use(restify.plugins.bodyParser());
+server.use(apiHelper.checkToken);
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);
     dtb.init()

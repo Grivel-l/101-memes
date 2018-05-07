@@ -13,7 +13,8 @@
     "react-scripts": "1.1.4",
     "react-toastify": "^4.0.1",
     "redux": "^4.0.0",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "universal-cookie": "^2.1.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src -o src",

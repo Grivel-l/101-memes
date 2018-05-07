@@ -5,6 +5,7 @@ import {
     takeEvery,
     fork
 } from "redux-saga/effects";
+import Cookies from "universal-cookie";
 
 import {
     getMediasApi,
@@ -21,8 +22,10 @@ import {
 } from "../actions/medias";
 
 function *getMedias({payload}) {
+    const cookies = new Cookies();
+    const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
-        const result = yield call(getMediasApi, payload);
+        const result = yield call(getMediasApi, {...payload, token});
         if (result.error !== undefined) {
             throw result;
         }
@@ -34,9 +37,11 @@ function *getMedias({payload}) {
 }
 
 function* publishMedia({payload}) {
+    const cookies = new Cookies();
+    const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
         yield put({type: MEDIAS_POST_PENDING});
-        const result = yield call(publishMediaApi, payload);
+        const result = yield call(publishMediaApi, {...payload, token});
         if (result.error !== undefined) {
             throw result;
         }
