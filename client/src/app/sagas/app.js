@@ -15,7 +15,9 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
-    MEDIAS_POST_SUCCESS
+    MEDIAS_POST_SUCCESS,
+    MEDIAS_POST_ERROR,
+    MEDIAS_GET_ERROR
 } from "../actions/medias";
 
 function *getMedias({payload}) {
@@ -27,7 +29,7 @@ function *getMedias({payload}) {
         yield put({payload: result, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
-        console.error("An error occured");
+        yield put({type: MEDIAS_GET_ERROR});
     }
 }
 
@@ -41,7 +43,7 @@ function* publishMedia({payload}) {
         yield put({type: MEDIAS_POST_SUCCESS});
     }
     catch (error) {
-        console.error("An error occured");
+        yield put({type: MEDIAS_POST_ERROR});
     }
 }
 

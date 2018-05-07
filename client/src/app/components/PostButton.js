@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {toast} from "react-toastify";
 
 import Loader from "./Loader";
 import placeholder from "../../imgs/imgPlaceholder.svg";
@@ -22,6 +23,15 @@ class PostButton extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.status === "PENDING" && nextProps.status === null) {
             this.setState({showLoader: false});
+            toast.success("Media successfully uploaded", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+        }
+        else if (this.props.status === "PENDING" && nextProps.status === "ERROR") {
+            this.setState({showLoader: false});
+            toast.error("An error occurred, your media hasn't been uploaded", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
         }
     }
 

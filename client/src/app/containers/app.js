@@ -4,7 +4,10 @@ import {MEDIAS_GET} from "../actions/medias";
 import App from "../components/App";
 
 const mapStateToProps = ({medias}) => {
-    return {medias};
+    return {
+        ...medias,
+        status: medias.status.get
+    };
 };
 
 const mapDispatchToProps = dispatch => {
