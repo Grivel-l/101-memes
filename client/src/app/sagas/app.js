@@ -13,7 +13,9 @@ import {
 import {
     MEDIAS_GET,
     MEDIAS_GET_SUCCESS,
-    MEDIA_PUBLISH
+    MEDIA_PUBLISH,
+    MEDIAS_POST_PENDING,
+    MEDIAS_POST_SUCCESS
 } from "../actions/medias";
 
 function *getMedias({payload}) {
@@ -31,10 +33,12 @@ function *getMedias({payload}) {
 
 function* publishMedia({payload}) {
     try {
+        yield put({type: MEDIAS_POST_PENDING});
         const result = yield call(publishMediaApi, payload);
         if (result.error !== undefined) {
             throw result;
         }
+        yield put({type: MEDIAS_POST_SUCCESS});
     }
     catch (error) {
         console.error("An error occured");
