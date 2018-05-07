@@ -4,14 +4,16 @@ class MediasModel {
     constructor(dtb) {
         this.model = dtb.model("Medias", new dtb.Schema({
             name: String,
-            path: String
+            path: String,
+            createDate: Date
         }));
     }
 
     addFile(name, filepath) {
         return this.model.create({
             name,
-            path: `${config.imgsDirPath}${filepath.substr(1)}`
+            path: `${config.imgsDirPath}${filepath.substr(1)}`,
+            createDate: new Date()
         });
     }
 
@@ -19,7 +21,11 @@ class MediasModel {
         page -= 1;
         return this.model.count()
             .then(total => {
-                return this.model.find({}, null, {limit, skip: page * limit})
+                return this.model.find({}, null, {
+                    limit,
+                    skip: page * limit
+                })
+                    .sort({createDate: "desc", })
                     .then(data => ({data, pageNbr: Math.ceil(total / limit)}));
             });
     }
