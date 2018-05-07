@@ -108,11 +108,14 @@ $circleRadius: 70px;
 .imgPlaceholder {
     position: relative;
     background-color: $backColorDimmed;
-    cursor: pointer;
     border-radius: 5px;
     height: 250px;
     width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.imgPlaceholder, .imgPlaceholder * {
+    cursor: pointer;
 }
