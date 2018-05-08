@@ -8,6 +8,7 @@ class ApiHelper {
                     if (response.status !== 200) {
                         return res.send(response.status, {message: response.error});
                     }
+                    req.author = response.login;
                     next();
                 })
                 .catch(error => {

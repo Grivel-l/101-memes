@@ -18,7 +18,7 @@ class MediasController {
         }
     }
     
-    uploadFile(name, media) {
+    uploadFile(name, media, author) {
         const filepath = `${this.mediaDir}${this.getName()}.${media.type.split("/")[1]}`;
         try {
             fs.writeFileSync(filepath, fs.readFileSync(media.path));
@@ -26,7 +26,7 @@ class MediasController {
         } catch (err) {
             return new Promise((resolve, reject) => reject(err));
         }
-        return this.medias.addFile(name, filepath);
+        return this.medias.addFile(name, filepath, author);
     }
 
     getAll(page, limit) {

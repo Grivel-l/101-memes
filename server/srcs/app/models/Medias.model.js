@@ -5,13 +5,15 @@ class MediasModel {
         this.model = dtb.model("Medias", new dtb.Schema({
             name: String,
             path: String,
+            author: String,
             createDate: Date
         }));
     }
 
-    addFile(name, filepath) {
+    addFile(name, filepath, author) {
         return this.model.create({
             name,
+            author,
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
             createDate: new Date()
         });
