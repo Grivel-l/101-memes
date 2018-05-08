@@ -7,6 +7,7 @@ import {
 } from "redux-saga/effects";
 import Cookies from "universal-cookie";
 
+import config from "../../config/globalConfig";
 import {
     getMediasApi,
     publishMediaApi
@@ -32,6 +33,9 @@ function *getMedias({payload}) {
         yield put({payload: result, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
+        if (error.status === 403) {
+            document.location = config.redirectionUrl;
+        }
         yield put({type: MEDIAS_GET_ERROR});
     }
 }
@@ -49,6 +53,9 @@ function* publishMedia({payload}) {
         yield put({type: MEDIAS_POST_SUCCESS});
     }
     catch (error) {
+        if (error.status === 403) {
+            document.location = config.redirectionUrl;
+        }
         yield put({type: MEDIAS_POST_ERROR});
     }
 }
