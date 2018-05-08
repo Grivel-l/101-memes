@@ -25,7 +25,7 @@ function *getMedias({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
-        const result = yield call(getMediasApi, {...payload, token});
+        const result = yield call(getMediasApi, payload, token);
         if (result.error !== undefined) {
             throw result;
         }
@@ -41,7 +41,8 @@ function* publishMedia({payload}) {
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
         yield put({type: MEDIAS_POST_PENDING});
-        const result = yield call(publishMediaApi, {...payload, token});
+        payload.append("token", token);
+        const result = yield call(publishMediaApi, payload);
         if (result.error !== undefined) {
             throw result;
         }

@@ -1,9 +1,19 @@
-const {apiEndpoint} = require("../../configs/global");
+const {checkToken} = require("../api/token.api");
 
 class ApiHelper {
-    checkToken(req, res, next) {
+    checkToken(req, res, next, log) {
         if (req.route.name !== "getsrcsimgs") {
-            next();
+            checkToken(req.query.token || req.body.token)
+                .then(response => {
+                    if (response.status !== 200) {
+                        return res.send(response.status, {message: response.error});
+                    }
+                    next();
+                })
+                .catch(error => {
+                    log.error(error);
+                    res.send(400, "An error occured");
+                });
         }
         else {
             next();

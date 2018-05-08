@@ -16,7 +16,7 @@ server.pre((req, res, next) => {
 });
 server.use(restify.plugins.queryParser({mapParams: true}));
 server.use(restify.plugins.bodyParser());
-server.use(apiHelper.checkToken);
+server.use((req, res, next) => apiHelper.checkToken(req, res, next, log));
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);
     dtb.init()
