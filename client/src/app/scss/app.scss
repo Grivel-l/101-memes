@@ -124,7 +124,6 @@ body {
     border-radius: 3px;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
 .showExpand {
@@ -135,13 +134,19 @@ body {
 .imgExpanded {
     max-height: 100%;
     max-width: 100%;
+    position: relative;
+}
+
+.imgExpanded img {
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .imgHover {
     opacity: 0;
-    padding: 5% 0 5% 0;
+    padding: 3% 0 3% 0;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.1));
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
     position: absolute;
     bottom: 0;
     left: 0;
@@ -156,5 +161,5 @@ body {
 
 .showImgHover {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0px);
 }

@@ -69,8 +69,8 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <MediaHover key={"main1"} expand={this.props.expand} hideExpand={this.props.hideExpand} />
-                <div key={"main2"} className={"wrapper"}>
+                <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
+                <div lassName={"wrapper"}>
                     <div className={"subWrapper"}>
                         {this.renderMedias()}
                         <PostButton />
