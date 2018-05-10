@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {ToastContainer, toast} from "react-toastify";
 
@@ -67,19 +67,21 @@ class App extends Component {
     }
 
     render() {
-        return [
-            <MediaHover key={"main1"} expand={this.props.expand} hideExpand={this.props.hideExpand} />,
-            <div key={"main2"} className={"wrapper"}>
-                <div className={"subWrapper"}>
-                    {this.renderMedias()}
-                    <PostButton />
+        return (
+            <Fragment>
+                <MediaHover key={"main1"} expand={this.props.expand} hideExpand={this.props.hideExpand} />
+                <div key={"main2"} className={"wrapper"}>
+                    <div className={"subWrapper"}>
+                        {this.renderMedias()}
+                        <PostButton />
+                    </div>
+                    <div>
+                        {this.renderPages()}
+                    </div>
+                    <ToastContainer autoClose={4000} />
                 </div>
-                <div>
-                    {this.renderPages()}
-                </div>
-                <ToastContainer autoClose={4000} />
-            </div>
-        ];
+            </Fragment>
+        );
     }
 }
 

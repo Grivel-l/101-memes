@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
 class MediaHover extends Component {
@@ -24,16 +24,17 @@ class MediaHover extends Component {
                     onMouseLeave={() => this.setState({showHover: false})}
                 >
                     {this.props.expand !== null &&
-                        [<img
-                            src={this.props.expand.path}
-                            className={"imgExpanded"}
-                        />,
-                        <div className={this.state.showHover ? "imgHover showImgHover" : "imgHover"}>
-                            <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
-                            <p>{this.props.expand.name}</p>
-                            <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
-                        </div>
-                        ]
+                        <Fragment>
+                            <img
+                                src={this.props.expand.path}
+                                className={"imgExpanded"}
+                            />
+                            <div className={this.state.showHover ? "imgHover showImgHover" : "imgHover"}>
+                                <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
+                                <p>{this.props.expand.name}</p>
+                                <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
+                            </div>
+                        </Fragment>
                     }
                 </div>
             </div>
