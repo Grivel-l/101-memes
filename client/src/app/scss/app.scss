@@ -1,6 +1,7 @@
 @import "./colors.scss";
 
 $mediaMaxHeight: 250px;
+$hoverMaxHeight: 80vh;
 
 #root, body, html {
     height: 100%;
@@ -119,7 +120,7 @@ body {
 .expandSubWrapper {
     background-color: rgba(0, 0, 0, 0.8);
     width: 80%;
-    height: 80%;
+    height: $hoverMaxHeight;
     display: flex;
     border-radius: 3px;
     align-items: center;
@@ -132,14 +133,15 @@ body {
 }
 
 .imgExpanded {
-    max-height: 100%;
+    max-height: $hoverMaxHeight;
     max-width: 100%;
     position: relative;
 }
 
 .imgExpanded img {
-    max-height: 100%;
+    object-fit: contain;
     max-width: 100%;
+    max-height: $hoverMaxHeight;
 }
 
 .imgHover {
