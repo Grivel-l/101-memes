@@ -1,6 +1,9 @@
 import {connect} from "react-redux";
 
-import {MEDIAS_GET} from "../actions/medias";
+import {
+    MEDIAS_GET,
+    MEDIAS_EXPAND_HIDE
+} from "../actions/medias";
 import App from "../components/App";
 
 const mapStateToProps = ({medias}) => {
@@ -12,7 +15,8 @@ const mapStateToProps = ({medias}) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getMedias: pageNbr => dispatch({type: MEDIAS_GET, payload: pageNbr})
+        getMedias: pageNbr => dispatch({type: MEDIAS_GET, payload: pageNbr}),
+        hideExpand: () => dispatch({type: MEDIAS_EXPAND_HIDE})
     };
 };
 

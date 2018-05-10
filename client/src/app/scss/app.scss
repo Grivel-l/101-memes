@@ -1,6 +1,7 @@
 @import "./colors.scss";
 
 $mediaMaxHeight: 250px;
+$hoverMaxHeight: 80vh;
 
 #root, body, html {
     height: 100%;
@@ -35,6 +36,11 @@ body {
     }
 }
 
+#root {
+    display: flex;
+    justify-content: center;
+}
+
 .mediaContainer {
     flex-wrap: wrap;
     background-color: $backColorDimmed;
@@ -55,8 +61,6 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 100%;
-    height: 100%;
 }
 
 .subMediaContainer {
@@ -65,7 +69,6 @@ body {
     display: flex;
     max-height: 100%;
     max-width: 100%;
-    position: relative;
 }
 
 .mediaImg {
@@ -73,21 +76,7 @@ body {
     max-width: 100%;
     height: auto;
     width: auto;
-}
-
-.mediaHover {
-    opacity: 0;
     cursor: pointer;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.mediaHover:hover {
-    opacity: 1;
 }
 
 .downloadButton {
@@ -114,4 +103,65 @@ body {
 
 .pageNbrSelected {
     border: 3px solid $secondaryColor;
+}
+
+.expandWrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.expandSubWrapper {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 80%;
+    height: $hoverMaxHeight;
+    display: flex;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+}
+
+.showExpand {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.imgExpanded {
+    max-height: $hoverMaxHeight;
+    max-width: 100%;
+    position: relative;
+}
+
+.imgExpanded img {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: $hoverMaxHeight;
+}
+
+.imgHover {
+    opacity: 0;
+    padding: 3% 0 3% 0;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(20%);
+}
+
+.showImgHover {
+    opacity: 1;
+    transform: translateY(0px);
 }
