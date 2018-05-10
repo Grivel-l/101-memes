@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {ToastContainer, toast} from "react-toastify";
 
-import Media from "./Media";
+import Media from "../containers/media";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import "../scss/app.css";
@@ -13,6 +13,7 @@ class App extends Component {
         super(props);
 
         this.page = 1;
+        this.keyDown = this.keyDown.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -27,6 +28,17 @@ class App extends Component {
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
+        document.addEventListener("keydown", this.keyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.keyDown);
+    }
+
+    keyDown({keyCode}) {
+        if (keyCode === 27) {
+            this.props.hideExpand();
+        }
     }
 
     renderMedias() {
@@ -53,9 +65,22 @@ class App extends Component {
         return result;
     }
 
-    render() {
+    renderExpanded() {
         return (
-            <div className={"wrapper"}>
+            <div className={this.props.expand !== null ? "expandWrapper showExpand" : "expandWrapper"} onClick={this.props.hideExpand}>
+                <div key={"main1"} className={"expandSubWrapper"}>
+                    {this.props.expand !== null &&
+                        <img src={this.props.expand.path} className={"imgExpanded"} />
+                    }
+                </div>
+            </div>
+        );
+    }
+
+    render() {
+        return [
+            this.renderExpanded(),
+            <div key={"main2"} className={"wrapper"}>
                 <div className={"subWrapper"}>
                     {this.renderMedias()}
                     <PostButton />
@@ -65,7 +90,7 @@ class App extends Component {
                 </div>
                 <ToastContainer autoClose={4000} />
             </div>
-        );
+        ];
     }
 }
 
@@ -73,7 +98,8 @@ App.propTypes = {
     data: PropTypes.array,
     pageNbr: PropTypes.number,
     status: PropTypes.string,
-    getMedias: PropTypes.func
+    getMedias: PropTypes.func,
+    hideExpand: PropTypes.func
 };
 
 export default App;
