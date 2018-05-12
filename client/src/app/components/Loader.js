@@ -8,7 +8,7 @@ class Loader extends Component {
     render() {
         return (
             <div className={this.props.showHover && "loaderHover"}>
-                <img src={loaderImg} className={"loaderImg"} />
+                <img src={loaderImg} className={"loaderImg"} alt={"Loader"} />
             </div>
         );
     }

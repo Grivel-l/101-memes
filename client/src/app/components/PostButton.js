@@ -71,7 +71,7 @@ class PostButton extends Component {
                         className={"nameInput postInput"}
                     />
                     <div className={"mediaImg imgPlaceholder"}>
-                        <img src={this.state.tmpImg === null ? placeholder : this.state.tmpImg.data} className={"mediaImg"} />
+                        <img src={this.state.tmpImg === null ? placeholder : this.state.tmpImg.data} className={"mediaImg"} alt={"placeholder"} />
                         <input type={"file"} accept={".jpg, .jpeg, .png, .gif"} onChange={this.showImage} className={"fileInput postInput"} />
                     </div>
                     <div
