@@ -51,8 +51,12 @@ class MediasController {
         });
     }
 
-    getAll(page, limit) {
-        return this.medias.getAll(page, limit);
+    getAll(page, limit, author) {
+        return this.medias.getAll(page, limit)
+            .then(result => {
+                result.author = author;
+                return result;
+            });
     }
 }
 
