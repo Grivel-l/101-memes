@@ -33,13 +33,6 @@ module.exports = (server, plugins, log, dtb) => {
             });
     });
 
-    server.opts("/media/:mediaId", (req, res, next) => {
-        console.log("HelloWorld");
-        res.header("Access-Control-Allow-Methods", "OPTIONS, DELETE");
-        res.send(204);
-        return next();
-    })
-
     server.del("/media/:mediaId", (req, res) => {
         console.log("Req: ", req.params);
         console.log("Req: ", req.body);

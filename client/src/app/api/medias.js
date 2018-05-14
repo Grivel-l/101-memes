@@ -42,8 +42,8 @@ export const publishMediaApi = body => {
         }));
 };
 
-export const deleteMediaApi = mediaId => {
-    return fetch(`${config.serverEndpoint}/media/${mediaId}`, {
+export const deleteMediaApi = (mediaId, token) => {
+    return fetch(`${config.serverEndpoint}/media/${mediaId}?token=${token}`, {
         method: "DELETE"
     })
         .then(response => {

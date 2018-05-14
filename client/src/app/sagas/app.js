@@ -63,8 +63,10 @@ function* publishMedia({payload}) {
 }
 
 function* deleteMedia({payload}) {
+    const cookies = new Cookies();
+    const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
-        const result = yield call(deleteMediaApi, payload);
+        const result = yield call(deleteMediaApi, payload, token);
         if (result.error !== undefined) {
             throw result;
         }
