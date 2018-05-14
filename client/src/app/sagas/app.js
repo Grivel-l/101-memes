@@ -47,6 +47,7 @@ function* publishMedia({payload}) {
         yield put({type: MEDIAS_POST_PENDING});
         payload.append("token", token);
         const result = yield call(publishMediaApi, payload);
+        console.log("Error: ", result);
         if (result.error !== undefined) {
             throw result;
         }
@@ -56,7 +57,7 @@ function* publishMedia({payload}) {
         if (error.status === 403 || error.status === 401) {
             document.location = config.redirectionUrl;
         }
-        yield put({type: MEDIAS_POST_ERROR});
+        yield put({type: MEDIAS_POST_ERROR, payload: error.error === undefined ? null : error.error});
     }
 }
 

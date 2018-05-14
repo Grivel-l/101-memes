@@ -5,7 +5,10 @@ import PostButton from "../components/PostButton";
 
 const mapStateToProps = ({medias}) => {
     return {
-        status: medias.status.post
+        error: {
+            status: medias.status.post,
+            message: medias.status.message
+        }
     };
 };
 

@@ -21,15 +21,15 @@ class PostButton extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.status === "PENDING" && nextProps.status === null) {
+        if (this.props.error.status === "PENDING" && nextProps.error.status === null) {
             this.setState({showLoader: false});
             toast.success("Media successfully uploaded", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
         }
-        else if (this.props.status === "PENDING" && nextProps.status === "ERROR") {
+        else if (this.props.error.status === "PENDING" && nextProps.error.status === "ERROR") {
             this.setState({showLoader: false});
-            toast.error("An error occurred, your media hasn't been uploaded", {
+            toast.error(nextProps.error.message || "An error occurred, your media hasn't been uploaded", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
         }
@@ -114,7 +114,8 @@ class PostButton extends Component {
 }
 
 PostButton.propTypes = {
-    publishMedia: PropTypes.func
+    publishMedia: PropTypes.func,
+    error: PropTypes.object
 };
 
 export default PostButton;

@@ -25,10 +25,13 @@ export const publishMediaApi = body => {
     })
         .then(response => {
             if (response.status !== 200) {
-                return {
-                    status: response.status,
-                    error: response.statusText
-                };
+                return response.json()
+                    .then(({error}) => {
+                        return {
+                            status: response.status,
+                            error: error || response.statusText
+                        };
+                    });
             } else {
                 return response.json();
             }

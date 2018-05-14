@@ -13,7 +13,8 @@ const initialState = {
     pageNbr: 0,
     status: {
         get: null,
-        post: null
+        post: null,
+        message: null
     },
     expand: null
 };
@@ -29,7 +30,7 @@ const medias = (state = initialState, {type, payload}) => {
         return {
             ...state,
             status: {
-                ...state.status,
+                ...initialState.status,
                 post: "PENDING"
             }
         };
@@ -43,6 +44,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...state.status,
+                message: payload,
                 post: "ERROR"
             }
         };
@@ -51,6 +53,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...state.status,
+                message: payload,
                 get: "ERROR"
             }
         };
