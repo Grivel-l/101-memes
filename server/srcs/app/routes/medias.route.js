@@ -16,9 +16,9 @@ module.exports = (server, plugins, log, dtb) => {
         }
         medias.uploadFile(req.params.name, req.files.media, req.author)
             .then(() => res.send(200, {}))
-            .catch((err) => {
+            .catch(err => {
                 if (err.statusCode === 500) {
-                    log.error(err.message);
+                    log.error(err);
                 }
                 res.send(err.statusCode, {error: err.statusCode !== 500 ? err.message: "Internal Server Error"});
             });

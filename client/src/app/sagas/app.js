@@ -47,7 +47,6 @@ function* publishMedia({payload}) {
         yield put({type: MEDIAS_POST_PENDING});
         payload.append("token", token);
         const result = yield call(publishMediaApi, payload);
-        console.log("Error: ", result);
         if (result.error !== undefined) {
             throw result;
         }
