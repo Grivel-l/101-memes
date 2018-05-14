@@ -56,7 +56,7 @@ function* publishMedia({payload}) {
         if (error.status === 403 || error.status === 401) {
             document.location = config.redirectionUrl;
         }
-        yield put({type: MEDIAS_POST_ERROR});
+        yield put({type: MEDIAS_POST_ERROR, payload: error.error === undefined ? null : error.error});
     }
 }
 

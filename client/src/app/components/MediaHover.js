@@ -24,7 +24,9 @@ class MediaHover extends Component {
                             onMouseEnter={() => this.setState({showHover: true})}
                             onMouseLeave={() => this.setState({showHover: false})}
                         >
-                            <img src={this.props.expand.path} alt={this.props.expand.name} />
+                            {this.props.expand.type.split("/")[0] === "video"
+                                ? <video src={this.props.expand.path} alt={this.props.expand.name} loop={true} autoPlay={true} />
+                                : <img src={this.props.expand.path} alt={this.props.expand.name} />}
                             <div className={this.state.showHover ? "imgHover showImgHover" : "imgHover"}>
                                 <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
                                 <p>{this.props.expand.name}</p>

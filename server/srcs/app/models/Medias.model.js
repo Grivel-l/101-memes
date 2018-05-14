@@ -6,14 +6,16 @@ class MediasModel {
             name: String,
             path: String,
             author: String,
+            type: String,
             createDate: Date
         }));
     }
 
-    addFile(name, filepath, author) {
+    addFile(name, filepath, author, type) {
         return this.model.create({
             name,
             author,
+            type,
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
             createDate: new Date()
         });
