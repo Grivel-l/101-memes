@@ -34,8 +34,19 @@ module.exports = (server, plugins, log, dtb) => {
     });
 
     server.del("/media/:mediaId", (req, res) => {
-        console.log("Req: ", req.params);
-        console.log("Req: ", req.body);
-        res.send(200, {});
+        if (req.params.mediaId === undefined) {
+            return res.send(400, {error: "mediaId param is missing"});
+        }
+        medias.deleteMedia(req.params.mediaId, req.author)
+            .then(() => res.send(200, {}))
+            .catch(err => {
+                if (typeof err === "object") {
+                    if (err.kind === "ObjectId" || err.statusCode === 400) {
+                        return res.send(400, {});
+                    }
+                }
+                log.error(err);
+                res.send(500, {error: "Internal Server Error"});
+            });
     });
 };
