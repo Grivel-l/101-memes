@@ -41,3 +41,26 @@ export const publishMediaApi = body => {
             error: response.message
         }));
 };
+
+export const deleteMediaApi = mediaId => {
+    return fetch(`${config.serverEndpoint}/media/${mediaId}`, {
+        method: "DELETE"
+    })
+        .then(response => {
+            if (response.status !== 200) {
+                return response.json()
+                    .then(({error}) => {
+                        return {
+                            status: response.status,
+                            error: error || response.statusText
+                        };
+                    });
+            } else {
+                return response.json();
+            }
+        })
+        .catch(response => ({
+            status: 404,
+            error: response.message
+        }));
+};

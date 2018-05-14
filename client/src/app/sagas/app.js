@@ -10,7 +10,8 @@ import Cookies from "universal-cookie";
 import config from "../../config/globalConfig";
 import {
     getMediasApi,
-    publishMediaApi
+    publishMediaApi,
+    deleteMediaApi
 } from "../api/medias";
 import {
     MEDIAS_GET,
@@ -19,7 +20,8 @@ import {
     MEDIAS_POST_PENDING,
     MEDIAS_POST_SUCCESS,
     MEDIAS_POST_ERROR,
-    MEDIAS_GET_ERROR
+    MEDIAS_GET_ERROR,
+    MEDIAS_DELETE
 } from "../actions/medias";
 
 function *getMedias({payload}) {
@@ -60,6 +62,17 @@ function* publishMedia({payload}) {
     }
 }
 
+function* deleteMedia({payload}) {
+    try {
+        const result = yield call(deleteMediaApi, payload);
+        if (result.error !== undefined) {
+            throw result;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 function *getMediasWatcher() {
     yield takeEvery(MEDIAS_GET, getMedias);
 }
@@ -68,10 +81,15 @@ function* mediaPublishWatcher() {
     yield takeEvery(MEDIA_PUBLISH, publishMedia);
 }
 
+function* mediaDeleteWatcher() {
+    yield takeEvery(MEDIAS_DELETE, deleteMedia);
+}
+
 function* flow() {
     yield all([
         fork(getMediasWatcher),
-        fork(mediaPublishWatcher)
+        fork(mediaPublishWatcher),
+        fork(mediaDeleteWatcher)
     ]);
 }
 

@@ -12,6 +12,9 @@ const apiHelper = new ApiHelper();
 const server = restify.createServer();
 server.pre((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "Accept, Authorization, Content-Type, Content-Disposition, Origin, X-Requested-With");
+    // res.header("Access-Control-Allow-Credentials", "true");
+    // res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
     next();
 });
 server.use(restify.plugins.queryParser({mapParams: true}));

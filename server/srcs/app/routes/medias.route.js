@@ -32,4 +32,17 @@ module.exports = (server, plugins, log, dtb) => {
                 res.send(500, {error: "Internal Server Error"});
             });
     });
+
+    server.opts("/media/:mediaId", (req, res, next) => {
+        console.log("HelloWorld");
+        res.header("Access-Control-Allow-Methods", "OPTIONS, DELETE");
+        res.send(204);
+        return next();
+    })
+
+    server.del("/media/:mediaId", (req, res) => {
+        console.log("Req: ", req.params);
+        console.log("Req: ", req.body);
+        res.send(200, {});
+    });
 };
