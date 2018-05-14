@@ -71,8 +71,10 @@ class PostButton extends Component {
                         className={"nameInput postInput"}
                     />
                     <div className={"mediaImg imgPlaceholder"}>
-                        <img src={this.state.tmpImg === null ? placeholder : this.state.tmpImg.data} className={"mediaImg"} alt={"placeholder"} />
-                        <input type={"file"} accept={".jpg, .jpeg, .png, .gif"} onChange={this.showImage} className={"fileInput postInput"} />
+                        {this.state.tmpImg !== null && this.state.tmpImg.file.type.split("/")[0] === "video"
+                            ? <video src={this.state.tmpImg.data} className={"mediaImg"} alt={"placeholder"} autoPlay={true} loop={true} />
+                            : <img src={this.state.tmpImg === null ? placeholder : this.state.tmpImg.data} className={"mediaImg"} alt={"placeholder"} />}
+                        <input type={"file"} accept={".jpg, .jpeg, .png, .gif, .mp4"} onChange={this.showImage} className={"fileInput postInput"} />
                     </div>
                     <div
                         className={"postButton finalPostButton"}

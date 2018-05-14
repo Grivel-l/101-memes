@@ -27,24 +27,24 @@ class MediasController {
                 if (err !== null) {
                     return reject({statusCode: 500, message: err});
                 }
-                type = type.split("/")[1];
                 let match = false;
+                const extension = type.split("/")[1];
                 this.validTypes.map(validType => {
-                    if (type === validType) {
+                    if (extension === validType) {
                         match = true;
                     }
                 });
                 if (!match) {
                     return reject({statusCode: 400, message: "Filetype is not valid"});
                 }
-                const filepath = `${this.mediaDir}${this.getName()}.${type}`;
+                const filepath = `${this.mediaDir}${this.getName()}.${extension}`;
                 try {
                     fs.writeFileSync(filepath, fs.readFileSync(media.path));
                     fs.unlinkSync(media.path);
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.medias.addFile(name, filepath, author)
+                this.medias.addFile(name, filepath, author, type)
                     .then(result => resolve(result))
                     .catch(err => reject({statusCode: 500, message: err}));
             });
