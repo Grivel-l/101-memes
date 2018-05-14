@@ -8,6 +8,7 @@ class MediasController {
         this.medias = new MediasModel(dtb);
         this.mediaDir = "./srcs/imgs/";
         this.validTypes = ["jpg", "jpeg", "png", "gif", "mp4"];
+        this.admins = ["legrivel", "jmarquet"];
     }
     
     getName() {
@@ -51,8 +52,27 @@ class MediasController {
         });
     }
 
-    getAll(page, limit) {
-        return this.medias.getAll(page, limit);
+    getAll(page, limit, author) {
+        return this.medias.getAll(page, limit)
+            .then(result => {
+                result.author = author;
+                return result;
+            });
+    }
+
+    deleteMedia(mediaId, author) {
+        return this.medias.getById(mediaId)
+            .then(media => {
+                if (media.length === 0) {
+                    throw {statusCode: 400};
+                }
+                if (media[0].author !== author) {
+                    if (this.admins.indexOf(author) === -1) {
+                        throw {statusCode: 400};
+                    }
+                }
+                return this.medias.deleteMedia(mediaId);
+            });
     }
 }
 

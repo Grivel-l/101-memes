@@ -78,7 +78,7 @@ class App extends Component {
                     <div>
                         {this.renderPages()}
                     </div>
-                    <ToastContainer autoClose={4000} />
+                    <ToastContainer autoClose={4000} pauseOnHover={false} />
                 </div>
             </Fragment>
         );

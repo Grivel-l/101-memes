@@ -7,6 +7,7 @@ class MediasModel {
             path: String,
             author: String,
             type: String,
+            deleted: Boolean,
             createDate: Date
         }));
     }
@@ -16,6 +17,7 @@ class MediasModel {
             name,
             author,
             type,
+            deleted: false,
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
             createDate: new Date()
         });
@@ -25,13 +27,21 @@ class MediasModel {
         page -= 1;
         return this.model.count()
             .then(total => {
-                return this.model.find({}, null, {
+                return this.model.find({deleted: false}, null, {
                     limit,
                     skip: page * limit
                 })
                     .sort({createDate: "desc", })
                     .then(data => ({data, pageNbr: Math.ceil(total / limit)}));
             });
+    }
+
+    getById(_id) {
+        return this.model.find({_id});
+    }
+
+    deleteMedia(_id) {
+        return this.model.update({_id}, {deleted: true});
     }
 }
 
