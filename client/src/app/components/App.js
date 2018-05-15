@@ -6,6 +6,7 @@ import MediaHover from "./MediaHover";
 import Media from "../containers/media";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
+import Toaster from "../containers/toaster";
 import "../scss/app.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -78,6 +79,7 @@ class App extends Component {
                         {this.renderPages()}
                     </div>
                     <ToastContainer autoClose={4000} pauseOnHover={false} />
+                    <Toaster />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
             </Fragment>
