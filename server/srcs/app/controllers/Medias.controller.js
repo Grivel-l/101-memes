@@ -2,7 +2,7 @@ const fs = require("fs");
 const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
 const MediasModel = require("../models/Medias.model");
-const {fileMaxSize} = require("../../configs/database");
+const {fileMaxSize} = require("../../configs/global");
 
 class MediasController {
     constructor(dtb) {
@@ -39,7 +39,7 @@ class MediasController {
                 if (!match) {
                     return reject({statusCode: 400, message: "Filetype is not valid"});
                 }
-                if (size > fileMaxSize) {
+                if (size / 1024 / 1024 > fileMaxSize) {
                     return reject({statusCode: 400, message: "File is too big"});
                 }
                 const filepath = `${this.mediaDir}${this.getName()}.${extension}`;
