@@ -14,7 +14,7 @@ module.exports = (server, plugins, log, dtb) => {
         } else if (req.files.media === undefined) {
             return res.send(400, {error: "media param is missing"});
         }
-        medias.uploadFile(req.params.name, req.files.media, req.author)
+        medias.uploadFile(req.params.name, req.files.media, req.author, Number(req.headers['content-length']))
             .then(() => res.send(200, {}))
             .catch(err => {
                 if (err.statusCode === 500) {
