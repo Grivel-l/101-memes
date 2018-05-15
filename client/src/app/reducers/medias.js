@@ -1,7 +1,9 @@
 import {
     MEDIAS_GET_SUCCESS,
     MEDIAS_EXPAND_SHOW,
-    MEDIAS_EXPAND_HIDE
+    MEDIAS_EXPAND_HIDE,
+    MEDIAS_POST_SUCCESS,
+    MEDIAS_POST_PENDING
 } from "../actions/medias";
 
 const initialState = {
@@ -31,6 +33,19 @@ const medias = (state = initialState, {type, payload}) => {
         return {
             ...state,
             expand: initialState.expand
+        };
+    case MEDIAS_POST_SUCCESS:
+        return {
+            ...state,
+            status: initialState.status
+        };
+    case MEDIAS_POST_PENDING:
+        return {
+            ...state,
+            status: {
+                ...initialState.status,
+                post: "PENDING"
+            }
         };
     default:
         return state;

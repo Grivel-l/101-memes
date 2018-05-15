@@ -18,7 +18,8 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
-    MEDIAS_DELETE
+    MEDIAS_DELETE,
+    MEDIAS_POST_SUCCESS
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -55,6 +56,7 @@ function* publishMedia({payload}) {
         if (result.error !== undefined) {
             throw result;
         }
+        yield put({type: MEDIAS_POST_SUCCESS});
         yield put({type: TOAST_SHOW, payload: {
             type: "success",
             timeout: 3000,
@@ -112,12 +114,6 @@ function* mediaDeleteWatcher() {
 }
 
 function* flow() {
-    yield put({type: TOAST_SHOW, payload: {
-        type: "error",
-        timeout: 3000,
-        message: "Hello World",
-        action: null
-    }});
     yield all([
         fork(getMediasWatcher),
         fork(mediaPublishWatcher),
