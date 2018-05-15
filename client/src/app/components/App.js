@@ -69,7 +69,6 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
                 <div className={"wrapper"}>
                     <div className={"subWrapper"}>
                         {this.renderMedias()}
@@ -80,6 +79,7 @@ class App extends Component {
                     </div>
                     <ToastContainer autoClose={4000} pauseOnHover={false} />
                 </div>
+                <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
             </Fragment>
         );
     }
