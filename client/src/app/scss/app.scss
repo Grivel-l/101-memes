@@ -166,3 +166,10 @@ body {
 .deleteIcon:hover path {
     fill: white;
 }
+
+.soundButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+}
