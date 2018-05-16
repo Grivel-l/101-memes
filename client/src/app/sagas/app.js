@@ -18,8 +18,16 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
+<<<<<<< Updated upstream
     MEDIAS_DELETE,
     MEDIAS_POST_SUCCESS
+=======
+    MEDIAS_POST_SUCCESS,
+    MEDIAS_POST_ERROR,
+    MEDIAS_GET_ERROR,
+    MEDIAS_DELETE,
+    MEDIAS_DELETE_SUCCESS
+>>>>>>> Stashed changes
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -49,20 +57,21 @@ function *getMedias({payload}) {
 function* publishMedia({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
+    let result;
     try {
         yield put({type: MEDIAS_POST_PENDING});
         payload.append("token", token);
-        const result = yield call(publishMediaApi, payload);
+        result = yield call(publishMediaApi, payload);
         if (result.error !== undefined) {
             throw result;
         }
-        yield put({type: MEDIAS_POST_SUCCESS});
         yield put({type: TOAST_SHOW, payload: {
             type: "success",
             timeout: 3000,
             message: "Media successfully uploaded",
             action: null
         }});
+        yield put({type: MEDIAS_POST_SUCCESS, payload: result});
     }
     catch (error) {
         if (error.status === 403 || error.status === 401) {
@@ -80,8 +89,9 @@ function* publishMedia({payload}) {
 function* deleteMedia({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
+    let result;
     try {
-        const result = yield call(deleteMediaApi, payload, token);
+        result = yield call(deleteMediaApi, payload, token);
         if (result.error !== undefined) {
             throw result;
         }
@@ -98,7 +108,9 @@ function* deleteMedia({payload}) {
             message: error,
             action: null
         }});
+        return ;
     }
+    yield put({type: MEDIAS_DELETE_SUCCESS, payload: result});
 }
 
 function *getMediasWatcher() {
@@ -107,6 +119,14 @@ function *getMediasWatcher() {
 
 function* mediaPublishWatcher() {
     yield takeEvery(MEDIA_PUBLISH, publishMedia);
+}
+
+function* mediaDeleteWatcher() {
+    yield takeEvery(MEDIAS_DELETE, deleteMedia);
+}
+
+function* mediaDeleteWatcher() {
+    yield takeEvery(MEDIAS_DELETE, deleteMedia);
 }
 
 function* mediaDeleteWatcher() {

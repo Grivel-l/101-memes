@@ -19,6 +19,7 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (this.props.status === null && nextProps.status === "ERROR") {
             toast.error("An error occured", {
                 autoClose: false,

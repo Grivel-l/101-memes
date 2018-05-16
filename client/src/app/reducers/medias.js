@@ -2,8 +2,12 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIAS_EXPAND_SHOW,
     MEDIAS_EXPAND_HIDE,
+<<<<<<< Updated upstream
     MEDIAS_POST_SUCCESS,
     MEDIAS_POST_PENDING
+=======
+    MEDIAS_DELETE_SUCCESS,
+>>>>>>> Stashed changes
 } from "../actions/medias";
 
 const initialState = {
@@ -32,7 +36,12 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_EXPAND_HIDE:
         return {
             ...state,
-            expand: initialState.expand
+            expand: initialState.expand,
+            data: [
+                ...state.data,
+                ...[payload]
+            ],
+            status: initialState.status
         };
     case MEDIAS_POST_SUCCESS:
         return {

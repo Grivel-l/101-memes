@@ -8,3 +8,4 @@ export const MEDIAS_GET_ERROR = "medias.get.error";
 export const MEDIAS_EXPAND_SHOW = "medias.expand.show";
 export const MEDIAS_EXPAND_HIDE = "medias.expand.hide";
 export const MEDIAS_DELETE = "medias.delete";
+export const MEDIAS_DELETE_SUCCESS = "medias.delete.success";
