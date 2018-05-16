@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 class MediaHover extends Component {
@@ -32,29 +32,27 @@ class MediaHover extends Component {
             >
                 <div className={"expandSubWrapper"}>
                     {this.props.expand !== null &&
-                        <Fragment>
-                            <div className={"mediaExpanded"}>
-                                <h2>{this.props.expand.name}</h2>
-                                <div className={"mediaWrapper"}>
-                                    {this.props.expand.type.split("/")[0] === "video"
-                                        ? <video src={this.props.expand.path} alt={this.props.expand.name} loop={true} autoPlay={true} />
-                                        : <img src={this.props.expand.path} alt={this.props.expand.name} />}
-                                </div>
-                                <div className={"mediaDesc"}>
-                                    {(this.props.login === this.props.expand.author || this.admins.indexOf(this.props.login) !== -1) &&
-                                    <input
-                                        type={"button"}
-                                        value={"Delete"}
-                                        className={"deleteButton"}
-                                        onClick={this.deleteMedia}
-                                    />}
-                                    <div className={"alignCenter"}>
-                                        <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
-                                        <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
-                                    </div>
+                        <div className={"mediaExpanded"}>
+                            <h2>{this.props.expand.name}</h2>
+                            <div className={"mediaWrapper"}>
+                                {this.props.expand.type.split("/")[0] === "video"
+                                    ? <video src={this.props.expand.path} alt={this.props.expand.name} loop={true} autoPlay={true} />
+                                    : <img src={this.props.expand.path} alt={this.props.expand.name} />}
+                            </div>
+                            <div className={"mediaDesc"}>
+                                {(this.props.login === this.props.expand.author || this.admins.indexOf(this.props.login) !== -1) &&
+                                <input
+                                    type={"button"}
+                                    value={"Delete"}
+                                    className={"deleteButton"}
+                                    onClick={this.deleteMedia}
+                                />}
+                                <div className={"alignCenter"}>
+                                    <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
+                                    <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
                                 </div>
                             </div>
-                        </Fragment>
+                        </div>
                     }
                 </div>
             </div>
