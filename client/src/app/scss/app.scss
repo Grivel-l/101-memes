@@ -101,15 +101,17 @@ body {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.6)
 }
 
 .expandSubWrapper {
-    background-color: $hoverColor;
-    padding: 8vh;
     display: flex;
     border-radius: 3px;
     align-items: center;
     justify-content: center;
+    position: relative;
+    max-width: 80%;
+    max-height: 80%;
 }
 
 .showExpand {
@@ -117,54 +119,25 @@ body {
     opacity: 1;
 }
 
-.imgExpanded {
+.mediaExpanded {
     max-height: $hoverMaxHeight;
     max-width: 100%;
-    position: relative;
-    overflow: hidden;
 }
 
-.imgExpanded img {
+.mediaExpanded h2 {
+    color: white;
+    margin: 0;
+}
+
+.mediaExpanded img {
     object-fit: contain;
     max-width: 100%;
     max-height: $hoverMaxHeight;
 }
 
-.imgHover {
-    opacity: 0;
-    padding: 3% 0 3% 0;
-    width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
-    transition: all 0.3s ease-in-out;
-    transform: translateY(20%);
-}
-
-.showImgHover {
-    opacity: 1;
-    transform: translateY(0px);
-}
-
-.deleteIcon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-.deleteIcon path {
-    fill: $lightDimmed;
-}
-
-.deleteIcon:hover path {
-    fill: white;
+.mediaWrapper {
+    position: relative;
+    overflow: visible;
 }
 
 .soundButton {
@@ -172,4 +145,34 @@ body {
     bottom: 10px;
     right: 10px;
     cursor: pointer;
+}
+
+.mediaDesc {
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    line-height: 5px;
+    margin-top: 10px;
+}
+
+.deleteButton {
+    color: white;
+    background-color: #ff3939;
+    box-shadow: 0px 3px 3px black;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    border-radius: 2px;
+}
+
+.deleteButton:hover {
+    background-color: #ff4d4d;
+    cursor: pointer;
+}
+
+.alignCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {ToastContainer, toast} from "react-toastify";
 
-import MediaHover from "./MediaHover";
+import MediaHover from "../containers/mediaHover";
 import Media from "../containers/media";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";

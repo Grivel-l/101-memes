@@ -1,13 +1,26 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
 class MediaHover extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            showHover: false
-        };
+        this.admins = ["legrivel", "jmarquet"];
+        this.quitHover = this.quitHover.bind(this);
+        this.deleteMedia = this.deleteMedia.bind(this);
+    }
+
+    deleteMedia() {
+        if (window.confirm("Are you sure you want to delete this media ?")) {
+            this.props.deleteMedia(this.props.expand._id);
+            this.props.hideExpand();
+        }
+    }
+
+    quitHover(event) {
+        if (event.target.className.includes("expandWrapper") || event.target.className === "mediaDesc") {
+            this.props.hideExpand();
+        }
     }
 
     render() {
@@ -15,24 +28,33 @@ class MediaHover extends Component {
         return (
             <div
                 className={this.props.expand !== null ? "expandWrapper showExpand" : "expandWrapper"}
-                onClick={this.props.hideExpand}
+                onClick={this.quitHover}
             >
                 <div className={"expandSubWrapper"}>
                     {this.props.expand !== null &&
-                        <div
-                            className={"imgExpanded"}
-                            onMouseEnter={() => this.setState({showHover: true})}
-                            onMouseLeave={() => this.setState({showHover: false})}
-                        >
-                            {this.props.expand.type.split("/")[0] === "video"
-                                ? <video src={this.props.expand.path} alt={this.props.expand.name} loop={true} autoPlay={true} />
-                                : <img src={this.props.expand.path} alt={this.props.expand.name} />}
-                            <div className={this.state.showHover ? "imgHover showImgHover" : "imgHover"}>
-                                <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
-                                <p>{this.props.expand.name}</p>
-                                <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
+                        <Fragment>
+                            <div className={"mediaExpanded"}>
+                                <h2>{this.props.expand.name}</h2>
+                                <div className={"mediaWrapper"}>
+                                    {this.props.expand.type.split("/")[0] === "video"
+                                        ? <video src={this.props.expand.path} alt={this.props.expand.name} loop={true} autoPlay={true} />
+                                        : <img src={this.props.expand.path} alt={this.props.expand.name} />}
+                                </div>
+                                <div className={"mediaDesc"}>
+                                    {(this.props.login === this.props.expand.author || this.admins.indexOf(this.props.login) !== -1) &&
+                                    <input
+                                        type={"button"}
+                                        value={"Delete"}
+                                        className={"deleteButton"}
+                                        onClick={this.deleteMedia}
+                                    />}
+                                    <div className={"alignCenter"}>
+                                        <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
+                                        <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </Fragment>
                     }
                 </div>
             </div>
@@ -42,7 +64,8 @@ class MediaHover extends Component {
 
 MediaHover.propTypes = {
     expand: PropTypes.object,
-    hideExpand: PropTypes.func    
+    hideExpand: PropTypes.func,
+    login: PropTypes.string
 };
 
 export default MediaHover;
