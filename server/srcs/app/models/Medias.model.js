@@ -41,7 +41,8 @@ class MediasModel {
     }
 
     deleteMedia(_id) {
-        return this.model.update({_id}, {deleted: true});
+        return this.model.update({_id}, {deleted: true})
+            .then(() => this.getById(_id));
     }
 }
 
