@@ -18,11 +18,10 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
-    MEDIAS_POST_SUCCESS,
-    MEDIAS_POST_ERROR,
-    MEDIAS_GET_ERROR,
-    MEDIAS_DELETE
+    MEDIAS_DELETE,
+    MEDIAS_POST_SUCCESS
 } from "../actions/medias";
+import {TOAST_SHOW} from "../actions/toasts";
 
 function *getMedias({payload}) {
     const cookies = new Cookies();
@@ -38,7 +37,12 @@ function *getMedias({payload}) {
         if (error.status === 403 || error.status === 401) {
             document.location = config.redirectionUrl;
         }
-        yield put({type: MEDIAS_GET_ERROR});
+        yield put({type: TOAST_SHOW, payload: {
+            type: "error",
+            timeout: 3000,
+            message: error.error || "An error occured",
+            action: null
+        }});
     }
 }
 
@@ -53,12 +57,23 @@ function* publishMedia({payload}) {
             throw result;
         }
         yield put({type: MEDIAS_POST_SUCCESS});
+        yield put({type: TOAST_SHOW, payload: {
+            type: "success",
+            timeout: 3000,
+            message: "Media successfully uploaded",
+            action: null
+        }});
     }
     catch (error) {
         if (error.status === 403 || error.status === 401) {
             document.location = config.redirectionUrl;
         }
-        yield put({type: MEDIAS_POST_ERROR, payload: error.error === undefined ? null : error.error});
+        yield put({type: TOAST_SHOW, payload: {
+            type: "error",
+            timeout: 3000,
+            message: error.error || "An error occured",
+            action: null
+        }});
     }
 }
 
@@ -70,8 +85,19 @@ function* deleteMedia({payload}) {
         if (result.error !== undefined) {
             throw result;
         }
+        yield put({type: TOAST_SHOW, payload: {
+            type: "success",
+            timeout: 3000,
+            message: "Media successfully deleted",
+            action: null
+        }});
     } catch (error) {
-        console.log(error);
+        yield put({type: TOAST_SHOW, payload: {
+            type: "error",
+            timeout: 3000,
+            message: error,
+            action: null
+        }});
     }
 }
 
