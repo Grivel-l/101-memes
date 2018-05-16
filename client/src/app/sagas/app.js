@@ -18,18 +18,23 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
-<<<<<<< Updated upstream
-    MEDIAS_DELETE,
-    MEDIAS_POST_SUCCESS
-=======
     MEDIAS_POST_SUCCESS,
-    MEDIAS_POST_ERROR,
-    MEDIAS_GET_ERROR,
     MEDIAS_DELETE,
     MEDIAS_DELETE_SUCCESS
->>>>>>> Stashed changes
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
+
+function* handleError(error) {
+    if (error.status === 403 || error.status === 401) {
+        document.location = config.redirectionUrl;
+    }
+    yield put({type: TOAST_SHOW, payload: {
+        message: error.error || "An error occured",
+        type: "error",
+        timeout: 3000,
+        action: null
+    }});
+}
 
 function *getMedias({payload}) {
     const cookies = new Cookies();
@@ -42,26 +47,17 @@ function *getMedias({payload}) {
         yield put({payload: result, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
-        if (error.status === 403 || error.status === 401) {
-            document.location = config.redirectionUrl;
-        }
-        yield put({type: TOAST_SHOW, payload: {
-            type: "error",
-            timeout: 3000,
-            message: error.error || "An error occured",
-            action: null
-        }});
+        handleError(error);
     }
 }
 
 function* publishMedia({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
-    let result;
     try {
         yield put({type: MEDIAS_POST_PENDING});
         payload.append("token", token);
-        result = yield call(publishMediaApi, payload);
+        const result = yield call(publishMediaApi, payload);
         if (result.error !== undefined) {
             throw result;
         }
@@ -74,24 +70,15 @@ function* publishMedia({payload}) {
         yield put({type: MEDIAS_POST_SUCCESS, payload: result});
     }
     catch (error) {
-        if (error.status === 403 || error.status === 401) {
-            document.location = config.redirectionUrl;
-        }
-        yield put({type: TOAST_SHOW, payload: {
-            type: "error",
-            timeout: 3000,
-            message: error.error || "An error occured",
-            action: null
-        }});
+        handleError(error);
     }
 }
 
 function* deleteMedia({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
-    let result;
     try {
-        result = yield call(deleteMediaApi, payload, token);
+        const result = yield call(deleteMediaApi, payload, token);
         if (result.error !== undefined) {
             throw result;
         }
@@ -101,16 +88,10 @@ function* deleteMedia({payload}) {
             message: "Media successfully deleted",
             action: null
         }});
+        yield put({type: MEDIAS_DELETE_SUCCESS, payload: result});
     } catch (error) {
-        yield put({type: TOAST_SHOW, payload: {
-            type: "error",
-            timeout: 3000,
-            message: error,
-            action: null
-        }});
-        return ;
+        handleError(error);
     }
-    yield put({type: MEDIAS_DELETE_SUCCESS, payload: result});
 }
 
 function *getMediasWatcher() {
@@ -119,14 +100,6 @@ function *getMediasWatcher() {
 
 function* mediaPublishWatcher() {
     yield takeEvery(MEDIA_PUBLISH, publishMedia);
-}
-
-function* mediaDeleteWatcher() {
-    yield takeEvery(MEDIAS_DELETE, deleteMedia);
-}
-
-function* mediaDeleteWatcher() {
-    yield takeEvery(MEDIAS_DELETE, deleteMedia);
 }
 
 function* mediaDeleteWatcher() {

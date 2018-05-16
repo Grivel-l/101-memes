@@ -2,12 +2,9 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIAS_EXPAND_SHOW,
     MEDIAS_EXPAND_HIDE,
-<<<<<<< Updated upstream
     MEDIAS_POST_SUCCESS,
-    MEDIAS_POST_PENDING
-=======
-    MEDIAS_DELETE_SUCCESS,
->>>>>>> Stashed changes
+    MEDIAS_POST_PENDING,
+    MEDIAS_DELETE_SUCCESS
 } from "../actions/medias";
 
 const initialState = {
