@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {toast} from "react-toastify";
 
 import Loader from "./Loader";
 import placeholder from "../../imgs/imgPlaceholder.svg";

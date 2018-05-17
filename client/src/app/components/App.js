@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
-import {ToastContainer, toast} from "react-toastify";
 
 import MediaHover from "./MediaHover";
 import Media from "../containers/media";
@@ -8,7 +7,6 @@ import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import "../scss/app.css";
-import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {
     constructor(props) {
@@ -16,15 +14,6 @@ class App extends Component {
 
         this.page = 1;
         this.keyDown = this.keyDown.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.status === null && nextProps.status === "ERROR") {
-            toast.error("An error occured", {
-                autoClose: false,
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-        }
     }
 
     componentWillMount() {
@@ -78,7 +67,6 @@ class App extends Component {
                     <div>
                         {this.renderPages()}
                     </div>
-                    <ToastContainer autoClose={4000} pauseOnHover={false} />
                     <Toaster />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
