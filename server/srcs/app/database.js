@@ -4,6 +4,7 @@ const configs = require("../configs/database");
 class Database {
     constructor(log) {
         this.log = log;
+        this.looping = true;
         this.connect = this.connect.bind(this);
     }
 
@@ -11,6 +12,7 @@ class Database {
         return new Promise(resolve => {
             mongoose.connect(configs.url, configs.options)
                 .then(() => {
+                    this.looping = false;
                     this.log.info("Connected to database");
                     res === null ? resolve(mongoose) : res(mongoose);
                 })
@@ -22,6 +24,13 @@ class Database {
     }
 
     init() {
+        mongoose.connection.on("disconnected", () => {
+            if (!this.looping) {
+                this.log.error("Disconnected from database");
+                this.looping = true;
+                this.connect();
+            }
+        });
         return this.connect();
     }
 }
