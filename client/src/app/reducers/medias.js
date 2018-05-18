@@ -3,7 +3,8 @@ import {
     MEDIAS_EXPAND_SHOW,
     MEDIAS_EXPAND_HIDE,
     MEDIAS_POST_SUCCESS,
-    MEDIAS_POST_PENDING
+    MEDIAS_POST_PENDING,
+    MEDIAS_DELETE_SUCCESS
 } from "../actions/medias";
 
 const initialState = {
@@ -32,12 +33,18 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_EXPAND_HIDE:
         return {
             ...state,
-            expand: initialState.expand
+            expand: initialState.expand,
+            data: [
+                ...state.data,
+                ...[payload]
+            ],
+            status: initialState.status
         };
     case MEDIAS_POST_SUCCESS:
         return {
             ...state,
-            status: initialState.status
+            status: initialState.status,
+            data: [...[payload], ...state.data]
         };
     case MEDIAS_POST_PENDING:
         return {
@@ -46,6 +53,11 @@ const medias = (state = initialState, {type, payload}) => {
                 ...initialState.status,
                 post: "PENDING"
             }
+        };
+    case MEDIAS_DELETE_SUCCESS:
+        return {
+            ...state,
+            data: [...state.data.filter(media => media._id !== payload._id)]
         };
     default:
         return state;

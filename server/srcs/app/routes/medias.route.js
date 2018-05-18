@@ -15,7 +15,7 @@ module.exports = (server, plugins, log, dtb) => {
             return res.send(400, {error: "media param is missing"});
         }
         medias.uploadFile(req.params.name, req.files.media, req.author, Number(req.headers['content-length']))
-            .then(() => res.send(200, {}))
+            .then((result) => res.send(200, result))
             .catch(err => {
                 if (err.statusCode === 500) {
                     log.error(err);
@@ -38,7 +38,7 @@ module.exports = (server, plugins, log, dtb) => {
             return res.send(400, {error: "mediaId param is missing"});
         }
         medias.deleteMedia(req.params.mediaId, req.author)
-            .then(() => res.send(200, {}))
+            .then(result => res.send(200, result[0]))
             .catch(err => {
                 if (typeof err === "object") {
                     if (err.kind === "ObjectId" || err.statusCode === 400) {

@@ -18,10 +18,23 @@ import {
     MEDIAS_GET_SUCCESS,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
+    MEDIAS_POST_SUCCESS,
     MEDIAS_DELETE,
-    MEDIAS_POST_SUCCESS
+    MEDIAS_DELETE_SUCCESS
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
+
+function* handleError(error) {
+    if (error.status === 403 || error.status === 401) {
+        document.location = config.redirectionUrl;
+    }
+    yield put({type: TOAST_SHOW, payload: {
+        message: error.error || "An error occured",
+        type: "error",
+        timeout: 3000,
+        action: null
+    }});
+}
 
 function *getMedias({payload}) {
     const cookies = new Cookies();
@@ -34,15 +47,7 @@ function *getMedias({payload}) {
         yield put({payload: result, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
-        if (error.status === 403 || error.status === 401) {
-            document.location = config.redirectionUrl;
-        }
-        yield put({type: TOAST_SHOW, payload: {
-            type: "error",
-            timeout: 3000,
-            message: error.error || "An error occured",
-            action: null
-        }});
+        handleError(error);
     }
 }
 
@@ -56,24 +61,16 @@ function* publishMedia({payload}) {
         if (result.error !== undefined) {
             throw result;
         }
-        yield put({type: MEDIAS_POST_SUCCESS});
         yield put({type: TOAST_SHOW, payload: {
             type: "success",
             timeout: 3000,
             message: "Media successfully uploaded",
             action: null
         }});
+        yield put({type: MEDIAS_POST_SUCCESS, payload: result});
     }
     catch (error) {
-        if (error.status === 403 || error.status === 401) {
-            document.location = config.redirectionUrl;
-        }
-        yield put({type: TOAST_SHOW, payload: {
-            type: "error",
-            timeout: 3000,
-            message: error.error || "An error occured",
-            action: null
-        }});
+        handleError(error);
     }
 }
 
@@ -91,13 +88,9 @@ function* deleteMedia({payload}) {
             message: "Media successfully deleted",
             action: null
         }});
+        yield put({type: MEDIAS_DELETE_SUCCESS, payload: result});
     } catch (error) {
-        yield put({type: TOAST_SHOW, payload: {
-            type: "error",
-            timeout: 3000,
-            message: error,
-            action: null
-        }});
+        handleError(error);
     }
 }
 
