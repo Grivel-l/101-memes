@@ -25,6 +25,7 @@ import {
 import {TOAST_SHOW} from "../actions/toasts";
 
 function* handleError(error) {
+    console.log("Error", error);
     if (error.status === 403 || error.status === 401) {
         document.location = config.redirectionUrl;
     }
@@ -47,7 +48,7 @@ function *getMedias({payload}) {
         yield put({payload: result, type: MEDIAS_GET_SUCCESS});
     }
     catch (error) {
-        handleError(error);
+        yield handleError(error);
     }
 }
 
@@ -70,7 +71,7 @@ function* publishMedia({payload}) {
         yield put({type: MEDIAS_POST_SUCCESS, payload: result});
     }
     catch (error) {
-        handleError(error);
+        yield handleError(error);
     }
 }
 
@@ -90,7 +91,7 @@ function* deleteMedia({payload}) {
         }});
         yield put({type: MEDIAS_DELETE_SUCCESS, payload: result});
     } catch (error) {
-        handleError(error);
+        yield handleError(error);
     }
 }
 
