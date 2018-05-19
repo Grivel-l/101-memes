@@ -33,12 +33,7 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_EXPAND_HIDE:
         return {
             ...state,
-            expand: initialState.expand,
-            data: [
-                ...state.data,
-                ...[payload]
-            ],
-            status: initialState.status
+            expand: initialState.expand
         };
     case MEDIAS_POST_SUCCESS:
         return {
