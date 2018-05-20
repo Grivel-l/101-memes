@@ -15,7 +15,8 @@ const initialState = {
     status: {
         img: {
             getted: false,
-            toLoad: 0
+            toLoad: 0,
+            total: 0
         },
         get: null,
         post: null,
@@ -46,7 +47,8 @@ const medias = (state = initialState, {type, payload}) => {
                 ...state.status,
                 img: {
                     getted: true,
-                    toLoad: payload.data.length
+                    toLoad: payload.data.length,
+                    total: payload.data.length
                 },
             }
         };
@@ -78,7 +80,9 @@ const medias = (state = initialState, {type, payload}) => {
                 ...initialState.status,
                 post: "PENDING",
                 img: {
-                    ...state.status.img
+                    ...state.status.img,
+                    toLoad: state.status.img.total + 1,
+                    total: state.status.img.total + 1,
                 }
             },
         };
@@ -89,7 +93,9 @@ const medias = (state = initialState, {type, payload}) => {
                 ...initialState.status,
                 delete: "PENDING",
                 img: {
-                    ...state.status.img
+                    ...state.status.img,
+                    toLoad: state.status.img.total - payload - 1,
+                    total: state.status.img.total - 1,
                 }
             },
         };

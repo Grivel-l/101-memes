@@ -79,8 +79,8 @@ function* deleteMedia({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
-        yield put({type: MEDIAS_DELETE_PENDING});
-        const result = yield call(deleteMediaApi, payload, token);
+        yield put({type: MEDIAS_DELETE_PENDING, payload: payload.index});
+        const result = yield call(deleteMediaApi, payload.id, token);
         if (result.error !== undefined) {
             throw result;
         }

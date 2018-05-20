@@ -25,7 +25,7 @@ class Media extends Component {
                         loop={true}
                         autoPlay={true}
                         className={"mediaImg"}
-                        onClick={() => this.props.expandMedia(this.props.media)}
+                        onClick={() => this.props.expandMedia({...this.props.media, index: this.props.index})}
                         muted={this.state.muted}
                     />
                     <div className={"soundButton"} onClick={() => this.setState({muted: !this.state.muted})}>
@@ -41,7 +41,7 @@ class Media extends Component {
                     src={this.props.media.path}
                     alt={this.props.media.name}
                     className={"mediaImg"}
-                    onClick={() => this.props.expandMedia(this.props.media)}
+                    onClick={() => this.props.expandMedia({...this.props.media, index: this.props.index})}
                     onLoad={() => {
                         this.props.notifyImgLoad();
                     }}

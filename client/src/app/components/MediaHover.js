@@ -12,7 +12,7 @@ class MediaHover extends Component {
 
     deleteMedia() {
         if (window.confirm("Are you sure you want to delete this media ?")) {
-            this.props.deleteMedia(this.props.expand._id);
+            this.props.deleteMedia({id: this.props.expand._id, index: this.props.expand.index});
             this.props.hideExpand();
         }
     }

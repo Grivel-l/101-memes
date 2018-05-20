@@ -44,7 +44,7 @@ class App extends Component {
     renderMedias() {
         return this.props.data.map((media, index) => {
             return (
-                <Media key={`media${index}`} media={media} />
+                <Media key={`media${index}`} index={index} media={media} />
             );
         });
     }
