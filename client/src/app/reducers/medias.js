@@ -4,6 +4,7 @@ import {
     MEDIAS_EXPAND_HIDE,
     MEDIAS_POST_SUCCESS,
     MEDIAS_POST_PENDING,
+    MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
     NOTIFY_IMG_LOAD
 } from "../actions/medias";
@@ -18,6 +19,7 @@ const initialState = {
         },
         get: null,
         post: null,
+        delete: null,
         message: null
     },
     expand: null
@@ -61,7 +63,12 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_POST_SUCCESS:
         return {
             ...state,
-            status: initialState.status,
+            status: {
+                ...initialState.status,
+                img: {
+                    ...state.status.img
+                }
+            },
             data: [...[payload], ...state.data]
         };
     case MEDIAS_POST_PENDING:
@@ -69,12 +76,32 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                post: "PENDING"
-            }
+                post: "PENDING",
+                img: {
+                    ...state.status.img
+                }
+            },
+        };
+    case MEDIAS_DELETE_PENDING:
+        return {
+            ...state,
+            status: {
+                ...initialState.status,
+                delete: "PENDING",
+                img: {
+                    ...state.status.img
+                }
+            },
         };
     case MEDIAS_DELETE_SUCCESS:
         return {
             ...state,
+            status: {
+                ...initialState.status,
+                img: {
+                    ...state.status.img
+                }
+            },
             data: [...state.data.filter(media => media._id !== payload._id)]
         };
     default:

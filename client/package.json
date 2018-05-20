@@ -11,6 +11,7 @@
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",
+    "react-transition-group": "^2.3.1",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
     "universal-cookie": "^2.1.2"

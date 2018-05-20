@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
+import Loader from "./Loader";
 import MediaHover from "../containers/mediaHover";
 import Media from "../containers/media";
 import config from "../../config/globalConfig";
@@ -98,6 +99,7 @@ class App extends Component {
                     <Toaster />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
+                <Loader key="MainLoader" in={!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING"} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
             </Fragment>
         );
     }

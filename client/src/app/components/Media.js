@@ -20,7 +20,6 @@ class Media extends Component {
                         src={this.props.media.path}
                         alt={this.props.media.name}
                         onLoadedData={() => {
-                            console.log("video");
                             this.props.notifyImgLoad();
                         }}
                         loop={true}
@@ -44,7 +43,6 @@ class Media extends Component {
                     className={"mediaImg"}
                     onClick={() => this.props.expandMedia(this.props.media)}
                     onLoad={() => {
-                        console.log("img");
                         this.props.notifyImgLoad();
                     }}
                 />

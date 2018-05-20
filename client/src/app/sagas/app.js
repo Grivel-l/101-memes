@@ -20,12 +20,12 @@ import {
     MEDIAS_POST_PENDING,
     MEDIAS_POST_SUCCESS,
     MEDIAS_DELETE,
+    MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
 function* handleError(error) {
-    console.log("Error", error);
     if (error.status === 403 || error.status === 401) {
         document.location = config.redirectionUrl;
     }
@@ -79,6 +79,7 @@ function* deleteMedia({payload}) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     try {
+        yield put({type: MEDIAS_DELETE_PENDING});
         const result = yield call(deleteMediaApi, payload, token);
         if (result.error !== undefined) {
             throw result;
