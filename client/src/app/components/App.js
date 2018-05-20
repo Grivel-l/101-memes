@@ -11,19 +11,27 @@ import "../scss/app.css";
 class App extends Component {
     constructor(props) {
         super(props);
-
         this.page = 1;
         this.keyDown = this.keyDown.bind(this);
+        this.adjustDivSize = this.adjustDivSize.bind(this);
+        this.medias = React.createRef();
+        this.subWrapperSize = "0px";
     }
 
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
         document.addEventListener("keydown", this.keyDown);
+        window.addEventListener("resize", this.adjustDivSize);
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
+        window.removeEventListener("resize", this.adjustDivSize);
+    }
+
+    componentDidUpdate() {
+        this.adjustDivSize();
     }
 
     keyDown({keyCode}) {
@@ -56,11 +64,31 @@ class App extends Component {
         return result;
     }
 
+    adjustDivSize() {
+        if (this.props.imgLoaded === true) {
+            const first = this.medias.current.children[0];
+            const last = this.medias.current.children[this.medias.current.children.length - 2];
+            const style = window.getComputedStyle(first);
+            const size = Number(style.height.replace(/\D/g,""));
+            const marginTop = Number(style.marginTop.replace(/\D/g,""));
+            document.getElementsByClassName("subWrapper")[0].style.height = `${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`;
+        }
+    }
+
+    getY(el) {
+        let yPos = 0;
+        while (el) {
+            yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+            el = el.offsetParent;
+        }
+        return yPos;
+    }
+
     render() {
         return (
             <Fragment>
                 <div className={"wrapper"}>
-                    <div className={"subWrapper"}>
+                    <div className={"subWrapper"} style={{height: (this.subWrapperSize)}} ref={this.medias}>
                         {this.renderMedias()}
                         <PostButton />
                     </div>
@@ -78,7 +106,7 @@ class App extends Component {
 App.propTypes = {
     data: PropTypes.array,
     pageNbr: PropTypes.number,
-    status: PropTypes.string,
+    status: PropTypes.object,
     getMedias: PropTypes.func,
     hideExpand: PropTypes.func
 };

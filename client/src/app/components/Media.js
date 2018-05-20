@@ -19,6 +19,10 @@ class Media extends Component {
                     <video
                         src={this.props.media.path}
                         alt={this.props.media.name}
+                        onLoadedData={() => {
+                            console.log("video");
+                            this.props.notifyImgLoad();
+                        }}
                         loop={true}
                         autoPlay={true}
                         className={"mediaImg"}
@@ -39,6 +43,10 @@ class Media extends Component {
                     alt={this.props.media.name}
                     className={"mediaImg"}
                     onClick={() => this.props.expandMedia(this.props.media)}
+                    onLoad={() => {
+                        console.log("img");
+                        this.props.notifyImgLoad();
+                    }}
                 />
             );
         }
@@ -46,9 +54,7 @@ class Media extends Component {
     render() {
         return (
             <div className={"mediaContainer"}>
-                <div className={"subMediaContainer"}>
-                    {this.renderType()}
-                </div>
+                {this.renderType()}
             </div>
         );
     }

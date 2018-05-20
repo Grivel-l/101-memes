@@ -4,13 +4,18 @@ import {
     MEDIAS_EXPAND_HIDE,
     MEDIAS_POST_SUCCESS,
     MEDIAS_POST_PENDING,
-    MEDIAS_DELETE_SUCCESS
+    MEDIAS_DELETE_SUCCESS,
+    NOTIFY_IMG_LOAD
 } from "../actions/medias";
 
 const initialState = {
     data: [],
     pageNbr: 0,
     status: {
+        img: {
+            getted: false,
+            toLoad: 0
+        },
         get: null,
         post: null,
         message: null
@@ -20,10 +25,28 @@ const initialState = {
 
 const medias = (state = initialState, {type, payload}) => {
     switch (type) {
+    case NOTIFY_IMG_LOAD: 
+        return {
+            ...state,
+            status: {
+                ...state.status,
+                img: {
+                    ...state.status.img,
+                    toLoad: state.status.img.toLoad - 1
+                },
+            }
+        };
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            ...payload
+            ...payload,
+            status: {
+                ...state.status,
+                img: {
+                    getted: true,
+                    toLoad: payload.data.length
+                },
+            }
         };
     case MEDIAS_EXPAND_SHOW:
         return {
