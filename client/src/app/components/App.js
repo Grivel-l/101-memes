@@ -7,6 +7,7 @@ import Media from "../containers/media";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
+import SearchBar from "../containers/searchBar";
 import "../scss/app.css";
 
 class App extends Component {
@@ -89,6 +90,7 @@ class App extends Component {
         return (
             <Fragment>
                 <div className={"wrapper"}>
+                    <SearchBar />
                     <div className={"subWrapper"} style={{height: (this.subWrapperSize)}} ref={this.medias}>
                         {this.renderMedias()}
                         <PostButton />
@@ -96,7 +98,6 @@ class App extends Component {
                     <div>
                         {this.renderPages()}
                     </div>
-                   
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
                 <Loader key="MainLoader" in={!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING"} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
