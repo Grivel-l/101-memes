@@ -102,6 +102,7 @@ body {
     height: 100%;
     position: fixed;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     opacity: 0;
@@ -111,6 +112,9 @@ body {
     &.showExpand {
         pointer-events: all;
         opacity: 1;
+    }
+    .metas {
+        color: #fff;
     }
     .expandSubWrapper {
         display: flex;
@@ -148,6 +152,7 @@ body {
                 max-width: 450px;
                 width: 30vw;
                 @media screen and (max-width : 992px) {
+                    margin-top: 10px;
                     width: 100vw;
                     display: flex;
                     align-items: center;
@@ -159,9 +164,11 @@ body {
                 h2 {
                     font-size: 20px;
                     line-height: 22px;
+                    margin-bottom: 10px;
                     @media screen and (min-width: 992px) { 
                         font-size: 22px;
                         line-height: 24px;
+                        margin-bottom: 20px;
                     }
                     @media screen and (min-width: 1200px) { 
                         font-size: 28px;
@@ -173,11 +180,16 @@ body {
                     }
                     margin-top: 0;
                     color: white;
-                    margin-bottom: 20px;
+
                 }
                 .author {
                     margin-top: 0;
-                    margin-bottom: 25px;    
+                    margin-bottom: 25px;
+                    @media screen and (max-width: 992px) { 
+                        font-size: 15px;
+                        line-height: 16px;
+                        margin-bottom: 15px;
+                    }
                     a {
                         text-transform: capitalize;
                         color: rgba($color: #fff, $alpha: 0.6);

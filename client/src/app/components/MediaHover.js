@@ -53,11 +53,15 @@ class MediaHover extends Component {
                                     Delete
                                 </button>
                                 }
-                                <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
                             </div>
                         </div>
                     }
                 </div>
+                {this.props.expand !== null &&
+                        <div className="metas">
+                            <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
+                        </div>
+                }
             </div>
         );
     }
