@@ -148,7 +148,6 @@ body {
             .mediaDesc {
                 position: relative;
                 max-width: 450px;
-                width: 30vw;
                 @media screen and (max-width : 992px) {
                     margin-top: 10px;
                     width: 100%;
@@ -214,6 +213,7 @@ body {
                 }
                 .deleteButton {
                     max-width: 300px;
+                    min-width: 150px;
                     width: 100%;
                     color: white;
                     background-color: rgba($color: #ff3939, $alpha: 0);
