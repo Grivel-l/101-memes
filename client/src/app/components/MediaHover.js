@@ -39,6 +39,9 @@ class MediaHover extends Component {
                                     : <img src={this.props.expand.path} alt={this.props.expand.name} />}
                             </div>
                             <div className={"mediaDesc"}>
+                                <div className="metas">
+                                    <p className="date">{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
+                                </div>
                                 <h2>{this.props.expand.name}</h2>
                                 <h3 className="author"> 
                                     <a  href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>
@@ -57,11 +60,6 @@ class MediaHover extends Component {
                         </div>
                     }
                 </div>
-                {this.props.expand !== null &&
-                        <div className="metas">
-                            <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
-                        </div>
-                }
             </div>
         );
     }

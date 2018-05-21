@@ -113,9 +113,6 @@ body {
         pointer-events: all;
         opacity: 1;
     }
-    .metas {
-        color: #fff;
-    }
     .expandSubWrapper {
         display: flex;
         border-radius: 3px;
@@ -149,11 +146,13 @@ body {
                 }
             }
             .mediaDesc {
+                position: relative;
                 max-width: 450px;
                 width: 30vw;
                 @media screen and (max-width : 992px) {
                     margin-top: 10px;
-                    width: 100vw;
+                    width: 100%;
+                    max-width: 100%;
                     display: flex;
                     align-items: center;
                     flex-direction: column;
@@ -161,6 +160,22 @@ body {
                 color: white;
                 line-height: 2px;
                 margin-left: 10px;
+                .metas {
+                    position: absolute;
+                    bottom:0;
+                    left: 0;
+                    color: #fff;
+                    width: 100%;
+                    @media screen and (max-width : 992px) {
+                        bottom: -40px;
+                    }
+                    .date {
+                        width: 100%;
+                        @media screen and (max-width : 992px) {
+                            text-align: center; 
+                        }
+                    }
+                }
                 h2 {
                     font-size: 20px;
                     line-height: 22px;
