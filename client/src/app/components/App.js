@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
 import MediaHover from "../containers/medias/mediaHover";
-import MediaBlock from "../containers/medias/mediaBlock";
+import MediaBlock from "./medias/MediaBlock";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";

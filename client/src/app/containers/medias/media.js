@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 
 import {MEDIAS_EXPAND_SHOW} from "../../actions/medias";
-import MediaBlock from "../../components/medias/MediaBlock";
+import Media from "../../components/medias/Media";
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -9,4 +9,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(MediaBlock);
+export default connect(null, mapDispatchToProps)(Media);
