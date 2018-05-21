@@ -97,7 +97,7 @@ class App extends Component {
                             {this.renderMedias()}
                             <PostButton />
                         </div>
-                        <div>
+                        <div className={"pagination"}>
                             {this.renderPages()}
                         </div>
                     </div>
