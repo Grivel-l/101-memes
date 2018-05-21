@@ -81,7 +81,7 @@ class App extends Component {
                             {this.renderMedias()}
                             <PostButton />
                         </div>
-                        <Pagination page={this.page} pageNbr={this.props.pageNbr}/>
+                        {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
                     </div>
                     <Footer />
                 </div>
