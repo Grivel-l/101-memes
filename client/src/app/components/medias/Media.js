@@ -10,7 +10,7 @@ class Media extends Component {
             hasAudio: false
         };
 
-        this.ref = null;
+        this.ref = false;
         this.expand = this.expand.bind(this);
         this.toggleSound = this.toggleSound.bind(this);
     }
@@ -55,8 +55,8 @@ class Media extends Component {
                         muted={this.state.muted}
                         className={this.props.className || null}
                         ref={ref => {
-                            if (this.ref === null) {
-                                this.ref = ref;
+                            if (!this.ref) {
+                                this.ref = true;
                                 ref.addEventListener("loadeddata", () => {
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
                                         this.setState({hasAudio: true});
