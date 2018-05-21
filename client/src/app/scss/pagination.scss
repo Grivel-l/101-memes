@@ -1,0 +1,15 @@
+@import "./colors.scss";
+
+.pagination {
+    margin-top: 30px;
+}
+.pageNbr {
+    color: white;
+    border: 3px solid $backColorDimmed;
+    text-decoration: none;
+    margin: 4px;
+}
+
+.pageNbrSelected {
+    border: 3px solid $secondaryColor;
+}

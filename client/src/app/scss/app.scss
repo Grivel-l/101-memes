@@ -74,20 +74,6 @@ body {
     max-width: 80vw;
 }
 
-.pagination {
-    margin-top: 30px;
-}
-.pageNbr {
-    color: white;
-    border: 3px solid $backColorDimmed;
-    text-decoration: none;
-    margin: 4px;
-}
-
-.pageNbrSelected {
-    border: 3px solid $secondaryColor;
-}
-
 .expandWrapper {
     width: 100%;
     height: 100%;

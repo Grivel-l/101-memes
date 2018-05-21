@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 import Loader from "./Loader";
 import MediaHover from "../containers/mediaHover";
 import Media from "../containers/media";
-import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import SearchBar from "../containers/searchBar";
 import Footer from "../components/Footer";
+import Pagination from "../components/Pagination";
 import "../scss/app.css";
 
 class App extends Component {
@@ -51,22 +51,6 @@ class App extends Component {
         });
     }
 
-    renderPages() {
-        let i = 0;
-        const result = [];
-        while (i < this.props.pageNbr) {
-            result.push(
-                <a
-                    key={`page${i}`}
-                    href={`${config.clientUrl}?page=${i + 1}`}
-                    className={this.page === i + 1 ? "pageNbr pageNbrSelected" : "pageNbr"}
-                >{i + 1}</a>
-            );
-            i += 1;
-        }
-        return result;
-    }
-
     adjustDivSize() {
         if (this.props.imgLoaded === true) {
             const first = this.medias.current.children[0];
@@ -97,9 +81,7 @@ class App extends Component {
                             {this.renderMedias()}
                             <PostButton />
                         </div>
-                        <div className={"pagination"}>
-                            {this.renderPages()}
-                        </div>
+                        <Pagination page={this.page} pageNbr={this.props.pageNbr}/>
                     </div>
                     <Footer />
                 </div>
