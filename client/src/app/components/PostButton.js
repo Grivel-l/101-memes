@@ -26,13 +26,15 @@ class PostButton extends Component {
     }
 
     showImage(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = data => this.setState({tmpImg: {
-            file,
-            data: data.target.result
-        }});
-        reader.readAsDataURL(file);
+        if (event.target.files.length > 0) {        
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = data => this.setState({tmpImg: {
+                file,
+                data: data.target.result
+            }});
+            reader.readAsDataURL(file);
+        }
     }
 
     publishMedia() {
