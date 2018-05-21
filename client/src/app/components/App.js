@@ -8,6 +8,7 @@ import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import SearchBar from "../containers/searchBar";
+import Footer from "../components/Footer";
 import "../scss/app.css";
 
 class App extends Component {
@@ -98,6 +99,7 @@ class App extends Component {
                     <div>
                         {this.renderPages()}
                     </div>
+                    <Footer />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
                 <Loader key="MainLoader" in={!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING"} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
