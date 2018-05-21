@@ -74,7 +74,7 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <div className={"wrapper"}>
+                <div className={`wrapper ${this.props.expand !== null ? "modalOn" : ""}`}>
                     <SearchBar />
                     <div className={"subWrapper"}>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
@@ -84,7 +84,7 @@ class App extends Component {
                         {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
                     </div>
                     <Footer />
-                </div>
+                </div>expan
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
                 <Loader key="MainLoader" in={!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING"} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
                 <Toaster />
