@@ -20,9 +20,13 @@ class PostButton extends Component {
         this.publishMedia = this.publishMedia.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillUpdate(nextProps, nextState) {
         if (this.props.error.status === "PENDING" && nextProps.error.status !== "PENDING") {
             this.setState({showLoader: false});
+        }
+        if (this.state.active && !nextState.active) {
+            this.filename.value = "";
+            this.setState({tmpImg: null});
         }
     }
 
