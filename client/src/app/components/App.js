@@ -74,7 +74,7 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <div className={`wrapper ${this.props.expand !== null ? "modalOn" : ""}`}>
+                <div className="wrapper">
                     <SearchBar />
                     <div className={"subWrapper"}>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>

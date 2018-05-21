@@ -55,16 +55,6 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    @include transition(filter 0.5s ease-in-out);
-    @include transition(-moz-filter 0.5s ease-in-out);
-    @include transition(-webkit-filter 0.5s ease-in-out);
-    @include transition(-o-filter 0.5s ease-in-out);
-    &.modalOn {
-        filter        : blur(4px);
-        -moz-filter   : blur(4px);
-        -webkit-filter: blur(4px);
-        -o-filter     : blur(4px);
-    }
 }
 
 .subWrapper {
