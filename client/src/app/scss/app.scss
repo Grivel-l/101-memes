@@ -128,7 +128,10 @@ body {
                 img {
                     max-width: 60vw;
                     @media screen and (max-width : 992px) {
-                        max-width: 100vw;
+                        position: relative;
+                        left:50%;
+                        transform: translateX(-50%);
+                        max-width: 90vw;
                     }
                 }
             }
@@ -137,6 +140,9 @@ body {
                 width: 30vw;
                 @media screen and (max-width : 992px) {
                     width: 100vw;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
                 }
                 color: white;
                 line-height: 2px;
