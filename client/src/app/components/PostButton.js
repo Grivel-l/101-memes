@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
+import Media from "../containers/medias/media";
 import Loader from "./Loader";
 import placeholder from "../../imgs/imgPlaceholder.svg";
 import "../scss/postbutton.css";
@@ -54,6 +55,11 @@ class PostButton extends Component {
 
     renderHover() {
         if (!this.state.showLoader) {
+            const media = {
+                name: "placeholder",
+                path: this.state.tmpImg !== null ? this.state.tmpImg.data : placeholder,
+                type: this.state.tmpImg !== null ? this.state.tmpImg.file.type : "image"
+            };
             return (
                 <div className={this.state.active ? "postHover postHoverActive" : "postHover"}>
                     <input
@@ -63,10 +69,12 @@ class PostButton extends Component {
                         className={"nameInput postInput"}
                     />
                     <div className={"mediaImg imgPlaceholder"}>
-                        {this.state.tmpImg !== null && this.state.tmpImg.file.type.split("/")[0] === "video"
-                            ? <video src={this.state.tmpImg.data} className={"mediaImg"} alt={"placeholder"} autoPlay={true} loop={true} />
-                            : <img src={this.state.tmpImg === null ? placeholder : this.state.tmpImg.data} className={"mediaImg"} alt={"placeholder"} />}
                         <input type={"file"} accept={".jpg, .jpeg, .png, .gif, .mp4"} onChange={this.showImage} className={"fileInput postInput"} />
+                        <Media
+                            media={media}
+                            clickable={false}
+                            className={"mediaImg"}
+                        />
                     </div>
                     <div
                         className={"postButton finalPostButton"}

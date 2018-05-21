@@ -20,6 +20,7 @@ class Media extends Component {
             this.props.gotSound !== nextProps.gotSound ||
             this.state.hasAudio !== nextState.hasAudio ||
             this.props.media._id !== nextProps.media._id ||
+            this.props.media.path !== nextProps.media.path ||
             this.props.clickable !== nextProps.clickable || 
             this.props.className !== nextProps.className);
     }
