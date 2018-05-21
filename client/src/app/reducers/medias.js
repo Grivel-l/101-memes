@@ -4,7 +4,8 @@ import {
     MEDIAS_EXPAND_HIDE,
     MEDIAS_POST_SUCCESS,
     MEDIAS_POST_PENDING,
-    MEDIAS_DELETE_SUCCESS
+    MEDIAS_DELETE_SUCCESS,
+    MEDIAS_TOGGLE_SOUND
 } from "../actions/medias";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
         post: null,
         message: null
     },
-    expand: null
+    expand: null,
+    gotSound: null
 };
 
 const medias = (state = initialState, {type, payload}) => {
@@ -53,6 +55,11 @@ const medias = (state = initialState, {type, payload}) => {
         return {
             ...state,
             data: [...state.data.filter(media => media._id !== payload._id)]
+        };
+    case MEDIAS_TOGGLE_SOUND:
+        return {
+            ...state,
+            gotSound: payload
         };
     default:
         return state;

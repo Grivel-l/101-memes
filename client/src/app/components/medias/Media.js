@@ -10,12 +10,32 @@ class Media extends Component {
         };
 
         this.expand = this.expand.bind(this);
+        this.toggleSound = this.toggleSound.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return (this.state.muted !== nextState.muted ||
+            this.props.gotSound !== nextProps.gotSound ||
+            this.props.media._id !== nextProps.media._id ||
+            this.props.clickable !== nextProps.clickable || 
+            this.props.className !== nextProps.className);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
+            this.setState({muted: !this.state.muted});
+        }
     }
 
     expand() {
         if (this.props.clickable) {
+            this.props.toggleSound(null);
             this.props.expandMedia(this.props.media);
         }
+    }
+
+    toggleSound() {
+        this.setState({muted: !this.state.muted}, () => this.props.toggleSound(this.props.media._id));
     }
 
     render() {
@@ -31,7 +51,7 @@ class Media extends Component {
                         muted={this.state.muted}
                         className={this.props.className || null}
                     />
-                    <div className={"soundButton"} onClick={() => this.setState({muted: !this.state.muted})}>
+                    <div className={"soundButton"} onClick={this.toggleSound}>
                         {this.state.muted
                             ? <svg enableBackground="new 0 0 512 512" height="30px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="30px"><path d="M511.603,303.727l-47.694,47.726l-47.726-47.726l-47.726,47.726l-47.693-47.726L368.457,256l-47.693-47.725l47.693-47.726  l47.726,47.726l47.726-47.726l47.694,47.726L463.907,256L511.603,303.727z M256.266,511.868L128.332,383.936H32.381  c-17.678,0-31.983-14.307-31.983-31.983V160.05c0-17.679,14.307-31.983,31.983-31.983h95.951L256.266,0.133  c0,0,31.983-3.998,31.983,31.983c0,173.535,0,425.718,0,447.769C288.249,515.866,256.266,511.868,256.266,511.868z M224.282,128.066  l-63.968,63.967H64.364v127.934h95.951l63.968,63.969V128.066z"/></svg>
                             : <svg enableBackground="new 0 0 512 512" height="30px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="30px"><path d="M319.967,503.497v-67.34C394.335,409.732,447.9,339.457,447.9,256c0-83.426-53.564-153.732-127.934-180.156V8.503  C430.254,36.988,511.867,136.812,511.867,256C511.867,375.188,430.254,475.043,319.967,503.497z M256,511.868L128.066,383.936  h-95.95c-17.679,0-31.983-14.307-31.983-31.983V160.05c0-17.679,14.306-31.983,31.983-31.983h95.95L256,0.133  c0,0,31.982-3.998,31.982,31.983c0,72.899,0,382.053,0,447.769C287.983,515.866,256,511.868,256,511.868z M224.017,128.066  l-63.967,63.967H64.099v127.934h95.951l63.967,63.969V128.066L224.017,128.066z M415.916,256  c0,59.532-40.854,109.132-95.949,123.404v-68.309c19.053-11.087,31.982-31.482,31.982-55.096c0-23.612-12.931-44.008-31.982-55.097  v-68.308C375.063,146.869,415.916,196.469,415.916,256z"/></svg>}
@@ -55,7 +75,9 @@ Media.propTypes = {
     media: PropTypes.object.isRequired,
     expandMedia: PropTypes.func.isRequired,
     clickable: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    toggleSound: PropTypes.func.isRequired,
+    gotSound: PropTypes.string
 };
 
 export default Media;

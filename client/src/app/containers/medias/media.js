@@ -1,12 +1,22 @@
 import {connect} from "react-redux";
 
-import {MEDIAS_EXPAND_SHOW} from "../../actions/medias";
+import {
+    MEDIAS_EXPAND_SHOW,
+    MEDIAS_TOGGLE_SOUND
+} from "../../actions/medias";
 import Media from "../../components/medias/Media";
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = ({medias}) => {
     return {
-        expandMedia: media => dispatch({type: MEDIAS_EXPAND_SHOW, payload: media})
+        gotSound: medias.gotSound
     };
 };
 
-export default connect(null, mapDispatchToProps)(Media);
+const mapDispatchToProps = dispatch => {
+    return {
+        expandMedia: media => dispatch({type: MEDIAS_EXPAND_SHOW, payload: media}),
+        toggleSound: payload => dispatch({payload, type: MEDIAS_TOGGLE_SOUND})
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Media);
