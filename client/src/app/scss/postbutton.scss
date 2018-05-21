@@ -6,6 +6,10 @@
     height: 60px;
     font-size: 25px;
     font-weight: bolder;
+    svg {
+        @include transition(fill 0.2s ease-out);
+        width: 0;
+    }
     &:before {
         content: "Upload your meme";
     }
@@ -17,7 +21,12 @@
         height: 65px;
         width: 85px;
         &:before {
-            content: "ICO";
+            content: "";
+        }
+        svg {
+            height: 80%;
+            width: 100%;
+            fill: #fff;
         }
     }
     @media (min-width: 1200px) {
@@ -28,8 +37,8 @@
         width: 130px;
         height: 100px;
     }
-    @include transition(background-color 0.2s ease-out, color 0.2s ease-out);
-    background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
+    @include transition(background-color 0.2s ease-out);
+    background-color: rgba($color: $backColorDimmed, $alpha: 1);
     border: 3px solid white;
     bottom: 0px;
     right: 0px;
@@ -46,6 +55,9 @@
 .postButton:hover {
     background-color: rgba($color: #fff, $alpha: 0.8);
     color: $backColorDimmed;
+    svg {
+        fill: rgba($color: $backColorDimmed, $alpha:1);
+    }
 }
 
 .finalPostButton {
