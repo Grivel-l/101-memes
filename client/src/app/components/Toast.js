@@ -24,7 +24,7 @@ class Toast extends Component {
             if (typeof(this.props.toast.timeout) === "number")
                 setTimeout(() => {
                     this.dismissToast();
-                }, this.props.toast.timeout);
+                },5000000 ||  this.props.toast.timeout);
         }
     }
 

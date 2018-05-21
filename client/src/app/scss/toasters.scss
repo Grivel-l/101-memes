@@ -30,7 +30,7 @@ $coefficient: 0.7vw;
     margin: get_size(1.5, $coefficient);
     position: relative;
     padding:  get_size(0.5, $coefficient) get_size(1, $coefficient);
-    width: 100vw - get_size( 7, $coefficient);
+    width: 100vw - get_size(5, $coefficient);
     @media screen and (min-width : 992px){
         width: get_size(60, $coefficient);
     }
@@ -68,6 +68,10 @@ $coefficient: 0.7vw;
         align-items: stretch;
         position: relative;
         font-size: get_size(2.5, $coefficient);
+        @media screen and (max-width : 992px){
+            padding: 0  get_size(2.5, $coefficient);
+            font-size: get_size(5, $coefficient);
+        }
         .toast-action-wrapper {
             flex: 1 0 0;
             .toast-action {
@@ -95,6 +99,10 @@ $coefficient: 0.7vw;
                 text-align: center;
                 width: get_size(2, $coefficient);
                 font-size: get_size(2.5, $coefficient);
+                @media screen and (max-width : 992px){
+                    width: get_size(4, $coefficient);
+                    font-size: get_size(5, $coefficient);
+                }
                 position: relative;
                 top: 50%;
                 display: block;
