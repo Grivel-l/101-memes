@@ -22,6 +22,12 @@ class App extends Component {
         document.addEventListener("keydown", this.keyDown);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.page > nextProps.pageNbr) {
+            window.location = config.clientUrl;
+        }
+    }
+
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
     }
