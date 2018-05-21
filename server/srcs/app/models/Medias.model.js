@@ -25,7 +25,7 @@ class MediasModel {
 
     getAll(page = 1, limit = 20) {
         page -= 1;
-        return this.model.count()
+        return this.model.count({deleted: false})
             .then(total => {
                 return this.model.find({deleted: false}, null, {
                     limit,
