@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
-import "../scss/app.css";
+import "../../scss/app.css";
 
-class Media extends Component {
+class MediaBlock extends Component {
     constructor(props) {
         super(props);
 
@@ -54,9 +54,9 @@ class Media extends Component {
     }
 }
 
-Media.propTypes = {
+MediaBlock.propTypes = {
     medias: PropTypes.object,
     expandMedia: PropTypes.func
 };
 
-export default Media;
+export default MediaBlock;
