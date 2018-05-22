@@ -11,9 +11,7 @@ class Loader extends Component {
         this.transparent = false;
     }
     shouldComponentUpdate(nextProps) {
-        if (nextProps.in !== this.props.in)
-            return true;
-        return false;
+        return nextProps.in !== this.props.in;
     }
     componentWillMount() {
         if (this.props.in) {
