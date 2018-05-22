@@ -71,6 +71,7 @@ class PostButton extends Component {
                         ref={ref => this.filename = ref}
                         placeholder={"Filename"}
                         className={"nameInput postInput"}
+                        maxlength={50}
                     />
                     <div className={"mediaImg imgPlaceholder"}>
                         <input type={"file"} accept={".jpg, .jpeg, .png, .gif, .mp4"} onChange={this.showImage} className={"fileInput postInput"} />
