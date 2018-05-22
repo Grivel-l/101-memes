@@ -118,8 +118,10 @@ body {
     .expandSubWrapper {
         display: flex;
         border-radius: 3px;
-        align-items: center;
-        justify-content: center;
+        &.showExpand {
+            align-items: center;
+            justify-content: center;
+        }
         position: relative;
         max-width: 80%;
         max-height: 80%;
@@ -218,6 +220,7 @@ body {
                     min-width: 150px;
                     width: 100%;
                     color: white;
+                    outline-width: 0;
                     @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
                     background-color: rgba($color: #ff3939, $alpha: 0);
                     border: 5px solid rgba($color: #ff3939, $alpha: 1);
