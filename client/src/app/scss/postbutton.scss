@@ -134,7 +134,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        .mediaImg {
+        .postMediaImg {
+            position: relative;
+            max-width: 60vw;
             max-height: 50vh;
             width: auto;
         }

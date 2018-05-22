@@ -83,7 +83,7 @@ class PostButton extends Component {
                             <Media
                                 media={media}
                                 clickable={false}
-                                className={"mediaImg"}
+                                className={"postMediaImg"}
                             />
                         </div>
                         <input
