@@ -3,12 +3,12 @@ const config = require("../../configs/global");
 class MediasModel {
     constructor(dtb) {
         this.model = dtb.model("Medias", new dtb.Schema({
-            name: String,
-            path: String,
-            author: String,
-            type: String,
-            deleted: Boolean,
-            createDate: Date
+            name: {type: String, maxlength: 50, trim: true},
+            path: {type: String, required: true},
+            author: {type: String, required: true},
+            type: {type: String, enum: ["video/mp4", "image/jpg", "image/jpeg", "image/png", "image/gif"], required: true},
+            deleted: {type: Boolean, default: false},
+            createDate: {type: Date, required: true}
         }));
     }
 
@@ -17,7 +17,6 @@ class MediasModel {
             name,
             author,
             type,
-            deleted: false,
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
             createDate: new Date()
         });
