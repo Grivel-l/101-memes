@@ -206,6 +206,7 @@ body {
                     min-width: 150px;
                     width: 100%;
                     color: white;
+                    @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
                     background-color: rgba($color: #ff3939, $alpha: 0);
                     border: 5px solid rgba($color: #ff3939, $alpha: 1);
                     text-transform: uppercase;

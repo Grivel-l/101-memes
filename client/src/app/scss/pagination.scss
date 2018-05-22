@@ -22,7 +22,7 @@
     font-weight: bolder;
     text-align: center;
     line-height: 40px;
-    @include transition(background-color 0.2s ease-out, color 0.2s ease-out);
+    @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
     &.selected ,&:hover{
         color: $backColorDimmed;
         background-color: rgba($color: #fff, $alpha: 1.0);

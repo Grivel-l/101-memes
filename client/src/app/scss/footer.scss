@@ -1,6 +1,37 @@
 @import "./colors.scss";
+@import "utilities/cross-browser.scss";
 
 .footer {
-    height: 200px;
     width: 100%;
+    color: rgba($color: #fff, $alpha: 0.7);
+    font-size: 20px;
+    .footerResp {
+        width: 100%;
+        @media (max-width: 768px) { 
+            height: 80px;
+        }
+        @media (max-width: 992px) { 
+            height: 75px;
+        }
+    }
+    .footerFlex {
+        height: 200px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        .footerCol {
+            padding: 10px 10px 10px 50px;
+            margin-left: 50px;
+            width: 40%;
+            display: flex;
+            align-items: center;
+            .creator {
+                margin: 20px 0;
+                .creatorProfileWrapper {
+                    width: 150px;
+                    display: inline-block;
+                }
+            }
+        }
+    }
 }

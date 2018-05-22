@@ -7,7 +7,7 @@
     font-size: 25px;
     font-weight: bolder;
     svg {
-        @include transition(fill 0.2s ease-out);
+        @include transition(fill 0.15s ease-out);
         width: 0;
     }
     &:before {
@@ -37,7 +37,7 @@
         width: 130px;
         height: 100px;
     }
-    @include transition(background-color 0.2s ease-out);
+    @include transition(background-color 0.15s ease-out);
     background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
     border: 3px solid white;
     bottom: 0px;
