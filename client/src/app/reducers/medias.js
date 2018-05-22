@@ -31,7 +31,6 @@ const initialState = {
 const medias = (state = initialState, {type, payload}) => {
     switch (type) {
     case NOTIFY_IMG_LOAD: 
-        console.log(state.status.img.toLoad)
         return {
             ...state,
             status: {

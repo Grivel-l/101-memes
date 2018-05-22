@@ -59,15 +59,12 @@ class App extends Component {
     }
 
     adjustDivSize() {
-        console.log("HelloWorld", this.props.imgLoaded);
         if (this.props.imgLoaded === true) {
-            console.log("100000000");
             const first = this.medias.current.children[0];
             const last = this.medias.current.children[this.medias.current.children.length - 2];
             const style = window.getComputedStyle(first);
             const size = Number(style.height.replace(/px/g,""));
             const marginTop = Number(style.marginTop.replace(/px/g,""));
-            console.log(`${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`);
             document.getElementsByClassName("flexContainer")[0].style.height = `${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`;
         }
     }

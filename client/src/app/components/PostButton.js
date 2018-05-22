@@ -64,13 +64,7 @@ class PostButton extends Component {
                 type: this.state.tmpImg !== null ? this.state.tmpImg.file.type : "image"
             };
             return (
-                <div className={this.state.active ? "postHover postHoverActive" : "postHover"}>
-                    <input
-                        type={"text"}
-                        ref={ref => this.filename = ref}
-                        placeholder={"Filename"}
-                        className={"nameInput postInput"}
-                    />
+                <div className={this.state.active ? "expandWrapper showExpand" : "expandWrapper"}>
                     <div className={"mediaImg imgPlaceholder"}>
                         <input type={"file"} accept={".jpg, .jpeg, .png, .gif, .mp4"} onChange={this.showImage} className={"fileInput postInput"} />
                         <Media
@@ -79,6 +73,12 @@ class PostButton extends Component {
                             className={"mediaImg"}
                         />
                     </div>
+                    <input
+                        type={"text"}
+                        ref={ref => this.filename = ref}
+                        placeholder={"Filename"}
+                        className={"nameInput postInput"}
+                    />
                     <div
                         className={"postButton finalPostButton"}
                         onClick={this.publishMedia}

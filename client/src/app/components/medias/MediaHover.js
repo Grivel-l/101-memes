@@ -41,6 +41,7 @@ class MediaHover extends Component {
                                 <Media
                                     clickable={false}
                                     media={this.props.expand}
+                                    className={"expandedMediaImg"}
                                 />
                             </div>
                             <div className={"mediaDesc"}>
