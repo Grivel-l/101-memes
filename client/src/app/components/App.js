@@ -86,10 +86,10 @@ class App extends Component {
                     <div className={"subWrapper"}>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
-                            <PostButton />
                         </div>
                         {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
                     </div>
+                    <PostButton />
                     <Footer />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
