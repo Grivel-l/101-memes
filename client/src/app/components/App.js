@@ -61,7 +61,7 @@ class App extends Component {
     adjustDivSize() {
         if (this.props.imgLoaded === true) {
             const first = this.medias.current.children[0];
-            const last = this.medias.current.children[this.medias.current.children.length - 2];
+            const last = this.medias.current.children[this.medias.current.children.length - 1];
             const style = window.getComputedStyle(first);
             const size = Number(style.height.replace(/px/g,""));
             const marginTop = Number(style.marginTop.replace(/px/g,""));
