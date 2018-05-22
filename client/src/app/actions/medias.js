@@ -11,3 +11,4 @@ export const MEDIAS_DELETE = "medias.delete";
 export const MEDIAS_DELETE_PENDING = "medias.delete.pending";
 export const MEDIAS_DELETE_SUCCESS = "medias.delete.success";
 export const NOTIFY_IMG_LOAD = "notify.img.load";
+export const MEDIAS_TOGGLE_SOUND = "medias.toggle.sound";

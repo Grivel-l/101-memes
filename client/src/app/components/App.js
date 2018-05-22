@@ -2,8 +2,9 @@ import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
 import Loader from "./Loader";
-import MediaHover from "../containers/mediaHover";
-import Media from "../containers/media";
+import MediaHover from "../containers/medias/mediaHover";
+import MediaBlock from "./medias/MediaBlock";
+import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import SearchBar from "../containers/searchBar";
@@ -28,6 +29,12 @@ class App extends Component {
         window.addEventListener("resize", this.adjustDivSize);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.page > nextProps.pageNbr) {
+            window.location = config.clientUrl;
+        }
+    }
+
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
         window.removeEventListener("resize", this.adjustDivSize);
@@ -46,18 +53,21 @@ class App extends Component {
     renderMedias() {
         return this.props.data.map((media, index) => {
             return (
-                <Media key={`media${index}`} index={index} media={media} />
+                <MediaBlock key={`media${index}`} index={index} media={media} />
             );
         });
     }
 
     adjustDivSize() {
+        console.log("HelloWorld", this.props.imgLoaded);
         if (this.props.imgLoaded === true) {
+            console.log("100000000");
             const first = this.medias.current.children[0];
             const last = this.medias.current.children[this.medias.current.children.length - 2];
             const style = window.getComputedStyle(first);
             const size = Number(style.height.replace(/px/g,""));
             const marginTop = Number(style.marginTop.replace(/px/g,""));
+            console.log(`${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`);
             document.getElementsByClassName("flexContainer")[0].style.height = `${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`;
         }
     }

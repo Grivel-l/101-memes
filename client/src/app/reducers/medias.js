@@ -6,7 +6,8 @@ import {
     MEDIAS_POST_PENDING,
     MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
-    NOTIFY_IMG_LOAD
+    NOTIFY_IMG_LOAD,
+    MEDIAS_TOGGLE_SOUND
 } from "../actions/medias";
 
 const initialState = {
@@ -23,12 +24,14 @@ const initialState = {
         delete: null,
         message: null
     },
-    expand: null
+    expand: null,
+    gotSound: null
 };
 
 const medias = (state = initialState, {type, payload}) => {
     switch (type) {
     case NOTIFY_IMG_LOAD: 
+        console.log(state.status.img.toLoad)
         return {
             ...state,
             status: {
@@ -109,6 +112,11 @@ const medias = (state = initialState, {type, payload}) => {
                 }
             },
             data: [...state.data.filter(media => media._id !== payload._id)]
+        };
+    case MEDIAS_TOGGLE_SOUND:
+        return {
+            ...state,
+            gotSound: payload
         };
     default:
         return state;

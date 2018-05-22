@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
+import Media from "../../containers/medias/media";
+
 class MediaHover extends Component {
     constructor(props) {
         super(props);
@@ -18,8 +20,10 @@ class MediaHover extends Component {
     }
 
     quitHover(event) {
-        if (event.target.className.includes("expandWrapper") || event.target.className === "mediaDesc") {
-            this.props.hideExpand();
+        if (typeof event.target.className === "string") {
+            if (event.target.className.includes("expandWrapper") || event.target.className === "mediaDesc") {
+                this.props.hideExpand();
+            }
         }
     }
 
@@ -34,9 +38,10 @@ class MediaHover extends Component {
                     {this.props.expand !== null &&
                         <div className={"mediaExpanded"}>
                             <div className={"mediaWrapper"}>
-                                {this.props.expand.type.split("/")[0] === "video"
-                                    ? <video src={this.props.expand.path} alt={this.props.expand.name} loop={true} autoPlay={true} />
-                                    : <img src={this.props.expand.path} alt={this.props.expand.name} />}
+                                <Media
+                                    clickable={false}
+                                    media={this.props.expand}
+                                />
                             </div>
                             <div className={"mediaDesc"}>
                                 <div className="metas">

@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 
-import {MEDIAS_DELETE} from "../actions/medias";
-import MediaHover from "../components/MediaHover";
+import {MEDIAS_DELETE} from "../../actions/medias";
+import MediaHover from "../../components/medias/MediaHover";
 
 const mapStateToProps = ({users}) => {
     return {
