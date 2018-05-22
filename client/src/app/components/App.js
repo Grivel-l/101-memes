@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
-import MediaHover from "../containers/mediaHover";
-import Media from "../containers/media";
+import MediaHover from "../containers/medias/mediaHover";
+import MediaBlock from "./medias/MediaBlock";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
@@ -35,7 +35,7 @@ class App extends Component {
     renderMedias() {
         return this.props.data.map((media, index) => {
             return (
-                <Media key={`media${index}`} media={media} />
+                <MediaBlock key={`media${index}`} media={media} />
             );
         });
     }
