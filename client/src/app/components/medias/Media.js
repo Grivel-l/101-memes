@@ -10,6 +10,7 @@ class Media extends Component {
             hasAudio: false
         };
 
+        this.mounted = true;
         this.ref = false;
         this.expand = this.expand.bind(this);
         this.toggleSound = this.toggleSound.bind(this);
@@ -27,8 +28,14 @@ class Media extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
-            this.setState({muted: !this.state.muted});
+            if (this.mounted) {
+                this.setState({muted: !this.state.muted});
+            }
         }
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     expand() {
@@ -62,7 +69,9 @@ class Media extends Component {
                                 this.ref = true;
                                 ref.addEventListener("loadeddata", () => {
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
-                                        this.setState({hasAudio: true});
+                                        if (this.mounted) {
+                                            this.setState({hasAudio: true});
+                                        }
                                     }
                                 });
                             }
