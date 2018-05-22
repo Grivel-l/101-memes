@@ -4,6 +4,8 @@
 $hoverMaxHeight: 80vh;
 
 body {
+    left: 0;
+    position: absolute;
     background-color: $backColor;
     * {
         -webkit-touch-callout: none;
