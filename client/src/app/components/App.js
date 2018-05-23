@@ -30,7 +30,7 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.page > nextProps.pageNbr) {
+        if (this.page > nextProps.pageNbr && nextProps.pageNbr !== 0) {
             window.location = config.clientUrl;
         }
     }

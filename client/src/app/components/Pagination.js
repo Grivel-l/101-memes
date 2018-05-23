@@ -14,7 +14,6 @@ class Pagination extends Component {
                 key={`page${props.index}`}
                 className={this.props.page === props.index + 1 ? "paginator selected" : "paginator"}
                 onClick={() => {
-                
                     window.location.href = `${config.clientUrl}?page=${props.index + 1}`;
                 }}
             >{props.index + 1}</div>
