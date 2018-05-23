@@ -153,6 +153,9 @@
         @media (max-width: 992px) { 
             min-width: 80vw;
         }
+        .soundButton {
+            z-index: 25;
+        }
         .postMediaImg {
             position: relative;
             max-width: 60vw;
