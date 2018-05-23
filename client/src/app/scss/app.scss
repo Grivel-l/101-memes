@@ -147,11 +147,13 @@ body {
                 min-height: 30vh;
                 min-width: 20vw;
                 max-width: 100%;
+                max-height: 70vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 .expandedMediaImg {
-                    max-width: 60vw;
+                    max-width: 60vw!important;
+                    max-height: 70vh!important;
                     @media screen and (max-width : 992px) {
                         max-width: 100%;
                         max-height: 100%;
