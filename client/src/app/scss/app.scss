@@ -223,6 +223,9 @@ body {
                         text-transform: capitalize;
                         color: rgba($color: #fff, $alpha: 0.6);
                         text-decoration: none;
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
                     
                 }
