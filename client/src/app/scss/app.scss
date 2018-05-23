@@ -123,9 +123,14 @@ body {
             justify-content: center;
         }
         position: relative;
+        @media screen and (max-width : 992px) {
+            min-width: 60%;
+            justify-content: center;
+        }
         max-width: 80%;
         max-height: 80%;
         .mediaExpanded {
+            width: 100%;
             max-height: $hoverMaxHeight;
             display: flex;
             @media screen and (max-width : 992px) {
@@ -139,13 +144,17 @@ body {
             .mediaWrapper {
                 position: relative;
                 overflow: visible;
-                img {
+                min-height: 30vh;
+                min-width: 20vw;
+                max-width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .expandedMediaImg {
                     max-width: 60vw;
                     @media screen and (max-width : 992px) {
-                        position: relative;
-                        left:50%;
-                        transform: translateX(-50%);
-                        max-width: 90vw;
+                        max-width: 100%;
+                        max-height: 100%;
                     }
                 }
             }
