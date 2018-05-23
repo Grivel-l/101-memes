@@ -152,7 +152,7 @@ body {
                 justify-content: center;
                 align-items: center;
                 .expandedMediaImg {
-                    max-width: 60vw!important;
+                    max-width: 100%;
                     max-height: 70vh!important;
                     @media screen and (max-width : 992px) {
                         max-width: 100%;
@@ -163,6 +163,8 @@ body {
             .mediaDesc {
                 position: relative;
                 max-width: 450px;
+                word-wrap: break-word;
+                margin-left: 15px;
                 @media screen and (max-width : 992px) {
                     margin-top: 10px;
                     width: 100%;
@@ -170,10 +172,10 @@ body {
                     display: flex;
                     align-items: center;
                     flex-direction: column;
+                    margin-left: 0;
                 }
                 color: white;
                 line-height: 2px;
-                margin-left: 10px;
                 .metas {
                     position: absolute;
                     bottom:0;
