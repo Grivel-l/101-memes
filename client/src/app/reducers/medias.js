@@ -1,11 +1,14 @@
 import {
     MEDIAS_GET_SUCCESS,
+    MEDIAS_GET_ERROR,
     MEDIAS_EXPAND_SHOW,
     MEDIAS_EXPAND_HIDE,
     MEDIAS_POST_SUCCESS,
     MEDIAS_POST_PENDING,
+    MEDIAS_POST_ERROR,
     MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
+    MEDIAS_DELETE_ERROR,
     NOTIFY_IMG_LOAD,
     MEDIAS_TOGGLE_SOUND
 } from "../actions/medias";
@@ -29,6 +32,7 @@ const initialState = {
 };
 
 const medias = (state = initialState, {type, payload}) => {
+    console.log(type);
     switch (type) {
     case NOTIFY_IMG_LOAD: 
         return {
@@ -52,6 +56,14 @@ const medias = (state = initialState, {type, payload}) => {
                     toLoad: payload.data.length,
                     total: payload.data.length
                 },
+            }
+        };
+    case MEDIAS_GET_ERROR:
+        return {
+            ...state,
+            status: {
+                ...state.status,
+                get: "ERROR"
             }
         };
     case MEDIAS_EXPAND_SHOW:
@@ -88,6 +100,14 @@ const medias = (state = initialState, {type, payload}) => {
                 }
             },
         };
+    case MEDIAS_POST_ERROR:
+        return {
+            ...state,
+            status: {
+                ...initialState.status,
+                post: "ERROR",
+            },
+        };
     case MEDIAS_DELETE_PENDING:
         return {
             ...state,
@@ -111,6 +131,14 @@ const medias = (state = initialState, {type, payload}) => {
                 }
             },
             data: [...state.data.filter(media => media._id !== payload._id)]
+        };
+    case MEDIAS_DELETE_ERROR:
+        return {
+            ...state,
+            status: {
+                ...initialState.status,
+                delete: "ERROR",
+            },
         };
     case MEDIAS_TOGGLE_SOUND:
         return {

@@ -16,12 +16,15 @@ import {
 import {
     MEDIAS_GET,
     MEDIAS_GET_SUCCESS,
+    MEDIAS_GET_ERROR,
     MEDIA_PUBLISH,
     MEDIAS_POST_PENDING,
     MEDIAS_POST_SUCCESS,
+    MEDIAS_POST_ERROR,
     MEDIAS_DELETE,
     MEDIAS_DELETE_PENDING,
-    MEDIAS_DELETE_SUCCESS
+    MEDIAS_DELETE_SUCCESS,
+    MEDIAS_DELETE_ERROR
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -43,6 +46,7 @@ function *getMedias({payload}) {
     try {
         const result = yield call(getMediasApi, payload, token);
         if (result.error !== undefined) {
+            yield put({type: MEDIAS_GET_ERROR});
             throw result;
         }
         yield put({payload: result, type: MEDIAS_GET_SUCCESS});
@@ -60,6 +64,7 @@ function* publishMedia({payload}) {
         payload.append("token", token);
         const result = yield call(publishMediaApi, payload);
         if (result.error !== undefined) {
+            yield put({type: MEDIAS_POST_SUCCESS});
             throw result;
         }
         yield put({type: TOAST_SHOW, payload: {
@@ -82,6 +87,7 @@ function* deleteMedia({payload}) {
         yield put({type: MEDIAS_DELETE_PENDING, payload: payload.index});
         const result = yield call(deleteMediaApi, payload.id, token);
         if (result.error !== undefined) {
+            yield put({type: MEDIAS_DELETE_ERROR});
             throw result;
         }
         yield put({type: TOAST_SHOW, payload: {
