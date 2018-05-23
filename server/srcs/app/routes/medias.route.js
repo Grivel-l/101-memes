@@ -14,13 +14,16 @@ module.exports = (server, plugins, log, dtb) => {
         } else if (req.files.media === undefined) {
             return res.send(400, {error: "media param is missing"});
         }
-        medias.uploadFile(req.params.name, req.files.media, req.author, Number(req.headers['content-length']))
+        medias.uploadFile(req.params.name, req.files.media, req.author, Number(req.headers["content-length"]))
             .then((result) => res.send(200, result))
             .catch(err => {
                 if (err.statusCode === 500) {
+                    if (typeof err.message === "object" && err.message.name === "ValidationError") {
+                        return res.send(400, {error: "Validation error"});
+                    }
                     log.error(err);
                 }
-                res.send(err.statusCode, {error: err.statusCode !== 500 ? err.message: "Internal Server Error"});
+                res.send(err.statusCode, {error: err.statusCode !== 500 ? err.message : "Internal Server Error"});
             });
     });
 
