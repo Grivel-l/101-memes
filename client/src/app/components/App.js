@@ -93,7 +93,7 @@ class App extends Component {
                     <Footer />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
-                <Loader key="MainLoader" in={!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING"} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
+                <Loader key="MainLoader" in={(this.props.status !== "ERROR" && this.props.delete !== "ERROR" && this.props.post !== "ERROR") && (!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING")} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
                 <Toaster />
             </Fragment>
         );
@@ -103,7 +103,7 @@ class App extends Component {
 App.propTypes = {
     data: PropTypes.array,
     pageNbr: PropTypes.number,
-    status: PropTypes.object,
+    //status: PropTypes.object,
     getMedias: PropTypes.func,
     hideExpand: PropTypes.func
 };

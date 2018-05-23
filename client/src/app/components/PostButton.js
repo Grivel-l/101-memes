@@ -91,7 +91,7 @@ class PostButton extends Component {
                             ref={ref => this.filename = ref}
                             placeholder={"Filename"}
                             className={"nameInput postInput"}
-                            maxlength={50}
+                            maxLength={50}
                         />
                         <div
                             className={"postButton finalPostButton"}
