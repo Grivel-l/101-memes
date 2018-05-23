@@ -13,7 +13,7 @@ class ApiHelper {
                 })
                 .catch(error => {
                     log.error(error);
-                    res.send(400, "An error occured");
+                    res.send(error.status || 400, "An error occured");
                 });
         }
         else {
