@@ -89,7 +89,7 @@ class App extends Component {
                         </div>
                         {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
                     </div>
-                    <PostButton />
+                    <PostButton showToast={this.props.showToast} />
                     <Footer />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
@@ -105,7 +105,8 @@ App.propTypes = {
     pageNbr: PropTypes.number,
     //status: PropTypes.object,
     getMedias: PropTypes.func,
-    hideExpand: PropTypes.func
+    hideExpand: PropTypes.func,
+    showToast: PropTypes.func
 };
 
 export default App;

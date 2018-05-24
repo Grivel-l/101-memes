@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
+import config from "../../config/globalConfig";
 import Media from "../containers/medias/media";
 import placeholder from "../../imgs/imgPlaceholder.svg";
 import "../scss/postbutton.css";
@@ -33,6 +34,15 @@ class PostButton extends Component {
     showImage(event) {
         if (event.target.files.length > 0) {        
             const file = event.target.files[0];
+            if (file.size / 1024 / 1024 > config.maxFileSize) {
+                this.props.showToast({
+                    type: "error",
+                    timeout: 3000,
+                    message: "File size is too big",
+                    action: null
+                });
+                return ;
+            }
             const reader = new FileReader();
             reader.onload = data => this.setState({tmpImg: {
                 file,
@@ -130,7 +140,8 @@ class PostButton extends Component {
 
 PostButton.propTypes = {
     publishMedia: PropTypes.func,
-    error: PropTypes.object
+    error: PropTypes.object,
+    showToast: PropTypes.func
 };
 
 export default PostButton;
