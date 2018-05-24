@@ -110,7 +110,7 @@ body {
     opacity: 0;
     pointer-events: none;
     @include transition(opacity 0.5s ease-in-out);
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.8);
     &.showExpand {
         pointer-events: all;
         opacity: 1;
