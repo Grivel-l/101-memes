@@ -261,4 +261,8 @@ body {
     bottom: 10px;
     right: 10px;
     cursor: pointer;
+    svg {
+        fill: #ffffff;
+        filter: drop-shadow(3px 3px 3px #000000 );
+    }
 }
