@@ -6,7 +6,7 @@ class Media extends Component {
         super(props);
 
         this.state = {
-            muted: true,
+            muted: props.muted,
             hasAudio: false
         };
 
@@ -102,13 +102,18 @@ class Media extends Component {
     }
 }
 
+Media.defaultProps = {
+    muted: true
+};
+
 Media.propTypes = {
     media: PropTypes.object.isRequired,
     expandMedia: PropTypes.func.isRequired,
     clickable: PropTypes.bool,
     className: PropTypes.string,
     toggleSound: PropTypes.func.isRequired,
-    gotSound: PropTypes.string
+    gotSound: PropTypes.string,
+    muted: PropTypes.bool
 };
 
 export default Media;

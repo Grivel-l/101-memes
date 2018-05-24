@@ -39,6 +39,7 @@ class MediaHover extends Component {
                         <div className={"mediaExpanded"}>
                             <div className={"mediaWrapper"}>
                                 <Media
+                                    muted={false}
                                     clickable={false}
                                     media={this.props.expand}
                                     className={"expandedMediaImg"}
