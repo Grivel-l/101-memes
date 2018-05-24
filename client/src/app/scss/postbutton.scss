@@ -4,6 +4,9 @@
 .expandPostButton {
     width: calc(100% - 40px);
     height: 60px;
+    svg {
+        height: 0;
+    }
     &:before {
         content: "Upload your meme";
     }
