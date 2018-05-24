@@ -34,4 +34,16 @@
             }
         }
     }
+    .intraLogo svg {
+        fill: #ffffff;
+    }
+    .logoLink {
+        svg {
+            margin: 0 5px 0 5px;
+            transform: translateY(33%);
+        }
+        svg:hover {
+            fill: #0080ff;
+        }
+    }
 }
