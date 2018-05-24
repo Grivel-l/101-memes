@@ -17,6 +17,9 @@ class Media extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.media === undefined) {
+            return false;
+        }
         return (this.state.muted !== nextState.muted ||
             this.props.gotSound !== nextProps.gotSound ||
             this.state.hasAudio !== nextState.hasAudio ||
