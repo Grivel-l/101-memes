@@ -100,6 +100,7 @@ body {
 }
 
 .expandWrapper {
+    z-index: -5;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -109,11 +110,12 @@ body {
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    @include transition(opacity 0.5s ease-in-out);
+    @include transition(z-index 0.3s ease-in-out ,opacity 0.3s ease-in-out);
     background-color: rgba(0, 0, 0, 0.8);
     &.showExpand {
         pointer-events: all;
         opacity: 1;
+        z-index: 10;
     }
     .expandSubWrapper {
         display: flex;
