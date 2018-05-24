@@ -27,8 +27,15 @@ class MediaHover extends Component {
         }
     }
 
+    treateDate(nbr) {
+        if (nbr < 10) {
+            return (`0${nbr}`);
+        }
+        return (nbr);
+    }
+
     render() {
-        const date = this.props.expand !== null ? new Date(this.props.expand.createDate) : null;
+        const date = this.props.expand !== null ? new Date(this.props.expand.createDate).toLocaleDateString() : null;
         return (
             <div
                 className={this.props.expand !== null ? "expandWrapper showExpand" : "expandWrapper"}
@@ -47,7 +54,7 @@ class MediaHover extends Component {
                             </div>
                             <div className={"mediaDesc"}>
                                 <div className="metas">
-                                    <p className="date">{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
+                                    <p className="date">{`${this.treateDate(parseInt(date.split("/")[1], 10))}/${this.treateDate(parseInt(date.split("/")[0], 10))}/${parseInt(date.split("/")[2], 10)}`}</p>
                                 </div>
                                 <h2>{this.props.expand.name}</h2>
                                 <h3 className="author"> 

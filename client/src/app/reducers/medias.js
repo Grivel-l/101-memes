@@ -32,7 +32,6 @@ const initialState = {
 };
 
 const medias = (state = initialState, {type, payload}) => {
-    console.log(type);
     switch (type) {
     case NOTIFY_IMG_LOAD: 
         return {
