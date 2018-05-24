@@ -1,15 +1,9 @@
 @import "./colors.scss";
 @import "utilities/cross-browser.scss";
 
-.postButton {
+.expandPostButton {
     width: calc(100% - 40px);
     height: 60px;
-    font-size: 25px;
-    font-weight: bolder;
-    svg {
-        @include transition(fill 0.15s ease-out);
-        width: 0;
-    }
     &:before {
         content: "Upload your meme";
     }
@@ -37,6 +31,13 @@
         width: 130px;
         height: 100px;
     }
+}
+.postButton {
+    font-size: 25px;
+    font-weight: bolder;
+    svg {
+        @include transition(fill 0.15s ease-out);
+    }
     @include transition(background-color 0.15s ease-out);
     background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
     border: 3px solid white;
@@ -44,12 +45,12 @@
     right: 0px;
     margin: 20px;
     color: #fff;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
     pointer-events: all;
+    cursor: pointer;
 }
 
 .postButton:hover {
@@ -58,10 +59,6 @@
     svg {
         fill: rgba($color: $backColorDimmed, $alpha:1);
     }
-}
-
-.finalPostButton {
-    position: initial;
 }
 
 .postWrapper {
@@ -95,15 +92,12 @@
     pointer-events: all;
 }
 
-.postInput {
-    margin: 0px;
-}
-
 .nameInput {
     width: 100%;
     height: 50px;
     font-size: 2em;
-    margin: 20px;
+    margin: 20px 0;
+    width: 100%;
 }
 
 .fileInput {
@@ -124,6 +118,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    .finalPostButton {
+        position: initial;
+        height: 60px;
+        width: 100%;
+        &:before {
+            content: "Upload";
+        }
+    }
     .nameInput {
         background-color: transparent;
         border-width: 0 0 3px 0;
@@ -132,7 +134,6 @@
         color: #fff;
         padding: 10px 0px;
         outline-width: 0;
-        width: calc(100% - 40px);
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
             color: #fff;
             opacity: 0.8; /* Firefox */
