@@ -6,7 +6,7 @@ class MediasModel {
             name: {type: String, maxLength: 50, trim: true},
             path: {type: String, required: true},
             author: {type: String, required: true},
-            type: {type: String, enum: ["video/mp4", "image/jpg", "image/jpeg", "image/png", "image/gif"], required: true},
+            type: {type: String, enum: ["video/mp4", "video/webm", "image/jpg", "image/jpeg", "image/png", "image/gif"], required: true},
             deleted: {type: Boolean, default: false},
             createDate: {type: Date, required: true}
         }));

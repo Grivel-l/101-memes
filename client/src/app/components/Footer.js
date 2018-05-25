@@ -22,7 +22,7 @@ class Footer extends Component {
         return (
             <div className={"logoLink intraLogo"}  alt={"Github logo"}>
                 <a href={link}>
-                    <svg preserveAspectRatio="false" fill="#fff" version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 -200 960 960" enable-background="new 0 -200 960 960">
+                    <svg fill="#fff" version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 -200 960 960" enableBackground="new 0 -200 960 960">
                         <polygon id="polygon5" points="32,412.6 362.1,412.6 362.1,578 526.8,578 526.8,279.1 197.3,279.1 526.8,-51.1 362.1,-51.1 
                         32,279.1 "/>
                         <polygon id="polygon7" points="597.9,114.2 762.7,-51.1 597.9,-51.1 "/>

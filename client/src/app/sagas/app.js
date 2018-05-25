@@ -23,7 +23,8 @@ import {
     MEDIAS_DELETE,
     MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
-    MEDIAS_DELETE_ERROR
+    MEDIAS_DELETE_ERROR,
+    MEDIAS_POST_ERROR
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -63,7 +64,7 @@ function* publishMedia({payload}) {
         payload.append("token", token);
         const result = yield call(publishMediaApi, payload);
         if (result.error !== undefined) {
-            yield put({type: MEDIAS_POST_SUCCESS});
+            yield put({type: MEDIAS_POST_ERROR});
             throw result;
         }
         yield put({type: TOAST_SHOW, payload: {

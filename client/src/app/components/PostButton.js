@@ -98,7 +98,7 @@ class PostButton extends Component {
                     onClick={this.quitHover}>
                     <div className={"expandSubWrapper postSubWrapper"}>
                         <div className={"imgPlaceholder"}>
-                            <input type={"file"} accept={".jpg, .jpeg, .png, .gif, .mp4"} onChange={this.showImage} className={"fileInput postInput"} />
+                            <input type={"file"} accept={".jpg, .jpeg, .png, .gif, .mp4, .webm"} onChange={this.showImage} className={"fileInput postInput"} />
                             <Media
                                 media={media}
                                 clickable={false}

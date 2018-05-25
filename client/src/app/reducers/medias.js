@@ -61,7 +61,7 @@ const medias = (state = initialState, {type, payload}) => {
         return {
             ...state,
             status: {
-                ...state.status,
+                ...initialState.status,
                 get: "ERROR"
             }
         };
