@@ -21,6 +21,15 @@ class PostButton extends Component {
         this.quitHover = this.quitHover.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            this.state.active !== nextState.active ||
+            this.state.tmpImg !== nextState.tmpImg ||
+            this.state.showLoader !== nextState.showLoader ||
+            this.props.error.status !== nextProps.error.status
+        );
+    }
+
     componentWillUpdate(nextProps, nextState) {
         if (this.props.error.status === "PENDING" && nextProps.error.status !== "PENDING") {
             this.setState({showLoader: false});

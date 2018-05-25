@@ -5,6 +5,13 @@ import Media from "../../containers/medias/media";
 import "../../scss/app.css";
 
 class MediaBlock extends Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            this.props.media._id !== nextProps.media._id ||
+            this.props.index !== nextProps.index
+        );
+    }
+
     render() {
         return (
             <div className={"mediaContainer"}>
@@ -20,7 +27,7 @@ class MediaBlock extends Component {
 }
 
 MediaBlock.propTypes = {
-    medias: PropTypes.object,
+    media: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired
 };
 
