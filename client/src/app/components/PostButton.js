@@ -63,6 +63,15 @@ class PostButton extends Component {
 
     publishMedia() {
         if (this.filename !== null && this.state.tmpImg !== null) {
+            if (this.filename.value === "") {
+                this.props.showToast({
+                    type: "error",
+                    timeout: 3000,
+                    message: "Please enter a valid title to your file",
+                    action: null
+                });
+                return ;
+            }
             const form = new FormData();
             form.append("name", this.filename.value);
             form.append("media", this.state.tmpImg.file);
