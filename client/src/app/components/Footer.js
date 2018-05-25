@@ -41,7 +41,7 @@ class Footer extends Component {
         return (
             <div className={this.state.showTerms ? "termsWrapper showTerms" : "termsWrapper"} onClick={() => this.setState({showTerms: !this.state.showTerms})}>
                 <div className={"contentWrapper"}>
-                    <h2>{"ESSENTIALS"}</h2>
+                    <h1>{"ESSENTIALS"}</h1>
                     <p>
                         {"The use of this application is reserved exclusively for users with an active account on intra.42.fr.\
                         Using our app to do anything other than access the links to this \"Terms\" page or accessing any page of our application other than this \"Terms\" page constitutes your consent to these terms of use and to our Privacy Policy. If you do not consent, do not use our application.\
