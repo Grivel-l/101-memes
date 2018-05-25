@@ -2,11 +2,11 @@
     @return $a * $b
   }
 
-$coefficient: 0.5vw;
+$coefficient: 0.7vw;
 
 .toaster {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    top: 0;
     right: 0;
 }
 
@@ -29,8 +29,11 @@ $coefficient: 0.5vw;
     border-style: solid;
     margin: get_size(1.5, $coefficient);
     position: relative;
-    padding: get_size(2, $coefficient);
-    width: get_size(60, $coefficient);
+    padding:  get_size(0.5, $coefficient) get_size(1, $coefficient);
+    width: 100vw - get_size(5, $coefficient);
+    @media screen and (min-width : 992px){
+        width: get_size(60, $coefficient);
+    }
     z-index: 10;
     &.info {
         background-color: #2f96b4;
@@ -64,7 +67,11 @@ $coefficient: 0.5vw;
         display: flex;
         align-items: stretch;
         position: relative;
-        font-size: get_size(2, $coefficient);
+        font-size: get_size(2.5, $coefficient);
+        @media screen and (max-width : 992px){
+            padding: 0  get_size(2.5, $coefficient);
+            font-size: get_size(5, $coefficient);
+        }
         .toast-action-wrapper {
             flex: 1 0 0;
             .toast-action {
@@ -92,18 +99,20 @@ $coefficient: 0.5vw;
                 text-align: center;
                 width: get_size(2, $coefficient);
                 font-size: get_size(2.5, $coefficient);
+                @media screen and (max-width : 992px){
+                    width: get_size(4, $coefficient);
+                    font-size: get_size(5, $coefficient);
+                }
                 position: relative;
                 top: 50%;
-                display: inline-block;
+                display: block;
                 transform: translateY(-50%);
                 float: left;
                 margin-right:get_size(2, $coefficient);
             }
             p {
                 position: relative;
-                top: 50%;
                 display: inline-block;
-                transform: translateY(-50%);
             }
             flex-shrink: 2;    
             border: get_size(0.3, $coefficient);

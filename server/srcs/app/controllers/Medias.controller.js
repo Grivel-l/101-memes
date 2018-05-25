@@ -8,7 +8,7 @@ class MediasController {
     constructor(dtb) {
         this.medias = new MediasModel(dtb);
         this.mediaDir = "./srcs/imgs/";
-        this.validTypes = ["jpg", "jpeg", "png", "gif", "mp4"];
+        this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
         this.admins = ["legrivel", "jmarquet"];
     }
     

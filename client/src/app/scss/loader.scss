@@ -1,18 +1,42 @@
-$size: 80px;
+@import "utilities/cross-browser.scss";
 
-.loaderHover {
+.loader {
+    height: 100%;
+    width: 100%;
     position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    top: 0;
+    top:0;
     left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    @include transition(height 0s linear 0.3s, opacity 0.3s ease-out 0s);
+    opacity: 0;
+    z-index: 100;
+    display: block;
+    background-color: black;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30%;
+    transform: translateZ(0);
+    background-image: url("../../imgs/loaderImg.svg");
 
-.loaderImg {
-    width: $size;
-    height: $size;
+    &.entering {
+        opacity: 0;
+        @include transition(height 0s linear 0s, opacity 0s ease-out 0s);
+    }
+    &.entered {
+        opacity: 1;
+        &.transparent {
+            opacity: 0.8;
+        }
+        @include transition(height 0s linear 0s, opacity 0s ease-out 0s);
+    }
+    &.exiting {
+        height: 100%;
+        opacity: 1;
+        &.transparent {
+            opacity: 0.8;
+        }
+    }
+    &.exited {
+        height: 0%;        
+        opacity: 0;
+    }
 }

@@ -14,7 +14,7 @@ class MediaHover extends Component {
 
     deleteMedia() {
         if (window.confirm("Are you sure you want to delete this media ?")) {
-            this.props.deleteMedia(this.props.expand._id);
+            this.props.deleteMedia({id: this.props.expand._id, index: this.props.expand.index});
             this.props.hideExpand();
         }
     }
@@ -27,8 +27,15 @@ class MediaHover extends Component {
         }
     }
 
+    treateDate(nbr) {
+        if (nbr < 10) {
+            return (`0${nbr}`);
+        }
+        return (nbr);
+    }
+
     render() {
-        const date = this.props.expand !== null ? new Date(this.props.expand.createDate) : null;
+        const date = this.props.expand !== null ? new Date(this.props.expand.createDate).toLocaleDateString() : null;
         return (
             <div
                 className={this.props.expand !== null ? "expandWrapper showExpand" : "expandWrapper"}
@@ -37,25 +44,32 @@ class MediaHover extends Component {
                 <div className={"expandSubWrapper"}>
                     {this.props.expand !== null &&
                         <div className={"mediaExpanded"}>
-                            <h2>{this.props.expand.name}</h2>
                             <div className={"mediaWrapper"}>
                                 <Media
+                                    muted={false}
                                     clickable={false}
                                     media={this.props.expand}
+                                    className={"expandedMediaImg"}
                                 />
                             </div>
                             <div className={"mediaDesc"}>
+                                <div className="metas">
+                                    <p className="date">{`${this.treateDate(parseInt(date.split("/")[1], 10))}/${this.treateDate(parseInt(date.split("/")[0], 10))}/${parseInt(date.split("/")[2], 10)}`}</p>
+                                </div>
+                                <h2>{this.props.expand.name}</h2>
+                                <h3 className="author"> 
+                                    <a  href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>
+                                        {this.props.expand.author}
+                                    </a>
+                                </h3>
                                 {(this.props.login === this.props.expand.author || this.admins.indexOf(this.props.login) !== -1) &&
-                                <input
-                                    type={"button"}
-                                    value={"Delete"}
+                                <button type={"button"}
                                     className={"deleteButton"}
                                     onClick={this.deleteMedia}
-                                />}
-                                <div className={"alignCenter"}>
-                                    <a href={`https://profile.intra.42.fr/users/${this.props.expand.author}`}>{this.props.expand.author}</a>
-                                    <p>{`${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}</p>
-                                </div>
+                                >
+                                    Delete
+                                </button>
+                                }
                             </div>
                         </div>
                     }

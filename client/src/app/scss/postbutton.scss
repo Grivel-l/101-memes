@@ -1,62 +1,71 @@
 @import "./colors.scss";
+@import "utilities/cross-browser.scss";
 
-$circleRadius: 70px;
-
-@media (min-width: 0px) {
-    .postButton {
-        width: $circleRadius - 30px;
-        height: $circleRadius - 30px;
-        border-radius: $circleRadius - 30px;
+.expandPostButton {
+    width: calc(100% - 40px);
+    height: 60px;
+    svg {
+        height: 0;
+    }
+    &:before {
+        content: "Upload your meme";
+    }
+    @media (min-width: 768px) { 
+        height: 70px;
+        font-size: 27px;
+    }
+    @media (min-width: 992px) { 
+        height: 65px;
+        width: 85px;
+        &:before {
+            content: "";
+        }
+        svg {
+            height: 80%;
+            width: 100%;
+            fill: #fff;
+        }
+    }
+    @media (min-width: 1200px) {
+        height: 80px;
+        width: 104px;
+    }
+    @media (min-width: 1920px) {
+        width: 130px;
+        height: 100px;
     }
 }
-
-@media (min-width: 350px) {
-    .postButton {
-        width: $circleRadius - 20px;
-        height: $circleRadius - 20px;
-        border-radius: $circleRadius - 20px;
-    }
-}
-
-@media (min-width: 600px) {
-    .postButton {
-        width: $circleRadius - 10px;
-        height: $circleRadius - 10px;
-        border-radius: $circleRadius - 10px;
-    }
-}
-
-@media (min-width: 1100px) {
-    .postButton {
-        width: $circleRadius;
-        height: $circleRadius;
-        border-radius: $circleRadius;
-    }
-}
-
 .postButton {
-    background-color: $lightDimmed;
+    font-size: 25px;
+    font-weight: bolder;
+    svg {
+        @include transition(fill 0.15s ease-out);
+    }
+    @include transition(background-color 0.15s ease-out);
+    background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
+    border: 3px solid white;
     bottom: 0px;
-    left: 0px;
+    right: 0px;
     margin: 20px;
-    cursor: pointer;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     pointer-events: all;
+    cursor: pointer;
 }
 
 .postButton:hover {
-    background-color: white;
-    fill: $secondaryColor;
-}
-
-.finalPostButton {
-    position: initial;
+    background-color: rgba($color: #fff, $alpha: 0.8);
+    color: $backColorDimmed;
+    svg {
+        fill: rgba($color: $backColorDimmed, $alpha:1);
+    }
 }
 
 .postWrapper {
+    top: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
@@ -86,37 +95,75 @@ $circleRadius: 70px;
     pointer-events: all;
 }
 
-.postInput {
-    margin: 15px;
-}
-
 .nameInput {
-    width: 60%;
+    width: 100%;
     height: 50px;
     font-size: 2em;
+    margin: 20px 0;
+    width: 100%;
 }
 
 .fileInput {
     width: 100%;
     height: 100%;
     position: absolute;
+    z-index: 10;
     top: 0;
     left: 0;
     opacity: 0;
 }
 
-.imgPlaceholder {
-    position: relative;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 6px solid black;
-    border-radius: 10px;
-    height: 250px;
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .imgPlaceholder, .imgPlaceholder * {
     cursor: pointer;
+}
+
+.postSubWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .finalPostButton {
+        position: initial;
+        height: 60px;
+        width: 100%;
+        &:before {
+            content: "Upload";
+        }
+    }
+    .nameInput {
+        background-color: transparent;
+        border-width: 0 0 3px 0;
+        border-style: solid;
+        border-color: #fff;
+        color: #fff;
+        padding: 10px 0px;
+        outline-width: 0;
+        &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #fff;
+            opacity: 0.8; /* Firefox */
+        }
+    }
+    .imgPlaceholder {
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.6);
+        border: 3px solid white;
+        min-width: 40vw;
+        min-height: 20vh;
+        max-width: 60vw;
+        max-height: 50vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @media (max-width: 992px) { 
+            min-width: 80vw;
+        }
+        .soundButton {
+            z-index: 25;
+        }
+        .postMediaImg {
+            position: relative;
+            max-width: 60vw;
+            max-height: 50vh;
+            width: auto;
+        }
+    }
 }

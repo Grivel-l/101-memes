@@ -1,12 +1,15 @@
 export const MEDIAS_GET_SUCCESS = "medias.get.success";
 export const MEDIAS_GET = "medias.get";
+export const MEDIAS_GET_ERROR = "medias.get.error";
 export const MEDIA_PUBLISH = "medias.publish";
 export const MEDIAS_POST_SUCCESS = "medias.post.success";
 export const MEDIAS_POST_PENDING = "medias.post.pending";
 export const MEDIAS_POST_ERROR = "medias.post.error";
-export const MEDIAS_GET_ERROR = "medias.get.error";
 export const MEDIAS_EXPAND_SHOW = "medias.expand.show";
 export const MEDIAS_EXPAND_HIDE = "medias.expand.hide";
 export const MEDIAS_DELETE = "medias.delete";
+export const MEDIAS_DELETE_PENDING = "medias.delete.pending";
 export const MEDIAS_DELETE_SUCCESS = "medias.delete.success";
+export const MEDIAS_DELETE_ERROR = "medias.delete.error";
+export const NOTIFY_IMG_LOAD = "notify.img.load";
 export const MEDIAS_TOGGLE_SOUND = "medias.toggle.sound";

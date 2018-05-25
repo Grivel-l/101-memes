@@ -1,35 +1,47 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
+import Loader from "./Loader";
 import MediaHover from "../containers/medias/mediaHover";
 import MediaBlock from "./medias/MediaBlock";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
+import SearchBar from "../containers/searchBar";
+import Footer from "../components/Footer";
+import Pagination from "../components/Pagination";
 import "../scss/app.css";
 
 class App extends Component {
     constructor(props) {
         super(props);
-
         this.page = 1;
         this.keyDown = this.keyDown.bind(this);
+        this.adjustDivSize = this.adjustDivSize.bind(this);
+        this.medias = React.createRef();
+        this.subWrapperSize = "0px";
     }
 
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
         document.addEventListener("keydown", this.keyDown);
+        window.addEventListener("resize", this.adjustDivSize);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.page > nextProps.pageNbr) {
+        if (this.page > nextProps.pageNbr && nextProps.pageNbr !== 0) {
             window.location = config.clientUrl;
         }
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
+        window.removeEventListener("resize", this.adjustDivSize);
+    }
+
+    componentDidUpdate() {
+        this.adjustDivSize();
     }
 
     keyDown({keyCode}) {
@@ -41,41 +53,51 @@ class App extends Component {
     renderMedias() {
         return this.props.data.map((media, index) => {
             return (
-                <MediaBlock key={`media${index}`} media={media} />
+                <MediaBlock key={`media${index}`} index={index} media={media} />
             );
         });
     }
 
-    renderPages() {
-        let i = 0;
-        const result = [];
-        while (i < this.props.pageNbr) {
-            result.push(
-                <a
-                    key={`page${i}`}
-                    href={`${config.clientUrl}?page=${i + 1}`}
-                    className={this.page === i + 1 ? "pageNbr pageNbrSelected" : "pageNbr"}
-                >{i + 1}</a>
-            );
-            i += 1;
+    adjustDivSize() {
+        if (this.props.imgLoaded === true) {
+            const first = this.medias.current.children[0];
+            if (first === undefined) {
+                return ;
+            }
+            const last = this.medias.current.children[this.medias.current.children.length - 1];
+            const style = window.getComputedStyle(first);
+            const size = Number(style.height.replace(/px/g,""));
+            const marginTop = Number(style.marginTop.replace(/px/g,""));
+            document.getElementsByClassName("flexContainer")[0].style.height = `${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`;
         }
-        return result;
+    }
+
+    getY(el) {
+        let yPos = 0;
+        while (el) {
+            yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+            el = el.offsetParent;
+        }
+        return yPos;
     }
 
     render() {
         return (
             <Fragment>
-                <div className={"wrapper"}>
+                <div className="wrapper">
+                    <SearchBar />
                     <div className={"subWrapper"}>
-                        {this.renderMedias()}
-                        <PostButton />
+                        <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
+                            {this.renderMedias()}
+                        </div>
+                        {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
                     </div>
-                    <div>
-                        {this.renderPages()}
-                    </div>
-                    <Toaster />
+                    <Footer />
+                    <PostButton showToast={this.props.showToast} />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
+                <Loader key="MainLoader" in={(this.props.status !== "ERROR" && this.props.delete !== "ERROR" && this.props.post !== "ERROR") && (!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING")} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
+                <Toaster />
             </Fragment>
         );
     }
@@ -84,9 +106,10 @@ class App extends Component {
 App.propTypes = {
     data: PropTypes.array,
     pageNbr: PropTypes.number,
-    status: PropTypes.string,
+    //status: PropTypes.object,
     getMedias: PropTypes.func,
-    hideExpand: PropTypes.func
+    hideExpand: PropTypes.func,
+    showToast: PropTypes.func
 };
 
 export default App;

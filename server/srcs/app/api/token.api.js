@@ -11,6 +11,9 @@ module.exports = {
             }
         })
             .then(response => {
+                if (response.status !== 200) {
+                    throw response;
+                }
                 return response.json()
                     .then(result => (Object.assign({}, result, {status: response.status})));
             });

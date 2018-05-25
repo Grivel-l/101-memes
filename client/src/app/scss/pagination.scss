@@ -1,0 +1,32 @@
+@import "./colors.scss";
+@import "utilities/cross-browser.scss";
+
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.selected {
+    border: 3px solid $secondaryColor;
+}
+
+.paginator {
+    cursor: pointer;
+    margin: 0 5px;
+    display: inline-block;
+    border: 3px solid white;
+    width: 40px;
+    height: 40px;
+    color: white;
+    background-color: rgba($color: #fff, $alpha: 0);
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center;
+    line-height: 40px;
+    @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
+    &.selected ,&:hover{
+        color: $backColorDimmed;
+        background-color: rgba($color: #fff, $alpha: 1.0);
+    }
+}

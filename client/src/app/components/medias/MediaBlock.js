@@ -5,23 +5,30 @@ import Media from "../../containers/medias/media";
 import "../../scss/app.css";
 
 class MediaBlock extends Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            this.props.media._id !== nextProps.media._id ||
+            this.props.index !== nextProps.index
+        );
+    }
+
     render() {
         return (
             <div className={"mediaContainer"}>
-                <div className={"subMediaContainer"}>
-                    <Media
-                        media={this.props.media}
-                        clickable={true}
-                        className={"mediaImg"}
-                    />
-                </div>
+                <Media
+                    media={this.props.media}
+                    clickable={true}
+                    className={"mediaImg"}
+                    index={this.props.index}
+                />
             </div>
         );
     }
 }
 
 MediaBlock.propTypes = {
-    medias: PropTypes.object
+    media: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired
 };
 
 export default MediaBlock;
