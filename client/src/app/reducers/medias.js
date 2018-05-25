@@ -40,7 +40,7 @@ const medias = (state = initialState, {type, payload}) => {
                 ...state.status,
                 img: {
                     ...state.status.img,
-                    toLoad: state.status.img.toLoad - 1
+                    toLoad: state.status.img.toLoad - 1,
                 },
             }
         };
@@ -62,6 +62,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
+                img: state.status.img,
                 get: "ERROR"
             }
         };
@@ -80,9 +81,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img
-                }
+                img: state.status.img,
             },
             data: [...[payload], ...state.data]
         };
@@ -104,6 +103,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
+                img: state.status.img,
                 post: "ERROR",
             },
         };
@@ -125,9 +125,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img
-                }
+                img: state.status.img,
             },
             data: [...state.data.filter(media => media._id !== payload._id)]
         };
@@ -136,6 +134,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
+                img: state.status.img,
                 delete: "ERROR",
             },
         };
