@@ -11,7 +11,8 @@ import config from "../../config/globalConfig";
 import {
     getMediasApi,
     publishMediaApi,
-    deleteMediaApi
+    deleteMediaApi,
+    reportMediaApi
 } from "../api/medias";
 import {
     MEDIAS_GET,
@@ -24,7 +25,8 @@ import {
     MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
     MEDIAS_DELETE_ERROR,
-    MEDIAS_POST_ERROR
+    MEDIAS_POST_ERROR,
+    MEDIAS_REPORT
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -102,6 +104,25 @@ function* deleteMedia({payload}) {
     }
 }
 
+function* reportMedia({payload}) {
+    const cookies = new Cookies();
+    payload.token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token")
+    try {
+        const result = yield call(reportMediaApi, payload);
+        if (result.error !== undefined) {
+            throw result;
+        }
+        yield put({type: TOAST_SHOW, payload: {
+            type: "success",
+            timeout: 3000,
+            message: "Media successfully reported",
+            action: null
+        }});
+    } catch (error) {
+        // yield handleError(error);
+    }
+}
+
 function *getMediasWatcher() {
     yield takeEvery(MEDIAS_GET, getMedias);
 }
@@ -114,11 +135,16 @@ function* mediaDeleteWatcher() {
     yield takeEvery(MEDIAS_DELETE, deleteMedia);
 }
 
+function* mediaReportWatcher() {
+    yield takeEvery(MEDIAS_REPORT, reportMedia);
+}
+
 function* flow() {
     yield all([
         fork(getMediasWatcher),
         fork(mediaPublishWatcher),
-        fork(mediaDeleteWatcher)
+        fork(mediaDeleteWatcher),
+        fork(mediaReportWatcher)
     ]);
 }
 

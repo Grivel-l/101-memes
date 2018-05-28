@@ -13,3 +13,4 @@ export const MEDIAS_DELETE_SUCCESS = "medias.delete.success";
 export const MEDIAS_DELETE_ERROR = "medias.delete.error";
 export const NOTIFY_IMG_LOAD = "notify.img.load";
 export const MEDIAS_TOGGLE_SOUND = "medias.toggle.sound";
+export const MEDIAS_REPORT = "medias.report";

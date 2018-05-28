@@ -52,4 +52,16 @@ module.exports = (server, plugins, log, dtb) => {
                 res.send(500, {error: "Internal Server Error"});
             });
     });
+
+    server.post("/media/report", (req, res) => {
+        if (req.body.mediaId === undefined) {
+            return res.send(400, {error: "mediaId param is missing"});
+        }
+        medias.reportMedia(req.body.mediaId, req.author)
+            .then(() => res.send(200, {}))
+            .catch(err => {
+                log.error(err);
+                res.send(500, {error: "Internal Server Error"});
+            });
+    });
 };

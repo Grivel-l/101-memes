@@ -1,6 +1,8 @@
 const fs = require("fs");
 const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
+const nodemailer = require("nodemailer");
+
 const MediasModel = require("../models/Medias.model");
 const {fileMaxSize} = require("../../configs/global");
 
@@ -10,6 +12,7 @@ class MediasController {
         this.mediaDir = "./srcs/imgs/";
         this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
         this.admins = ["legrivel", "jmarquet"];
+        this.moderators =  ["legrivel@student.le-101.fr", "jmarquet@student.le-101.fr"];
     }
     
     getName() {
@@ -77,6 +80,28 @@ class MediasController {
                 }
                 return this.medias.deleteMedia(mediaId);
             });
+    }
+
+    reportMedia(mediaId, author) {
+        return new Promise((resolve, reject) => {
+            nodemailer.createTransport({
+                host: "127.0.0.1",
+                port: 25,
+                secure: false
+            })
+                .sendMail({
+                    from: "\"101_memes server\" <101_memes@le-101.fr>",
+                    to: this.moderators.join(", "),
+                    subject: "User report",
+                    text: `The media with id ${mediaId} has been reported by ${author}`,
+                    html: `The media with id <b>${mediaId}</b> has been reported by <a href="https://profile.intra.42.fr/users/${author}">${author}</a>`
+                }, error => {
+                    if (error !== null) {
+                        return reject(error);
+                    }
+                    resolve();
+                });
+        });
     }
 }
 

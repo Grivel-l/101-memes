@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 import Media from "../../containers/medias/media";
+import ReportButton from "../../containers/medias/reportButton";
 
 class MediaHover extends Component {
     constructor(props) {
@@ -70,6 +71,10 @@ class MediaHover extends Component {
                                     Delete
                                 </button>
                                 }
+                                <ReportButton
+                                    media={this.props.expand}
+                                    hideExpand={this.props.hideExpand}
+                                />
                             </div>
                         </div>
                     }
