@@ -10,14 +10,14 @@ import {
 
 import "./index.css";
 import App from "./app/containers/app";
-import registerServiceWorker from "./registerServiceWorker";
+import {unregister} from "./registerServiceWorker";
 import reducers from "./app/reducers/index";
 import sagas from "./app/sagas/index";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducers, compose(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(sagas);
-registerServiceWorker();
+unregister();
 
 render(
     (<Provider store={store} className={"wrapper"} >
