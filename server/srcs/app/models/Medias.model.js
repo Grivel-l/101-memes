@@ -10,6 +10,8 @@ class MediasModel {
             deleted: {type: Boolean, default: false},
             createDate: {type: Date, required: true}
         }));
+
+        this.fieldsToGet = ["name", "path", "author", "type",  "createDate"];
     }
 
     addFile(name, filepath, author, type) {
@@ -26,7 +28,7 @@ class MediasModel {
         page -= 1;
         return this.model.count({deleted: false})
             .then(total => {
-                return this.model.find({deleted: false}, null, {
+                return this.model.find({deleted: false}, this.fieldsToGet, {
                     limit,
                     skip: page * limit
                 })
@@ -36,7 +38,7 @@ class MediasModel {
     }
 
     getById(_id) {
-        return this.model.find({_id});
+        return this.model.find({_id}, this.fieldsToGet);
     }
 
     deleteMedia(_id) {
