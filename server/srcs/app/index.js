@@ -19,7 +19,7 @@ const server = restify.createServer();
 server.pre(cors.preflight);
 server.use(cors.actual);
 server.use(restify.plugins.queryParser({mapParams: true}));
-server.use(restify.plugins.bodyParser({rejectUnknown: true}));
+server.use(restify.plugins.bodyParser());
 server.use((req, res, next) => {
     if (req.body === undefined) {
         req.body = {};
