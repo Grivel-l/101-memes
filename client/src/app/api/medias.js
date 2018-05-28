@@ -17,7 +17,7 @@ export const deleteMediaApi = (mediaId, token) => {
     });
 };
 
-export const reportMediaApi = (body) => {
+export const reportMediaApi = body => {
     return fetch("/media/report", {
         body,
         method: "POST"
