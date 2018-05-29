@@ -2,14 +2,16 @@ const fs = require("fs");
 const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
 const MediasModel = require("../models/Medias.model");
+const UsersModel = require("../models/Users.model");
 const {fileMaxSize} = require("../../configs/global");
 
 class MediasController {
-    constructor(dtb) {
+    constructor(dtb, globalUsers) {
         this.medias = new MediasModel(dtb);
+        this.users = new UsersModel(dtb);
         this.mediaDir = "./srcs/imgs/";
         this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
-        this.admins = ["legrivel", "jmarquet"];
+        this.globalUsers = globalUsers;
     }
     
     getName() {
@@ -71,7 +73,7 @@ class MediasController {
                     throw {statusCode: 400};
                 }
                 if (media[0].author !== author) {
-                    if (this.admins.indexOf(author) === -1) {
+                    if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0) {
                         throw {statusCode: 400};
                     }
                 }
