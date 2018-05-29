@@ -5,6 +5,7 @@ const corsMiddleware = require("restify-cors-middleware");
 const routes = require("./routes/");
 const Database = require("./database");
 const ApiHelper = require("./helpers/api.helper");
+const UsersController = require("./controllers/Users.controller");
 
 const log = bunyan.createLogger({name: "101_memes"});
 const dtb = new Database(log);
@@ -37,7 +38,6 @@ server.listen(8080, () => {
     dtb.init()
         .then(mongoose => {
             require("./models/schemas/index")(mongoose);
-            const UsersController = require("./controllers/Users.controller");
             const users = new UsersController(mongoose);
             return users.updateUsers(globalUsers)
                 .then(() => {
