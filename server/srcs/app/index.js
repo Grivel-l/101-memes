@@ -54,7 +54,7 @@ server.listen(8080, () => {
                                 .catch(error => log.error(error));
                         }
                     });
-                    routes(server, restify.plugins, log, mongoose);
+                    routes(server, restify.plugins, log, mongoose, globalUsers);
                     log.info("Routes loaded");
                 });
         })
