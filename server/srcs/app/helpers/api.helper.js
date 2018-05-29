@@ -2,7 +2,7 @@ const {checkToken} = require("../api/token.api");
 
 class ApiHelper {
     checkToken(req, res, next, log) {
-        if (req.route.name !== "getsrcsimgs") {
+        if (req.route.name !== "getsrcsimgs" && process.env.NODE_ENV === "production") {
             checkToken(req.query.token || req.body.token)
                 .then(response => {
                     if (response.status !== 200) {
@@ -17,6 +17,9 @@ class ApiHelper {
                 });
         }
         else {
+            if (process.env.NODE_ENV === "development") {
+                req.author = process.env.LOGIN;
+            }
             next();
         }
     }
