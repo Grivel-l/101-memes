@@ -31,7 +31,7 @@ server.use((req, res, next) => {
     }
     next();
 });
-server.use((req, res, next) => apiHelper.checkToken(req, res, next, log));
+server.use((req, res, next) => apiHelper.checkToken(req, res, next, log, globalUsers));
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);
     dtb.init()
