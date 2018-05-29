@@ -1,3 +1,4 @@
+require("dotenv").config();
 const restify = require("restify");
 const bunyan = require("bunyan");
 const corsMiddleware = require("restify-cors-middleware");
