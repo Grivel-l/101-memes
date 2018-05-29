@@ -18,6 +18,11 @@ class UsersController {
         return this.users.insertUser(login, role)
             .then(() => this.updateUsers(globalUsers));
     }
+
+    deleteUser(login, globalUsers) {
+        return this.users.deleteUser(login)
+            .then(() => this.updateUsers(globalUsers));
+    }
 }
 
 module.exports = UsersController;

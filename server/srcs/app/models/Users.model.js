@@ -3,14 +3,14 @@ class UsersModel {
         this.model = mongoose.model("Users");
     }
 
-    getUsers(role = null, fields = []) {
-        return this.model.find(role === null ? {} : {role}, fields);
+    getUsers(statement = null, fields = []) {
+        return this.model.find(statement === null ? {} : statement, fields);
     }
 
     insertUser(login, role) {
-        return this.getUsers()
+        return this.getUsers({login})
             .then(users => {
-                if (users.filter(user => user.login === login).length === 0) {
+                if (users.length === 0) {
                     return this.model.create({
                         login,
                         role,
@@ -20,8 +20,18 @@ class UsersModel {
                     return this.model.update({login}, {
                         role,
                         updateDate: new Date()
-                    });
+                    }, {runValidators: true});
                 }
+            });
+    }
+
+    deleteUser(login) {
+        return this.getUsers({login})
+            .then(users => {
+                if (users.length === 0) {
+                    throw `No user named "${login}"`;
+                }
+                return this.model.deleteOne({login});
             });
     }
 }

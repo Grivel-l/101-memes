@@ -30,7 +30,7 @@ class MediasModel {
     }
 
     deleteMedia(_id) {
-        return schema.update({_id}, {deleted: true})
+        return schema.update({_id}, {deleted: true}, {runValidators: true})
             .then(() => this.getById(_id));
     }
 }
