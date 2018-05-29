@@ -11,7 +11,8 @@ const dtb = new Database(log);
 const apiHelper = new ApiHelper();
 const globalUsers = {
     admins: [],
-    banned: []
+    banned: [],
+    moderators: []
 };
 
 const cors = corsMiddleware({
@@ -40,7 +41,19 @@ server.listen(8080, () => {
             const users = new UsersController(mongoose);
             return users.updateUsers(globalUsers)
                 .then(() => {
-                    console.log(globalUsers);
+                    process.stdin.resume();
+                    process.stdin.setEncoding("utf8");
+                    process.stdin.on("data", text => {
+                        text = text.split(" ");
+                        if (text[0] === "setUser") {
+                            if (text.length !== 3) {
+                                return log.error("Usage: setUser login role");
+                            }
+                            users.insertUser(text[1], text[2].trim(), globalUsers)
+                                .then(() => log.info("User list updated: ", globalUsers))
+                                .catch(error => log.error(error));
+                        }
+                    });
                     routes(server, restify.plugins, log, mongoose);
                     log.info("Routes loaded");
                 });

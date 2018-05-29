@@ -13,6 +13,11 @@ class UsersController {
                 globalUsers.moderators = users.filter(user => user.role === "moderators");
             });
     }
+
+    insertUser(login, role, globalUsers) {
+        return this.users.insertUser(login, role)
+            .then(() => this.updateUsers(globalUsers));
+    }
 }
 
 module.exports = UsersController;
