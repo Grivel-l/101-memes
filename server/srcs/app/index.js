@@ -42,29 +42,31 @@ server.listen(8080, () => {
             const users = new UsersController(mongoose);
             return users.updateUsers(globalUsers)
                 .then(() => {
-                    process.stdin.resume();
                     process.stdin.setEncoding("utf8");
-                    process.stdin.on("data", text => {
-                        text = text.split(" ");
-                        if (text[0] === "setUser") {
-                            if (text.length !== 3) {
-                                return log.error("Usage: setUser login role");
+                    process.stdin.on("readable", () => {
+                        const chunk = process.stdin.read();
+                        if (chunk !== null) {
+                            const text = chunk.split(" ");
+                            if (text[0] === "setUser") {
+                                if (text.length !== 3) {
+                                    return log.error("Usage: setUser login role");
+                                }
+                                users.insertUser(text[1], text[2].trim(), globalUsers)
+                                    .then(() => log.info("User list updated: ", globalUsers))
+                                    .catch(error => log.error(error));
+                            } else if (text[0] === "deleteUser") {
+                                if (text.length !== 2) {
+                                    return log.error("Usage: deleteUser login");
+                                }
+                                users.deleteUser(text[1].trim(), globalUsers)
+                                    .then(() => log.info("User list update: ", globalUsers))
+                                    .catch(error => log.error(error));
+                            } else if (text[0].trim() === "listUsers") {
+                                if (text.length !== 1) {
+                                    return log.error("Usage: listUsers");
+                                }
+                                log.info("", globalUsers);
                             }
-                            users.insertUser(text[1], text[2].trim(), globalUsers)
-                                .then(() => log.info("User list updated: ", globalUsers))
-                                .catch(error => log.error(error));
-                        } else if (text[0] === "deleteUser") {
-                            if (text.length !== 2) {
-                                return log.error("Usage: deleteUser login");
-                            }
-                            users.deleteUser(text[1].trim(), globalUsers)
-                                .then(() => log.info("User list update: ", globalUsers))
-                                .catch(error => log.error(error));
-                        } else if (text[0].trim() === "listUsers") {
-                            if (text.length !== 1) {
-                                return log.error("Usage: listUsers");
-                            }
-                            log.info("", globalUsers);
                         }
                     });
                     routes(server, restify.plugins, log, mongoose, globalUsers);
