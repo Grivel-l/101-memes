@@ -62,7 +62,7 @@ class MediaHover extends Component {
                                         {this.props.expand.author}
                                     </a>
                                 </h3>
-                                {(this.props.login === this.props.expand.author || this.props.role === "admin") &&
+                                {(this.props.login === this.props.expand.author || this.props.role === "admin" || this.props.role === "moderator") &&
                                 <button type={"button"}
                                     className={"deleteButton"}
                                     onClick={this.deleteMedia}
