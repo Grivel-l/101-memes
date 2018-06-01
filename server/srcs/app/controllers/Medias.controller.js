@@ -62,6 +62,13 @@ class MediasController {
         return this.medias.getAll(page, limit)
             .then(result => {
                 result.author = author;
+                if (this.globalUsers.admins.filter(user => user.login === author).length !== 0) {
+                    result.role = "admin";
+                } else if (this.globalUsers.moderators.filter(user => user.login === author).length !== 0) {
+                    result.role = "moderator";
+                } else {
+                    result.role = "user";
+                }
                 return result;
             });
     }

@@ -62,7 +62,7 @@ class MediaHover extends Component {
                                         {this.props.expand.author}
                                     </a>
                                 </h3>
-                                {(this.props.login === this.props.expand.author || this.admins.indexOf(this.props.login) !== -1) &&
+                                {(this.props.login === this.props.expand.author || this.props.role === "admin" || this.props.role === "moderator") &&
                                 <button type={"button"}
                                     className={"deleteButton"}
                                     onClick={this.deleteMedia}
@@ -82,7 +82,8 @@ class MediaHover extends Component {
 MediaHover.propTypes = {
     expand: PropTypes.object,
     hideExpand: PropTypes.func,
-    login: PropTypes.string
+    login: PropTypes.string,
+    role: PropTypes.string
 };
 
 export default MediaHover;
