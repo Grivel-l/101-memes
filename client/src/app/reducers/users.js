@@ -3,7 +3,8 @@ import {
 } from "../actions/medias";
 
 const initialState = {
-    login: null
+    login: null,
+    role: "user"
 };
 
 const medias = (state = initialState, {type, payload}) => {
@@ -11,7 +12,8 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            login: payload.author
+            login: payload.author,
+            role: payload.role
         };
     default:
         return state;

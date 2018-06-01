@@ -5,7 +5,8 @@ import MediaHover from "../../components/medias/MediaHover";
 
 const mapStateToProps = ({users}) => {
     return {
-        login: users.login
+        login: users.login,
+        role: users.role
     };
 };
 
