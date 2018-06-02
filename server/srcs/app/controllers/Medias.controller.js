@@ -4,14 +4,17 @@ const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
 const nodemailer = require("nodemailer");
 
 const MediasModel = require("../models/Medias.model");
+const UsersModel = require("../models/Users.model");
 const {fileMaxSize} = require("../../configs/global");
 
 class MediasController {
-    constructor(dtb) {
+    constructor(dtb, globalUsers) {
         this.medias = new MediasModel(dtb);
+        this.users = new UsersModel(dtb);
         this.mediaDir = "./srcs/imgs/";
         this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
-        this.admins = ["legrivel", "jmarquet"];
+        
+        this.globalUsers = globalUsers;
         this.moderators =  ["legrivel@student.le-101.fr", "jmarquet@student.le-101.fr"];
     }
     
@@ -63,6 +66,13 @@ class MediasController {
         return this.medias.getAll(page, limit)
             .then(result => {
                 result.author = author;
+                if (this.globalUsers.admins.filter(user => user.login === author).length !== 0) {
+                    result.role = "admin";
+                } else if (this.globalUsers.moderators.filter(user => user.login === author).length !== 0) {
+                    result.role = "moderator";
+                } else {
+                    result.role = "user";
+                }
                 return result;
             });
     }
@@ -74,7 +84,7 @@ class MediasController {
                     throw {statusCode: 400};
                 }
                 if (media[0].author !== author) {
-                    if (this.admins.indexOf(author) === -1) {
+                    if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0) {
                         throw {statusCode: 400};
                     }
                 }

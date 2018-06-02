@@ -1,7 +1,7 @@
 const MediasController = require("../controllers/Medias.controller");
 
-module.exports = (server, plugins, log, dtb) => {
-    const medias = new MediasController(dtb);
+module.exports = (server, plugins, log, dtb, globalUsers) => {
+    const medias = new MediasController(dtb, globalUsers);
 
     server.get("/srcs/imgs/*", plugins.serveStatic({
         appendRequestPath: false,

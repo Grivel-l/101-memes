@@ -1,21 +1,13 @@
+const schema = require("mongoose").model("Medias");
 const config = require("../../configs/global");
 
 class MediasModel {
-    constructor(dtb) {
-        this.model = dtb.model("Medias", new dtb.Schema({
-            name: {type: String, maxLength: 50, trim: true, required: true},
-            path: {type: String, required: true},
-            author: {type: String, required: true},
-            type: {type: String, enum: ["video/mp4", "video/webm", "image/jpg", "image/jpeg", "image/png", "image/gif"], required: true},
-            deleted: {type: Boolean, default: false},
-            createDate: {type: Date, required: true}
-        }));
-
+    constructor() {
         this.fieldsToGet = ["name", "path", "author", "type",  "createDate"];
     }
 
     addFile(name, filepath, author, type) {
-        return this.model.create({
+        return schema.create({
             name,
             author,
             type,
@@ -26,9 +18,9 @@ class MediasModel {
 
     getAll(page = 1, limit = 20) {
         page -= 1;
-        return this.model.count({deleted: false})
+        return schema.count({deleted: false})
             .then(total => {
-                return this.model.find({deleted: false}, this.fieldsToGet, {
+                return schema.find({deleted: false}, this.fieldsToGet, {
                     limit,
                     skip: page * limit
                 })
@@ -38,11 +30,11 @@ class MediasModel {
     }
 
     getById(_id) {
-        return this.model.find({_id}, this.fieldsToGet);
+        return schema.find({_id}, this.fieldsToGet);
     }
 
     deleteMedia(_id) {
-        return this.model.update({_id}, {deleted: true})
+        return schema.update({_id}, {deleted: true}, {runValidators: true})
             .then(() => this.getById(_id));
     }
 }
