@@ -80,8 +80,8 @@ class MediasController {
                     throw {statusCode: 400};
                 }
                 if (media[0].author !== author) {
-                    if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0 ||
-                        this.globalUsers.moderators.filter(moderator => moderator.login === author).length) {
+                    if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0 &&
+                        this.globalUsers.moderators.filter(moderator => moderator.login === author).length === 0) {
                         throw {statusCode: 400};
                     }
                 }
