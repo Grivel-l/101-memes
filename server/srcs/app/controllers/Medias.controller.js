@@ -15,7 +15,6 @@ class MediasController {
         this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
         
         this.globalUsers = globalUsers;
-        this.moderators =  ["legrivel@student.le-101.fr", "jmarquet@student.le-101.fr"];
     }
     
     getName() {
@@ -93,7 +92,11 @@ class MediasController {
     }
 
     reportMedia(mediaId, author) {
+        const toSend = this.globalUsers.admins.map(user => `${user.login}@student.le-101.fr`).concat(this.globalUsers.moderators.map(user => `${user.login}@student.le-101.fr`));
         return new Promise((resolve, reject) => {
+            if (toSend.length === 0) {
+                resolve();
+            }
             nodemailer.createTransport({
                 host: "127.0.0.1",
                 port: 25,
@@ -101,7 +104,7 @@ class MediasController {
             })
                 .sendMail({
                     from: "\"101_memes server\" <101_memes@le-101.fr>",
-                    to: this.moderators.join(", "),
+                    to: toSend.join(", "),
                     subject: "User report",
                     text: `The media with id ${mediaId} has been reported by ${author}`,
                     html: `The media with id <b>${mediaId}</b> has been reported by <a href="https://profile.intra.42.fr/users/${author}">${author}</a>`
