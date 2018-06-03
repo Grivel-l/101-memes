@@ -27,30 +27,28 @@ server.pre(cors.preflight);
 server.use(cors.actual);
 server.use(restify.plugins.queryParser({mapParams: true}));
 server.use(restify.plugins.bodyParser());
-server.use((req, res, next) => {
-    if (req.connection.remoteAddress === "::ffff:127.0.0.1" || req.connection.remoteAddress === "::ffff:77.130.133.241") {
-        return next();
-    }
-    let idn = false;
-    Object.keys(req.headers).map(key => {
-        if (key.includes("user-agent")) {
-            idn = true;
-            if (req.headers[key] !== "Slackbot 1.0 (+https://api.slack.com/robots)") {
-                console.log(req);
-                console.log(req.connection.remoteAddress);
-                console.log(req.headers);
-                return res.send(418, {message: "T'es fou toi !"});
-            }
-        }
-    });
-    if (!idn) {
-        console.log(req);
-        console.log(req.connection.remoteAddress);
-        console.log(req.headers);
-        return res.send(418, {message: "T'es fou toi !"});
-    }
-    next();
-});
+// DO NOT DELETE
+// DO NOT DELETE
+// server.use((req, res, next) => {
+//     if (req.connection.remoteAddress === "::ffff:127.0.0.1" || req.connection.remoteAddress === "::ffff:77.130.133.241") {
+//         return next();
+//     }
+//     let idn = false;
+//     Object.keys(req.headers).map(key => {
+//         if (key.includes("user-agent")) {
+//             idn = true;
+//             if (req.headers[key] !== "Slackbot 1.0 (+https://api.slack.com/robots)") {
+//                 return res.send(418, {message: "T'es fou toi !"});
+//             }
+//         }
+//     });
+//     if (!idn) {
+//         return res.send(418, {message: "T'es fou toi !"});
+//     }
+//     next();
+// });
+// DO NOT DELETE
+// DO NOT DELETE
 server.use((req, res, next) => {
     if (req.body === undefined) {
         req.body = {};

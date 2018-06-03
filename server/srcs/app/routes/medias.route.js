@@ -59,7 +59,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             .catch(err => {
                 if (typeof err === "object") {
                     if (err.kind === "ObjectId" || err.statusCode === 404) {
-                        return res.send(404, "No media has been found");
+                        return res.send(200, "No media has been found");
                     }
                 }
                 log.error(err);
