@@ -96,7 +96,7 @@ class MediasController {
                     throw {statusCode: 404};
                 }
                 return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
-                    .then(media => "https://s1.qwant.com/thumbr/0x0/9/7/44fc735deb9f1d9f3d6a7fee4e0b3c1ddc3c8b5c6ec4bd9bd8adcfa2472d67/gros-chat.jpg?u=http%3A%2F%2Fwww.chat-mignon.com%2Fphotos%2Fgros-chat.jpg&q=0&b=1&p=0&a=1");
+                    .then(media => media.path);
             });
     }
 }
