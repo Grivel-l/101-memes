@@ -76,16 +76,27 @@ class MediasController {
     deleteMedia(mediaId, author) {
         return this.medias.getById(mediaId)
             .then(media => {
-                if (media.length === 0) {
+                if (media === null) {
                     throw {statusCode: 400};
                 }
-                if (media[0].author !== author) {
+                if (media.author !== author) {
                     if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0 &&
                         this.globalUsers.moderators.filter(moderator => moderator.login === author).length === 0) {
                         throw {statusCode: 400};
                     }
                 }
                 return this.medias.deleteMedia(mediaId);
+            });
+    }
+
+    getRandomUrl() {
+        return this.medias.count()
+            .then(nbr => {
+                if (nbr === 0) {
+                    throw {statusCode: 404};
+                }
+                return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
+                    .then(media => "https://s1.qwant.com/thumbr/0x0/9/7/44fc735deb9f1d9f3d6a7fee4e0b3c1ddc3c8b5c6ec4bd9bd8adcfa2472d67/gros-chat.jpg?u=http%3A%2F%2Fwww.chat-mignon.com%2Fphotos%2Fgros-chat.jpg&q=0&b=1&p=0&a=1");
             });
     }
 }

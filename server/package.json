@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --harmony --inspect srcs/app/index.js | bunyan",
+    "start": "NODE_ENV=development LOGIN=legrivel nodemon --harmony --inspect srcs/app/index.js | bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
