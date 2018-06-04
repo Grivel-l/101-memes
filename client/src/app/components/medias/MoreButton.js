@@ -33,11 +33,13 @@ class MoreButton extends Component {
                     </svg>
                 </div>
                 <div className={`moreContent ${this.state.toggled ? "on" : "off"}`}>
-                    <DeleteButton 
-                        media={this.props.media}
-                        hideExpand={this.props.hideExpand}
-                        deleteMedia={this.props.deleteMedia}
-                    />
+                    {(this.props.role === "admin" || this.props.login === this.props.media.author) &&
+                        <DeleteButton 
+                            media={this.props.media}
+                            hideExpand={this.props.hideExpand}
+                            deleteMedia={this.props.deleteMedia}
+                        />
+                    }
                     <ReportButton
                         media={this.props.media}
                         hideExpand={this.props.hideExpand}
@@ -50,6 +52,8 @@ class MoreButton extends Component {
 }
 
 MoreButton.propTypes = {
+    login: PropTypes.string,
+    role: PropTypes.string,
     media: PropTypes.object.isRequired,
     hideExpand: PropTypes.func.isRequired,
     deleteMedia: PropTypes.func.isRequired,

@@ -2,8 +2,11 @@
 @import "utilities/cross-browser.scss";
 
 .moreButton {
+   
     &.smallButton {
         .moreHeader {
+            @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
+            background-color: rgba(255, 255, 255, 0);
             height: 60px;
             width: calc(100% - 6px);
             display: flex;
@@ -14,6 +17,21 @@
             svg {
                 display: none;
             }
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.8);
+                color: #121419;
+            }
+        }
+        &.on {
+            .moreHeader {
+                background-color: rgba(255, 255, 255, 1);
+                color: #121419;
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.8);
+                    color: #121419;
+                }
+            }
+
         }
         display: none;
         width: 100%;
@@ -32,7 +50,8 @@
                 max-height: 0;
             }
             .moreOption {
-                background-color: transparent;
+                @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
+                background-color: rgba(255, 255, 255, 0);
                 border-width: 0px 3px 3px 3px;
                 border-style: solid;
                 border-color: #fff;
@@ -42,6 +61,13 @@
                 width: 100%;
                 height: 60px;
                 flex-shrink: 0;
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.8);
+                    color: #121419;
+                }
+                &.deleteButton {
+                    color: $warningColor;
+                }
             }
         }
     }
