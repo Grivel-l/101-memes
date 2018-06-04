@@ -76,16 +76,27 @@ class MediasController {
     deleteMedia(mediaId, author) {
         return this.medias.getById(mediaId)
             .then(media => {
-                if (media.length === 0) {
+                if (media === null) {
                     throw {statusCode: 400};
                 }
-                if (media[0].author !== author) {
+                if (media.author !== author) {
                     if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0 &&
                         this.globalUsers.moderators.filter(moderator => moderator.login === author).length === 0) {
                         throw {statusCode: 400};
                     }
                 }
                 return this.medias.deleteMedia(mediaId);
+            });
+    }
+
+    getRandomUrl() {
+        return this.medias.count()
+            .then(nbr => {
+                if (nbr === 0) {
+                    throw {statusCode: 404};
+                }
+                return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
+                    .then(media => media.path);
             });
     }
 }

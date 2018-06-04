@@ -2,6 +2,13 @@ const schema = require("mongoose").model("Medias");
 const config = require("../../configs/global");
 
 class MediasModel {
+    constructor() {
+        this.condition = {
+            deleted: false
+        };
+        this.fieldsToGet = ["name", "path", "author", "type",  "createDate"]; 
+    }
+
     addFile(name, filepath, author, type) {
         return schema.create({
             name,
@@ -14,9 +21,9 @@ class MediasModel {
 
     getAll(page = 1, limit = 20) {
         page -= 1;
-        return schema.count({deleted: false})
+        return schema.count(this.condition)
             .then(total => {
-                return schema.find({deleted: false}, null, {
+                return schema.find(this.condition, null, {
                     limit,
                     skip: page * limit
                 })
@@ -26,12 +33,20 @@ class MediasModel {
     }
 
     getById(_id) {
-        return schema.find({_id});
+        return schema.findById(_id);
     }
 
     deleteMedia(_id) {
         return schema.update({_id}, {deleted: true}, {runValidators: true})
             .then(() => this.getById(_id));
+    }
+
+    count() {
+        return schema.count(this.condition);
+    }
+
+    findAndSkip(rand) {
+        return schema.findOne(this.condition, this.fieldsToGet).skip(rand);
     }
 }
 

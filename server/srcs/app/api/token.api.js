@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 const config = require("../../configs/global");
 
 module.exports = {
-    checkToken: token => {
+    checkApiToken: token => {
         return fetch(`${config.apiEndpoint}/me`, {
             method: "GET",
             headers: {
