@@ -15,24 +15,26 @@ class ReportButton extends Component {
         }
     }
 
+
     render() {
         if (this.props.hide) {
             return (null);
         }
         return (
-            <div style={{backgroundColor: "purple", height: "50px", width: "50px"}} onClick={this.reportMedia}>
-            </div>
+            <button type={"button"}
+                className={"moreOption reportButton"}
+                onClick={this.reportMedia}>
+                Report
+            </button>
         );
     }
 }
 
 ReportButton.propTypes = {
-    hide: PropTypes.bool,
     media: PropTypes.object.isRequired,
+    hideExpand: PropTypes.func.isRequired,
     reportMedia: PropTypes.func.isRequired,
-    hideExpand: PropTypes.func.isRequired
 };
-
 ReportButton.defaultProps = {
     hide: false
 };

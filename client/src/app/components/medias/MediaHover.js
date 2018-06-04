@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 import Media from "../../containers/medias/media";
-import ReportButton from "../../containers/medias/reportButton";
+import MoreButton from "../../containers/medias/moreButton";
 
 class MediaHover extends Component {
     constructor(props) {
@@ -10,14 +10,6 @@ class MediaHover extends Component {
 
         this.admins = ["legrivel", "jmarquet"];
         this.quitHover = this.quitHover.bind(this);
-        this.deleteMedia = this.deleteMedia.bind(this);
-    }
-
-    deleteMedia() {
-        if (window.confirm("Are you sure you want to delete this media ?")) {
-            this.props.deleteMedia({id: this.props.expand._id, index: this.props.expand.index});
-            this.props.hideExpand();
-        }
     }
 
     quitHover(event) {
@@ -51,6 +43,8 @@ class MediaHover extends Component {
                                     clickable={false}
                                     media={this.props.expand}
                                     className={"expandedMediaImg"}
+                                    hideExpand={this.props.hideExpand}
+                                    expanded={true}
                                 />
                             </div>
                             <div className={"mediaDesc"}>
@@ -63,18 +57,8 @@ class MediaHover extends Component {
                                         {this.props.expand.author}
                                     </a>
                                 </h3>
-                                {(this.props.login === this.props.expand.author || this.admins.indexOf(this.props.login) !== -1) &&
-                                <button type={"button"}
-                                    className={"deleteButton"}
-                                    onClick={this.deleteMedia}
-                                >
-                                    Delete
-                                </button>
-                                }
-                                <ReportButton
-                                    media={this.props.expand}
-                                    hideExpand={this.props.hideExpand}
-                                />
+                                <MoreButton media={this.props.expand}
+                                    hideExpand={this.props.hideExpand}/>
                             </div>
                         </div>
                     }

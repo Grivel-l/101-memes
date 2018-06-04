@@ -238,26 +238,6 @@ body {
                     }
                     
                 }
-                .deleteButton {
-                    max-width: 300px;
-                    min-width: 150px;
-                    width: 100%;
-                    color: white;
-                    outline-width: 0;
-                    @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
-                    background-color: rgba($color: #ff3939, $alpha: 0);
-                    border: 5px solid rgba($color: #ff3939, $alpha: 1);
-                    text-transform: uppercase;
-                    color: #ff3939;
-                    font-weight: bolder;
-                    font-size: 25px;
-                    padding: 15px 0px;
-                    cursor: pointer;
-                    &:hover {
-                        background-color: rgba($color: #ff3939, $alpha: 1);
-                        color: #fff;
-                    }
-                }
             }
         }
     }
@@ -271,5 +251,8 @@ body {
     svg {
         fill: #ffffff;
         filter: drop-shadow(3px 3px 3px #000000 );
+        &:hover {
+            fill: darken(#fff, 15%);
+        }
     }
 }
