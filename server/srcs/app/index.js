@@ -79,6 +79,5 @@ mongoose.connection.on("connected", () => initServer(mongoose));
 server.listen(8080, () => {
     log.info(`Server listening at ${server.url}`);
     dtb.init()
-        .then(initServer)
         .catch(error => log.error(error));
 });
