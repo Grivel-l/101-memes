@@ -1,4 +1,4 @@
-const {checkToken} = require("../api/token.api");
+const {checkApiToken} = require("../api/token.api");
 
 function isBanned(login, globalUsers) {
     return globalUsers.banned.filter(user => user.login === login).length > 0;
@@ -12,9 +12,10 @@ class ApiHelper {
             } else if (isBanned(req.body.user_name, globalUsers)) {
                 return res.send(200, "You are just banned");
             }
+            return next();
         }
         if (req.route.name !== "getsrcsimgs" && process.env.NODE_ENV === "production") {
-            checkToken(req.query.token || req.body.token)
+            checkApiToken(req.query.token || req.body.token)
                 .then(response => {
                     if (response.status !== 200) {
                         return res.send(response.status, {message: response.error});
