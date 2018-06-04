@@ -95,7 +95,7 @@ class MediasController {
         const toSend = this.globalUsers.admins.map(user => `${user.login}@student.le-101.fr`).concat(this.globalUsers.moderators.map(user => `${user.login}@student.le-101.fr`));
         return new Promise((resolve, reject) => {
             if (toSend.length === 0) {
-                resolve();
+                return resolve();
             }
             nodemailer.createTransport({
                 host: "127.0.0.1",
