@@ -9,7 +9,9 @@ module.exports = dtb => {
             required : true,
             validate : {
                 validator : function(array) {
-                    return (array.length <= 3 && array.every((v) => typeof v === "string"));
+                    return (array.length <= 3 && array.every((v) => {
+                        return (typeof v === "string" && v.length <= 25); 
+                    }));
                 }
             }
         },
