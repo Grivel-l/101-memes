@@ -12,28 +12,31 @@ class TagsForm extends Component {
         this.renderTagsInput = this.renderTagsInput.bind(this);
 
         this.state = {
-            isInit: false,
-            tagsArray: [],
+            tagsArray: []
         };
     }
 
-    componentDidUpdate(nextProps, nextState) {
-        if (nextState.isInit) {
-            this.props.updateTags(this.state.tagsArray);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.reset === true) {
+            this.setState({
+                tagsArray: [],
+            });
         }
+    }
+
+    componentDidUpdate() {
+        this.props.updateTags(this.state.tagsArray);
     }
 
     handleDelete(index) {
         this.setState({
-            tagsArray: update(this.state.tagsArray, {$splice: [[index, 1]]}),
-            isInit: true
+            tagsArray: update(this.state.tagsArray, {$splice: [[index, 1]]})
         });
     }
 
     handleUpdate(index, event) {
         this.setState({
-            tagsArray: update(this.state.tagsArray, {[index]: {$set: event.target.value}}),
-            isInit: true
+            tagsArray: update(this.state.tagsArray, {[index]: {$set: event.target.value}})
         });
     }
 
@@ -85,7 +88,8 @@ class TagsForm extends Component {
 }
 
 TagsForm.propTypes = {
-    updateTags: PropTypes.func.isRequired
+    updateTags: PropTypes.func.isRequired,
+    reset: PropTypes.bool,
 };
 
 export default TagsForm;

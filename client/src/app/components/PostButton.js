@@ -125,7 +125,7 @@ class PostButton extends Component {
                             className={"nameInput postInput"}
                             maxLength={50}
                         />
-                        <TagsForm />
+                        <TagsForm reset={this.state.active === false}/>
                         <div
                             className={"postButton finalPostButton"}
                             onClick={this.publishMedia}
