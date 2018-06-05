@@ -33,7 +33,7 @@ class MediasModel {
     }
 
     getById(_id) {
-        return schema.find({_id}, this.fieldsToGet);
+        return schema.findById(_id, this.fieldsToGet);
     }
 
     deleteMedia(_id) {
