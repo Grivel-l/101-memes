@@ -78,6 +78,7 @@ class PostButton extends Component {
             const form = new FormData();
             form.append("name", this.filename.value);
             form.append("media", this.state.tmpImg.file);
+            form.append("tags", this.props.tagsArray);
             this.props.publishMedia(form);
             this.filename.value = "";
             this.setState({
