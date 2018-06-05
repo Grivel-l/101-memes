@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import config from "../../config/globalConfig";
 import Media from "../containers/medias/media";
+import TagsForm from "../containers/tagsForm";
 import placeholder from "../../imgs/imgPlaceholder.svg";
 import "../scss/postbutton.css";
 
@@ -13,7 +14,8 @@ class PostButton extends Component {
         this.state = {
             active: false,
             tmpImg: null,
-            showLoader: false
+            showLoader: false,
+            tags: []
         };
         this.filename = null;
         this.showImage = this.showImage.bind(this);
@@ -121,6 +123,7 @@ class PostButton extends Component {
                             className={"nameInput postInput"}
                             maxLength={50}
                         />
+                        <TagsForm updateTags={this.updateTags} tagsArray={this.props.tagsArray}/>
                         <div
                             className={"postButton finalPostButton"}
                             onClick={this.publishMedia}
@@ -158,7 +161,8 @@ class PostButton extends Component {
 PostButton.propTypes = {
     publishMedia: PropTypes.func,
     error: PropTypes.object,
-    showToast: PropTypes.func
+    showToast: PropTypes.func,
+    tagsArray: PropTypes.arrayOf(String).isRequired,
 };
 
 export default PostButton;
