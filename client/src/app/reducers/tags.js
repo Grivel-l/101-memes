@@ -11,7 +11,7 @@ const tags = (state = initialState, {type, payload}) => {
     case UPDATE_TAGS:
         return {
             ...state,
-            payload
+            tagsArray: payload
         };
     default:
         return state;

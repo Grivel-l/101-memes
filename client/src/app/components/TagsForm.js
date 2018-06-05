@@ -12,13 +12,21 @@ class TagsForm extends Component {
         this.renderTagsInput = this.renderTagsInput.bind(this);
 
         this.state = {
+            isInit: false,
             tagsArray: [],
         };
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        if (nextState.isInit) {
+            this.props.updateTags(this.state.tagsArray);
+        }
+    }
+
     handleUpdate(index, event) {
         this.setState({
-            tagsArray: update(this.state.tagsArray, {[index]: {$set: event.target.value}})
+            tagsArray: update(this.state.tagsArray, {[index]: {$set: event.target.value}}),
+            isInit: true
         });
     }
 

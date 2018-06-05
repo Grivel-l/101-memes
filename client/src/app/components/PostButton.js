@@ -28,7 +28,8 @@ class PostButton extends Component {
             this.state.active !== nextState.active ||
             this.state.tmpImg !== nextState.tmpImg ||
             this.state.showLoader !== nextState.showLoader ||
-            this.props.error.status !== nextProps.error.status
+            this.props.error.status !== nextProps.error.status ||
+            this.props.tagsArray !== nextProps.tagsArray
         );
     }
 
