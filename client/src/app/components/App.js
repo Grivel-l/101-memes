@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
 import Loader from "./Loader";
-import MediaHover from "../containers/medias/mediaHover";
+import MediaHover from "./medias/MediaHover";
 import MediaBlock from "./medias/MediaBlock";
 import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
@@ -41,7 +41,9 @@ class App extends Component {
     }
 
     componentDidUpdate() {
-        this.adjustDivSize();
+        setTimeout(()=> {
+            this.adjustDivSize();
+        }, 100);
     }
 
     keyDown({keyCode}) {
@@ -106,7 +108,6 @@ class App extends Component {
 App.propTypes = {
     data: PropTypes.array,
     pageNbr: PropTypes.number,
-    //status: PropTypes.object,
     getMedias: PropTypes.func,
     hideExpand: PropTypes.func,
     showToast: PropTypes.func

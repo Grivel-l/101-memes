@@ -16,3 +16,10 @@ export const deleteMediaApi = (mediaId, token) => {
         method: "DELETE"
     });
 };
+
+export const reportMediaApi = body => {
+    return fetch("/media/report", {
+        body,
+        method: "POST"
+    });
+};

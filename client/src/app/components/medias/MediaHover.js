@@ -2,21 +2,13 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 import Media from "../../containers/medias/media";
+import MoreButton from "../../containers/medias/moreButton";
 
 class MediaHover extends Component {
     constructor(props) {
         super(props);
 
-        this.admins = ["legrivel", "jmarquet"];
         this.quitHover = this.quitHover.bind(this);
-        this.deleteMedia = this.deleteMedia.bind(this);
-    }
-
-    deleteMedia() {
-        if (window.confirm("Are you sure you want to delete this media ?")) {
-            this.props.deleteMedia({id: this.props.expand._id, index: this.props.expand.index});
-            this.props.hideExpand();
-        }
     }
 
     quitHover(event) {
@@ -50,6 +42,8 @@ class MediaHover extends Component {
                                     clickable={false}
                                     media={this.props.expand}
                                     className={"expandedMediaImg"}
+                                    hideExpand={this.props.hideExpand}
+                                    expanded={true}
                                 />
                             </div>
                             <div className={"mediaDesc"}>
@@ -62,14 +56,9 @@ class MediaHover extends Component {
                                         {this.props.expand.author}
                                     </a>
                                 </h3>
-                                {(this.props.login === this.props.expand.author || this.props.role === "admin" || this.props.role === "moderator") &&
-                                <button type={"button"}
-                                    className={"deleteButton"}
-                                    onClick={this.deleteMedia}
-                                >
-                                    Delete
-                                </button>
-                                }
+                                <MoreButton media={this.props.expand}
+                                    hideExpand={this.props.hideExpand}
+                                />
                             </div>
                         </div>
                     }
@@ -81,9 +70,7 @@ class MediaHover extends Component {
 
 MediaHover.propTypes = {
     expand: PropTypes.object,
-    hideExpand: PropTypes.func,
-    login: PropTypes.string,
-    role: PropTypes.string
+    hideExpand: PropTypes.func
 };
 
 export default MediaHover;

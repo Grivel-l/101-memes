@@ -5,13 +5,13 @@ import {
     takeEvery,
     fork
 } from "redux-saga/effects";
-import Cookies from "universal-cookie";
 
-import config from "../../config/globalConfig";
+import apiCall from "../helpers/apiCall";
 import {
     getMediasApi,
     publishMediaApi,
-    deleteMediaApi
+    deleteMediaApi,
+    reportMediaApi
 } from "../api/medias";
 import {
     MEDIAS_GET,
@@ -24,82 +24,51 @@ import {
     MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
     MEDIAS_DELETE_ERROR,
-    MEDIAS_POST_ERROR
+    MEDIAS_POST_ERROR,
+    MEDIAS_REPORT
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
-function* handleError(error) {
-    if (error.status === 403 || error.status === 401) {
-        document.location = config.redirectionUrl;
-    }
-    yield put({type: TOAST_SHOW, payload: {
-        message: error.error || "An error occured",
-        type: "error",
-        timeout: 3000,
-        action: null
-    }});
-}
-
 function *getMedias({payload}) {
-    const cookies = new Cookies();
-    const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
-    try {
-        const result = yield call(getMediasApi, payload, token);
-        if (result.error !== undefined) {
-            yield put({type: MEDIAS_GET_ERROR});
-            throw result;
-        }
-        yield put({payload: result, type: MEDIAS_GET_SUCCESS});
-    }
-    catch (error) {
-        yield handleError(error);
-    }
+    yield call(apiCall, getMediasApi, payload, MEDIAS_GET_ERROR, MEDIAS_GET_SUCCESS);
 }
 
 function* publishMedia({payload}) {
-    const cookies = new Cookies();
-    const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
-    try {
-        yield put({type: MEDIAS_POST_PENDING});
-        payload.append("token", token);
-        const result = yield call(publishMediaApi, payload);
-        if (result.error !== undefined) {
-            yield put({type: MEDIAS_POST_ERROR});
-            throw result;
-        }
-        yield put({type: TOAST_SHOW, payload: {
+    yield put({type: MEDIAS_POST_PENDING});
+    yield call(apiCall, publishMediaApi, payload, MEDIAS_POST_ERROR, MEDIAS_POST_SUCCESS, {
+        type: TOAST_SHOW,
+        payload: {
             type: "success",
             timeout: 3000,
             message: "Media successfully uploaded",
             action: null
-        }});
-        yield put({type: MEDIAS_POST_SUCCESS, payload: result});
-    }
-    catch (error) {
-        yield handleError(error);
-    }
+        }
+    });
 }
 
 function* deleteMedia({payload}) {
-    const cookies = new Cookies();
-    const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
-    try {
-        yield put({type: MEDIAS_DELETE_PENDING, payload: payload.index});
-        const result = yield call(deleteMediaApi, payload.id, token);
-        if (result.error !== undefined) {
-            yield put({type: MEDIAS_DELETE_ERROR});
-            throw result;
-        }
-        yield put({type: TOAST_SHOW, payload: {
+    yield put({type: MEDIAS_DELETE_PENDING, payload: payload.index});
+    yield call(apiCall, deleteMediaApi, payload.id, MEDIAS_DELETE_ERROR, MEDIAS_DELETE_SUCCESS, {
+        type: TOAST_SHOW,
+        payload: {
             type: "success",
             timeout: 3000,
             message: "Media successfully deleted",
             action: null
-        }});
-        yield put({type: MEDIAS_DELETE_SUCCESS, payload: result});
-    } catch (error) {
-        yield handleError(error);
-    }
+        }
+    });
+}
+
+function* reportMedia({payload}) {
+    yield call(apiCall, reportMediaApi, payload, null, null, {
+        type: TOAST_SHOW,
+        payload: {
+            type: "success",
+            timeout: 3000,
+            message: "Media successfully reported",
+            action: null
+        }
+    });
 }
 
 function *getMediasWatcher() {
@@ -114,11 +83,16 @@ function* mediaDeleteWatcher() {
     yield takeEvery(MEDIAS_DELETE, deleteMedia);
 }
 
+function* mediaReportWatcher() {
+    yield takeEvery(MEDIAS_REPORT, reportMedia);
+}
+
 function* flow() {
     yield all([
         fork(getMediasWatcher),
         fork(mediaPublishWatcher),
-        fork(mediaDeleteWatcher)
+        fork(mediaDeleteWatcher),
+        fork(mediaReportWatcher)
     ]);
 }
 

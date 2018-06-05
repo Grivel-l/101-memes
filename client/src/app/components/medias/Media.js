@@ -1,6 +1,8 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
+import MoreButton from "../../containers/medias/moreButton";
+
 class Media extends Component {
     constructor(props) {
         super(props);
@@ -80,6 +82,14 @@ class Media extends Component {
                             }
                         }}
                     />
+                    {this.props.expanded && 
+                        <MoreButton media={this.props.media}
+                            hideExpand={this.props.hideExpand}
+                            small={false}
+                            login={this.props.role}
+                            role={this.props.role}
+                        />
+                    }
                     {this.state.hasAudio  &&
                         <div className={"soundButton"} onClick={this.toggleSound}>
                             {this.state.muted
@@ -91,25 +101,36 @@ class Media extends Component {
             );
         } else {
             return (
-                <img
-                    src={this.props.media.path}
-                    alt={this.props.media.name}
-                    onClick={this.expand}
-                    onLoad={() => {
-                        this.props.notifyImgLoad();
-                    }}
-                    className={this.props.className || null}
-                />
+                <Fragment>
+                    <img
+                        src={this.props.media.path}
+                        alt={this.props.media.name}
+                        onClick={this.expand}
+                        onLoad={() => {
+                            this.props.notifyImgLoad();
+                        }}
+                        className={this.props.className || null}
+                    />
+                    {this.props.expanded && 
+                        <MoreButton media={this.props.media}
+                            hideExpand={this.props.hideExpand}
+                            small={false}
+                        />
+                    }
+                </Fragment>
             );
         }
     }
 }
 
 Media.defaultProps = {
-    muted: true
+    muted: true,
+    expanded: false
 };
 
 Media.propTypes = {
+    hideExpand: PropTypes.func,
+    expanded: PropTypes.bool,
     media: PropTypes.object.isRequired,
     expandMedia: PropTypes.func.isRequired,
     clickable: PropTypes.bool,

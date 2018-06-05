@@ -9,9 +9,12 @@ class Loader extends Component {
     constructor(props) {
         super(props);
         this.transparent = false;
+        this.state = {
+            in: this.props.in,
+        };
     }
     shouldComponentUpdate(nextProps) {
-        return nextProps.in !== this.props.in;
+        return nextProps.in !== this.state.in;
     }
     componentWillMount() {
         if (this.props.in) {
@@ -19,14 +22,23 @@ class Loader extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        
-        if (nextProps.in) {
+        if (!nextProps.in) {
+            setTimeout(()=> {
+                this.setState({
+                    in: nextProps.in
+                });
+            }, 100);
+        }
+        else {
             this.transparent = nextProps.transparent;
+            this.setState({
+                in: nextProps.in
+            });
         }
     }
     render() {
         return (
-            <Transition in={this.props.in} timeout={0}>
+            <Transition in={this.state.in} timeout={0}>
                 {(status) => (
                     <div className={`${this.transparent ? "transparent" : ""} ${this.props.name ? `loader${this.props.name}` : ""} loader ${status}`} />
                 )}

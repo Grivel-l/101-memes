@@ -53,17 +53,27 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             });
     });
 
+    server.post("/media/report", (req, res) => {
+        if (req.body.mediaId === undefined) {
+            return res.send(400, {error: "mediaId param is missing"});
+        }
+        medias.reportMedia(req.body.mediaId, req.author)
+            .then(() => res.send(200, {}))
+            .catch(err => {
+                log.error(err);
+                res.send(500, {error: "Internal Server Error"});
+            });
+    });
+
     server.post("/media/slack/random", (req, res) => {
         medias.getRandomUrl()
-            .then(image_url => res.send(200, {attachments: [{image_url}]}))
+            .then(imageUrl => res.send(200, {attachments: [{imageUrl}]}))
             .catch(err => {
                 if (typeof err === "object") {
                     if (err.kind === "ObjectId" || err.statusCode === 404) {
                         return res.send(200, "No media has been found");
                     }
                 }
-                log.error(err);
-                res.send(500, {error: "Internal Server Error"});
             });
     });
 };

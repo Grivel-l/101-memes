@@ -1,6 +1,8 @@
 const fs = require("fs");
 const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
+const nodemailer = require("nodemailer");
+
 const MediasModel = require("../models/Medias.model");
 const UsersModel = require("../models/Users.model");
 const {fileMaxSize} = require("../../configs/global");
@@ -11,6 +13,7 @@ class MediasController {
         this.users = new UsersModel(dtb);
         this.mediaDir = "./srcs/imgs/";
         this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
+        
         this.globalUsers = globalUsers;
     }
     
@@ -89,6 +92,32 @@ class MediasController {
             });
     }
 
+    reportMedia(mediaId, author) {
+        const toSend = this.globalUsers.admins.map(user => `${user.login}@student.le-101.fr`).concat(this.globalUsers.moderators.map(user => `${user.login}@student.le-101.fr`));
+        return new Promise((resolve, reject) => {
+            if (toSend.length === 0) {
+                return resolve();
+            }
+            nodemailer.createTransport({
+                host: "127.0.0.1",
+                port: 25,
+                secure: false
+            })
+                .sendMail({
+                    from: "\"101_memes server\" <101_memes@le-101.fr>",
+                    to: toSend.join(", "),
+                    subject: "User report",
+                    text: `The media with id ${mediaId} has been reported by ${author}`,
+                    html: `The media with id <b>${mediaId}</b> has been reported by <a href="https://profile.intra.42.fr/users/${author}">${author}</a>`
+                }, error => {
+                    if (error !== null) {
+                        return reject(error);
+                    }
+                    resolve();
+                });
+        });
+    }
+  
     getRandomUrl() {
         return this.medias.count()
             .then(nbr => {
@@ -98,6 +127,7 @@ class MediasController {
                 return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
                     .then(media => media.path);
             });
+
     }
 }
 

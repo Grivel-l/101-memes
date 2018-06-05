@@ -99,7 +99,7 @@
 .nameInput {
     width: 100%;
     height: 50px;
-    font-size: 2em;
+    font-size: 25px;    
     margin: 20px 0;
     width: 100%;
 }
@@ -127,7 +127,7 @@
         position: initial;
         height: 60px;
         width: 100%;
-        font-size: 4vh;
+        font-size: 25px;        
         &:before {
             content: "Upload";
         }
@@ -140,7 +140,7 @@
         color: #fff;
         padding: 10px 0px;
         outline-width: 0;
-        font-size: 5vh;
+        font-size: 25px;        
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
             color: #fff;
             opacity: 0.8; /* Firefox */
