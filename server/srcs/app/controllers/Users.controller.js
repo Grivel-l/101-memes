@@ -10,7 +10,7 @@ class UsersController {
             .then(users => {
                 globalUsers.admins = users.filter(user => user.role === "admin");
                 globalUsers.banned = users.filter(user => user.role === "banned");
-                globalUsers.moderators = users.filter(user => user.role === "moderators");
+                globalUsers.moderators = users.filter(user => user.role === "moderator");
             });
     }
 
