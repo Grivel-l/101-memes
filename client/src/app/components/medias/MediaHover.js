@@ -44,8 +44,6 @@ class MediaHover extends Component {
                                     className={"expandedMediaImg"}
                                     hideExpand={this.props.hideExpand}
                                     expanded={true}
-                                    login={this.props.login}
-                                    role={this.props.role}
                                 />
                             </div>
                             <div className={"mediaDesc"}>
@@ -60,8 +58,7 @@ class MediaHover extends Component {
                                 </h3>
                                 <MoreButton media={this.props.expand}
                                     hideExpand={this.props.hideExpand}
-                                    login={this.props.login}
-                                    role={this.props.role}/>
+                                />
                             </div>
                         </div>
                     }
@@ -73,9 +70,7 @@ class MediaHover extends Component {
 
 MediaHover.propTypes = {
     expand: PropTypes.object,
-    hideExpand: PropTypes.func,
-    login: PropTypes.string,
-    role: PropTypes.string
+    hideExpand: PropTypes.func
 };
 
 export default MediaHover;

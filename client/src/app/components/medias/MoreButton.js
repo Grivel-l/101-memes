@@ -8,7 +8,6 @@ import "../../scss/moreButton.css";
 class MoreButton extends Component {
     constructor(props) {
         super(props);
-        
         this.state = {
             toggled: false
         };
@@ -33,7 +32,7 @@ class MoreButton extends Component {
                     </svg>
                 </div>
                 <div className={`moreContent ${this.state.toggled ? "on" : "off"}`}>
-                    {(this.props.role === "admin" || this.props.login === this.props.media.author) &&
+                    {(this.props.role === "admin" || this.props.role === "moderator" || this.props.login === this.props.media.author) &&
                         <DeleteButton 
                             media={this.props.media}
                             hideExpand={this.props.hideExpand}

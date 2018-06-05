@@ -28,9 +28,7 @@ class Media extends Component {
             this.props.media._id !== nextProps.media._id ||
             this.props.media.path !== nextProps.media.path ||
             this.props.clickable !== nextProps.clickable || 
-            this.props.className !== nextProps.className ||
-            this.props.login !== nextProps.login ||
-            this.props.role !== nextProps.role);
+            this.props.className !== nextProps.className);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -117,8 +115,6 @@ class Media extends Component {
                         <MoreButton media={this.props.media}
                             hideExpand={this.props.hideExpand}
                             small={false}
-                            login={this.props.login}
-                            role={this.props.role}
                         />
                     }
                 </Fragment>
@@ -141,9 +137,7 @@ Media.propTypes = {
     className: PropTypes.string,
     toggleSound: PropTypes.func.isRequired,
     gotSound: PropTypes.string,
-    muted: PropTypes.bool,
-    login: PropTypes.string,
-    role: PropTypes.string
+    muted: PropTypes.bool
 };
 
 export default Media;
