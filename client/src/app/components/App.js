@@ -41,7 +41,9 @@ class App extends Component {
     }
 
     componentDidUpdate() {
-        this.adjustDivSize();
+        setTimeout(()=> {
+            this.adjustDivSize();
+        }, 100);
     }
 
     keyDown({keyCode}) {
