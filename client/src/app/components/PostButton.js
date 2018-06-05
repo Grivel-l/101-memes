@@ -123,7 +123,7 @@ class PostButton extends Component {
                             className={"nameInput postInput"}
                             maxLength={50}
                         />
-                        <TagsForm updateTags={this.updateTags} tagsArray={this.props.tagsArray}/>
+                        <TagsForm />
                         <div
                             className={"postButton finalPostButton"}
                             onClick={this.publishMedia}
