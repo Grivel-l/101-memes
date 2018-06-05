@@ -6,7 +6,12 @@ module.exports = dtb => {
         type: {type: String, enum: ["video/mp4", "video/webm", "image/jpg", "image/jpeg", "image/png", "image/gif"], required: true},
         tags: {
             type: Array,
-            of: String,
+            of: {
+                type: String,
+                validate: (val) => {
+                    return (val.length <= 25);
+                }
+            },
             validate: (val) =>  {
                 return (val.length <= 3);
             },
