@@ -17,10 +17,17 @@ class TagsForm extends Component {
         };
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentDidUpdate(nextProps, nextState) {
         if (nextState.isInit) {
             this.props.updateTags(this.state.tagsArray);
         }
+    }
+
+    handleDelete(index) {
+        this.setState({
+            tagsArray: update(this.state.tagsArray, {$splice: [[index, 1]]}),
+            isInit: true
+        });
     }
 
     handleUpdate(index, event) {
@@ -41,15 +48,21 @@ class TagsForm extends Component {
     renderTagsInput() {
         return this.state.tagsArray.map((tag, index) => {
             return (
-                <input
-                    key={`tagInput${index}`}
-                    type={"text"}
-                    ref={ref => this.filename = ref}
-                    placeholder={"Tags"}
-                    className={"postInput"}
-                    maxLength={50}
-                    onChange={this.handleUpdate.bind(this, index)}
-                />
+                <div key={`tagInputWrapper${index}`} className={"tagInputWrapper"} >
+                    <input
+                        key={`tagInput${index}`}
+                        type={"text"}
+                        ref={ref => this.filename = ref}
+                        placeholder={"Tags"}
+                        className={"postInput"}
+                        maxLength={50}
+                        value={this.state.tagsArray[index]}
+                        onChange={this.handleUpdate.bind(this, index)}
+                    />
+                    <button className={"delTagButton"} onClick={this.handleDelete.bind(this, index)}>
+                        del
+                    </button>
+                </div>
             );
         });
     }
@@ -60,12 +73,12 @@ class TagsForm extends Component {
                 <h2>
                     Tags
                 </h2>
+                {this.renderTagsInput()}
                 {(this.state.tagsArray.length < config.maxTagsArraySize) && 
                     <button className={"addTag"} onClick={this.addTagsInput}>
                         Add
                     </button>
                 }
-                {this.renderTagsInput()}
             </div>
         );
     }
