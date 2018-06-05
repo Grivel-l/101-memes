@@ -9,8 +9,9 @@ class MediasModel {
         this.fieldsToGet = ["name", "path", "author", "type",  "createDate"]; 
     }
 
-    addFile(name, filepath, author, type) {
+    addFile(name, tags, filepath, author, type) {
         return schema.create({
+            tags: tags.split(","),
             name,
             author,
             type,

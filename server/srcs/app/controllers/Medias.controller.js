@@ -27,7 +27,7 @@ class MediasController {
         }
     }
     
-    uploadFile(name, media, author, size) {
+    uploadFile(name, tags, media, author, size) {
         const magic = new Magic(MAGIC_MIME_TYPE);
         return new Promise((resolve, reject) => {
             magic.detectFile(media.path, (err, type) => {
@@ -54,7 +54,7 @@ class MediasController {
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.medias.addFile(name, filepath, author, type)
+                this.medias.addFile(name, tags, filepath, author, type)
                     .then(result => resolve(result))
                     .catch(err => reject({statusCode: 500, message: err}));
             });
