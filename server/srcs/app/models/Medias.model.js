@@ -23,8 +23,7 @@ class MediasModel {
         page -= 1;
         return schema.count(this.condition)
             .then(total => {
-                //return schema.find({deleted: false}, this.fieldsToGet, {
-                return schema.find(this.condition, null, {
+                return schema.find(this.condition, this.fieldsToGet, {
                     limit,
                     skip: page * limit
                 })
@@ -34,8 +33,7 @@ class MediasModel {
     }
 
     getById(_id) {
-        //return schema.find({_id}, this.fieldsToGet);
-        return schema.findById(_id);
+        return schema.find({_id}, this.fieldsToGet);
     }
 
     deleteMedia(_id) {
