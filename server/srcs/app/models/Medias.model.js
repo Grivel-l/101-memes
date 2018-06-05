@@ -6,12 +6,15 @@ class MediasModel {
         this.condition = {
             deleted: false
         };
-        this.fieldsToGet = ["name", "path", "author", "type",  "createDate"]; 
+        this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate"]; 
     }
 
     addFile(name, tags, filepath, author, type) {
+
         return schema.create({
-            tags: tags.split(","),
+            tags: tags.split(",").filter((tag) => {
+                return tag.length > 0;
+            }),
             name,
             author,
             type,

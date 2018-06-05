@@ -5,16 +5,13 @@ module.exports = dtb => {
         author: {type: String, required: true},
         type: {type: String, enum: ["video/mp4", "video/webm", "image/jpg", "image/jpeg", "image/png", "image/gif"], required: true},
         tags: {
-            type: Array,
-            of: {   
-                type: String,
-                validate: [(val) => {
-                    return (val.length <= 25);
-                }, "The tag `{VALUE}` is too long at `{PATH}`"],
-            },
-            validate: [(val) => {
-                return (val.length <= 25);
-            }, "The array of tags `{VALUE}` is too long at `{PATH}`"],
+            type     : Array,
+            required : true,
+            validate : {
+                validator : function(array) {
+                    return (array.length <= 3 && array.every((v) => typeof v === "string"));
+                }
+            }
         },
         deleted: {type: Boolean, default: false},
         createDate: {type: Date, required: true}
