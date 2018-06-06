@@ -67,6 +67,17 @@ class MediasModel {
     */
 
     findLatest(page, limit) {
+        return new Promise((resolve, reject) => {
+            schema.find(this.condition, this.fieldsToGet).sort({createDate: -1}).skip((page - 1) * limit).limit(limit).then((results) => {
+                resolve({
+                    total: this.total,
+                    results
+                });
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+/*
         return schema.aggregate([
             {
                 $match: {
@@ -95,7 +106,7 @@ class MediasModel {
                     }
                 }
             }]);
-            
+            */
     }
     findPopular(limit) {
         return new Promise(() => {
