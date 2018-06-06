@@ -16,6 +16,10 @@ class TagsForm extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (nextProps.reset !== this.props ||
+            nextState.tagsArray !== this.state.tagsArray);
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.reset === true) {
             this.setState({
