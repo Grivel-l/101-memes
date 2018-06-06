@@ -129,6 +129,17 @@ class MediasController {
             });
 
     }
+    searchMedia(searchParams, author) {
+        /*
+        
+        Special flags = latest, popular
+        Priority = Name, author, tag
+        
+        */
+        return new Promise((resolve, reject) => {
+            resolve("oui");
+        });
+    }
 }
 
 module.exports = MediasController;
