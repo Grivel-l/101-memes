@@ -10,7 +10,6 @@ class MediasModel {
     }
 
     addFile(name, tags, filepath, author, type) {
-
         return schema.create({
             tags: tags.split(",").filter((tag) => {
                 return tag.length > 0;
@@ -51,6 +50,16 @@ class MediasModel {
 
     findAndSkip(rand) {
         return schema.findOne(this.condition, this.fieldsToGet).skip(rand);
+    }
+
+    /*
+    ***
+    **** SEARCH FUNCTIONS
+    ***
+    */
+
+    findLatest(nbResult) {
+        return schema.find({}).sort("-date").limit(nbResult);
     }
 }
 

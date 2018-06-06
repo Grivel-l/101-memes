@@ -47,6 +47,9 @@ class MediasController {
                 if (size / 1024 / 1024 > fileMaxSize) {
                     return reject({statusCode: 400, message: "File is too big"});
                 }
+                if (!tags) {
+                    tags = "";
+                }
                 const filepath = `${this.mediaDir}${this.getName()}.${extension}`;
                 try {
                     fs.writeFileSync(filepath, fs.readFileSync(media.path));
@@ -132,11 +135,25 @@ class MediasController {
     searchMedia(searchParams, author) {
         /*
         
-        Special flags = latest, popular
+        type = latest, popular, classic
         Priority = Name, author, tag
         
+        type: enum [latest, popular, classic],
+        terms: String
+        nbResults: Number max 24
+
         */
         return new Promise((resolve, reject) => {
+            if (!searchParams.type || (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") || !searchParams.nbResult || searchParams.nbResult < 0 || searchParams.nbResult > 24) {
+                throw {statusCode: 400, message: "Bad search params"};
+            }
+            switch(searchParams.type) {
+            case "latest": 
+                this.medias.findLatest(searchParams.nbResult);
+                break;
+            case "popular": break;
+            case "classic": break;
+            }
             resolve("oui");
         });
     }
