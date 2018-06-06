@@ -132,7 +132,7 @@ class MediasController {
             });
 
     }
-    searchMedia(searchParams, author) {
+    searchMedia(searchParams) {
         /*
         
         type = latest, popular, classic
@@ -144,7 +144,7 @@ class MediasController {
 
         */
         if (!searchParams.type || (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") || !searchParams.nbResult || searchParams.nbResult < 0 || searchParams.nbResult > 24) {
-            return new Promise((resolve, reject) => {
+            return new Promise(() => {
                 throw {statusCode: 400, message: "Bad search params"};
             });
         }

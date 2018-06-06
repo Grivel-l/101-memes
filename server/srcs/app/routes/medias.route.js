@@ -77,7 +77,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             });
     });
     server.get("/media/search", (req, res) => {
-        medias.searchMedia(req.params, req.author)
+        medias.searchMedia(req.params)
             .then(result => res.send(200, result))
             .catch(err => {
                 res.send(500, {err});

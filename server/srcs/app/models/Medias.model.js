@@ -63,7 +63,7 @@ class MediasModel {
     }
     findPopular() {
         return new Promise(() => {
-            throw ({statusCode: 501, Message: "not yet implemented"})
+            throw ({statusCode: 501, Message: "not yet implemented"});
         });
     }
 }
