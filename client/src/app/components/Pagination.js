@@ -22,12 +22,30 @@ class Pagination extends Component {
 
     renderPages() {
         let i = 0;
+        let displayed = 0;
         const result = [];
-        while (i < this.props.pageNbr) {
+
+        if (this.props.page - 2 > 0) {
+            result.push(
+                <div key={"morePrev"} className={"morePage"}>
+                    {"..."}
+                </div>
+            );
+            i = this.props.page - 2;
+        }
+        while (i < this.props.pageNbr && displayed < 5) {
+            displayed++;
             result.push(
                 this.Paginator({index: i})
             );
             i += 1;
+        }
+        if (displayed === 5) {
+            result.push(
+                <div key={"moreNext"} className={"morePage"}>
+                    {"..."}
+                </div>
+            );
         }
         if (this.props.page < this.props.pageNbr) {
             result.push(
