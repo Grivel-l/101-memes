@@ -42,11 +42,13 @@ class MediasModel {
     }
 
     deleteMedia(_id) {
-        return schema.update({_id}, {deleted: true}, {runValidators: true})
-            .then(() => {
-                this.total--;
-                return this.getById(_id);
-            });
+        return new Promise((resolve) => {
+            return schema.findOneAndUpdate({_id}, {deleted: true}, {runValidators: true})
+                .then((res) => {
+                    this.total--;
+                    resolve(res);
+                });
+        });
     }
 
     count() {
