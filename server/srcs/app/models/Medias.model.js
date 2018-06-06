@@ -3,10 +3,18 @@ const config = require("../../configs/global");
 
 class MediasModel {
     constructor() {
-        this.condition = {
-            deleted: false
-        };
-        this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate"]; 
+        return new Promise((resolve, reject) => {
+            this.condition = {
+                deleted: false
+            };
+            this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate"];
+            schema.count(this.condition).then((total) => {
+                this.total = total;
+                resolve(this);
+            }).catch(err => {
+                reject(err);
+            });
+        });
     }
 
     addFile(name, tags, filepath, author, type) {

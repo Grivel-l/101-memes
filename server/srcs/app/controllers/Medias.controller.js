@@ -9,14 +9,20 @@ const {fileMaxSize} = require("../../configs/global");
 
 class MediasController {
     constructor(dtb, globalUsers) {
-        this.medias = new MediasModel(dtb);
-        this.users = new UsersModel(dtb);
-        this.mediaDir = "./srcs/imgs/";
-        this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
-        
-        this.globalUsers = globalUsers;
+        return new Promise((resolve, reject) => {
+            new MediasModel().then((medias) => {
+                this.medias = medias;
+                this.users = new UsersModel(dtb);
+                this.mediaDir = "./srcs/imgs/";
+                this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
+                this.globalUsers = globalUsers;
+                resolve(this);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
     }
-    
+
     getName() {
         const filename = uuid();
         try {
