@@ -15,7 +15,6 @@ class PostButton extends Component {
             active: false,
             tmpImg: null,
             showLoader: false,
-            tags: []
         };
         this.filename = null;
         this.showImage = this.showImage.bind(this);

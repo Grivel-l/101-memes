@@ -55,7 +55,6 @@ class TagsForm extends Component {
                     <input
                         key={`tagInput${index}`}
                         type={"text"}
-                        ref={ref => this.filename = ref}
                         placeholder={"Enter a tag"}
                         className={"tagInput"}
                         maxLength={50}
