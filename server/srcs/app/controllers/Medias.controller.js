@@ -153,8 +153,9 @@ class MediasController {
         case "latest":
             return this.medias.findLatest(Number(searchParams.nbResult));
         case "popular": 
-            return this.medias.findPopular();
-        case "classic": break;
+            return this.medias.findPopular(Number(searchParams.nbResult));
+        case "classic": 
+            return this.medias.findClassic(searchParams.terms, Number(searchParams.nbResult));
         }
 
     }
