@@ -59,7 +59,7 @@ class MediasModel {
     */
 
     findLatest(nbResult) {
-        return schema.find({}).sort("-date").limit(nbResult);
+        return schema.find({deleted: false}).sort("-createDate").limit(nbResult);
     }
 }
 

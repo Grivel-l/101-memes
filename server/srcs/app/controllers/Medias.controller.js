@@ -143,19 +143,19 @@ class MediasController {
         nbResults: Number max 24
 
         */
-        return new Promise((resolve, reject) => {
-            if (!searchParams.type || (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") || !searchParams.nbResult || searchParams.nbResult < 0 || searchParams.nbResult > 24) {
+        if (!searchParams.type || (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") || !searchParams.nbResult || searchParams.nbResult < 0 || searchParams.nbResult > 24) {
+            return new Promise((resolve, reject) => {
                 throw {statusCode: 400, message: "Bad search params"};
-            }
-            switch(searchParams.type) {
-            case "latest": 
-                this.medias.findLatest(searchParams.nbResult);
-                break;
-            case "popular": break;
-            case "classic": break;
-            }
-            resolve("oui");
-        });
+            });
+        }
+
+        switch(searchParams.type) {
+        case "latest":
+            return this.medias.findLatest(Number(searchParams.nbResult));
+        case "popular": break;
+        case "classic": break;
+        }
+
     }
 }
 
