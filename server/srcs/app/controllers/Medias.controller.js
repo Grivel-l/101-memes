@@ -17,7 +17,7 @@ class MediasController {
                 this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
                 this.globalUsers = globalUsers;
                 resolve(this);
-            }).catch((err) => {
+            }).catch(err => {
                 reject(err);
             });
         });

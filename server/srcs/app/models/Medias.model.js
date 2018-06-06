@@ -3,7 +3,7 @@ const config = require("../../configs/global");
 
 class MediasModel {
     constructor() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.condition = {
                 deleted: false
             };
@@ -11,36 +11,30 @@ class MediasModel {
             schema.count(this.condition).then((total) => {
                 this.total = total;
                 resolve(this);
-            }).catch(err => {
-                reject(err);
             });
         });
     }
 
     addFile(name, tags, filepath, author, type) {
-        return schema.create({
-            tags: tags.split(",").filter((tag) => {
-                return tag.length > 0;
-            }),
-            name,
-            author,
-            type,
-            path: `${config.imgsDirPath}${filepath.substr(1)}`,
-            createDate: new Date()
+        return new Promise((resolve) => {
+            return schema.create({
+                tags: tags.split(",").filter((tag) => {
+                    return tag.length > 0;
+                }),
+                name,
+                author,
+                type,
+                path: `${config.imgsDirPath}${filepath.substr(1)}`,
+                createDate: new Date()
+            }).then(result => {
+                this.total++;
+                resolve(result);
+            });
         });
     }
 
     getAll(page = 1, limit = 20) {
-        page -= 1;
-        return schema.count(this.condition)
-            .then(total => {
-                return schema.find(this.condition, this.fieldsToGet, {
-                    limit,
-                    skip: page * limit
-                })
-                    .sort({createDate: "desc", })
-                    .then(data => ({data, pageNbr: Math.ceil(total / limit)}));
-            });
+        return this.findLatest(page, limit);
     }
 
     getById(_id) {
@@ -49,7 +43,10 @@ class MediasModel {
 
     deleteMedia(_id) {
         return schema.update({_id}, {deleted: true}, {runValidators: true})
-            .then(() => this.getById(_id));
+            .then(() => {
+                this.total--;
+                return this.getById(_id);
+            });
     }
 
     count() {
@@ -67,46 +64,14 @@ class MediasModel {
     */
 
     findLatest(page, limit) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             schema.find(this.condition, this.fieldsToGet).sort({createDate: -1}).skip((page - 1) * limit).limit(limit).then((results) => {
                 resolve({
-                    total: this.total,
-                    results
+                    pageNbr: Math.ceil(this.total / limit),
+                    data: results
                 });
-            }).catch((err) => {
-                reject(err);
             });
         });
-/*
-        return schema.aggregate([
-            {
-                $match: {
-                    "deleted": false,
-                },
-            }, {
-                $sort: {
-                    "createDate": -1
-                }
-            }, {
-                $group: {
-                    "_id": null,
-                    "total": {
-                        $sum: 1
-                    },
-                    "results": {
-                        $push: "$$ROOT",
-                    }
-                }
-            }, {
-                $project: {
-                    "_id": 0,
-                    "total": 1,
-                    "results": {
-                        $slice: [ "$results", (page - 1) * limit, limit]
-                    }
-                }
-            }]);
-            */
     }
     findPopular(limit) {
         return new Promise(() => {
