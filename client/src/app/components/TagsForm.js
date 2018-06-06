@@ -61,7 +61,7 @@ class TagsForm extends Component {
                         type={"text"}
                         placeholder={"Enter a tag"}
                         className={"tagInput"}
-                        maxLength={50}
+                        maxLength={config.maxTagsStringSize}
                         value={this.state.tagsArray[index]}
                         onChange={this.handleUpdate.bind(this, index)}
                     />

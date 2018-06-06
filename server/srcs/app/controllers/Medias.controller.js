@@ -27,7 +27,7 @@ class MediasController {
         }
     }
     
-    uploadFile(name, tags, media, author, size) {
+    uploadFile(name, tags = "", media, author, size) {
         const magic = new Magic(MAGIC_MIME_TYPE);
         return new Promise((resolve, reject) => {
             magic.detectFile(media.path, (err, type) => {
@@ -46,9 +46,6 @@ class MediasController {
                 }
                 if (size / 1024 / 1024 > fileMaxSize) {
                     return reject({statusCode: 400, message: "File is too big"});
-                }
-                if (!tags) {
-                    tags = "";
                 }
                 const filepath = `${this.mediaDir}${this.getName()}.${extension}`;
                 try {
