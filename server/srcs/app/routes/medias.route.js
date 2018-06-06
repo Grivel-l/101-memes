@@ -76,12 +76,13 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                     }
                 });
         });
+
         server.get("/media/search", (req, res) => {
             medias.searchMedia(req.params)
                 .then(result => res.send(200, result))
-                .catch(err => {
-                    log.error(err);
-                    res.send(err.statusCode || 500, {err});
+                .catch(error => {
+                    log.error(error);
+                    res.send(error.statusCode || 500, {error});
                 });
         });
     }).catch((err) => {

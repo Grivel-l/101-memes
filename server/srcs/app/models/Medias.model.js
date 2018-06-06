@@ -16,20 +16,16 @@ class MediasModel {
     }
 
     addFile(name, tags, filepath, author, type) {
-        return new Promise((resolve) => {
-            return schema.create({
-                tags: tags.split(",").filter((tag) => {
-                    return tag.length > 0;
-                }),
-                name,
-                author,
-                type,
-                path: `${config.imgsDirPath}${filepath.substr(1)}`,
-                createDate: new Date()
-            }).then(result => {
-                this.total++;
-                resolve(result);
-            });
+        return schema.create({
+            name,
+            author,
+            type,
+            tags: tags.split(",").filter(tag => tag.length > 0),
+            path: `${config.imgsDirPath}${filepath.substr(1)}`,
+            createDate: new Date()
+        }).then(result => {
+            this.total += 1;
+            return result;
         });
     }
 
@@ -42,13 +38,11 @@ class MediasModel {
     }
 
     deleteMedia(_id) {
-        return new Promise((resolve) => {
-            return schema.findOneAndUpdate({_id}, {deleted: true}, {runValidators: true})
-                .then((res) => {
-                    this.total--;
-                    resolve(res);
-                });
-        });
+        return schema.findOneAndUpdate({_id}, {deleted: true}, {runValidators: true})
+            .then(result => {
+                this.total -= 1;
+                return result;
+            });
     }
 
     count() {
@@ -66,14 +60,16 @@ class MediasModel {
     */
 
     findLatest(page, limit) {
-        return new Promise((resolve) => {
-            schema.find(this.condition, this.fieldsToGet).sort({createDate: -1}).skip((page - 1) * limit).limit(limit).then((results) => {
-                resolve({
+        return schema.find(this.condition, this.fieldsToGet)
+            .sort({createDate: -1})
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .then(results => {
+                return {
                     pageNbr: Math.ceil(this.total / limit),
                     data: results
-                });
+                };
             });
-        });
     }
     findPopular(limit) {
         return new Promise(() => {
