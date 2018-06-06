@@ -58,8 +58,36 @@ class MediasModel {
     ***
     */
 
-    findLatest(limit) {
-        return schema.find({deleted: false}).sort("-createDate").limit(limit);
+    findLatest(page, limit) {
+        return schema.aggregate([
+            {
+                $match: {
+                    "deleted": false,
+                },
+            }, {
+                $sort: {
+                    "createDate": -1
+                }
+            }, {
+                $group: {
+                    "_id": null,
+                    "total": {
+                        $sum: 1
+                    },
+                    "results": {
+                        $push: "$$ROOT",
+                    }
+                }
+            }, {
+                $project: {
+                    "_id": 0,
+                    "total": 1,
+                    "results": {
+                        $slice: [ "$results", (page - 1) * limit, limit]
+                    }
+                }
+            }]);
+            
     }
     findPopular(limit) {
         return new Promise(() => {
