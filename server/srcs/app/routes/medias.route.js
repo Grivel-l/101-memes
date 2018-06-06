@@ -80,7 +80,8 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         medias.searchMedia(req.params)
             .then(result => res.send(200, result))
             .catch(err => {
-                res.send(500, {err});
+                log.error(err);
+                res.send(err.statusCode || 500, {err});
             });
     });
 };

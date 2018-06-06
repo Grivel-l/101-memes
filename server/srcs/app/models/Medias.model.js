@@ -58,15 +58,15 @@ class MediasModel {
     ***
     */
 
-    findLatest(nbResult) {
-        return schema.find({deleted: false}).sort("-createDate").limit(nbResult);
+    findLatest(limit) {
+        return schema.find({deleted: false}).sort("-createDate").limit(limit);
     }
-    findPopular(nbResult) {
+    findPopular(limit) {
         return new Promise(() => {
             throw ({statusCode: 501, Message: "not yet implemented"});
         });
     }
-    findClassic(terms, nbResult) {
+    findClassic(terms, limit) {
         return new Promise(() => {
             throw ({statusCode: 501, Message: "not yet implemented"});
         });

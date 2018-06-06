@@ -134,13 +134,15 @@ class MediasController {
         
         type = latest, popular, classic
         Priority = Name, author, tag
-        
         type: enum [latest, popular, classic],
         terms: String
-        nbResults: Number max 24
+        page: default 1
+        limit: Number max 24
 
         */
-        if (!searchParams.type || (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") || !searchParams.nbResult || searchParams.nbResult < 0 || searchParams.nbResult > 24) {
+        if (!searchParams.type ||
+            (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") ||
+            !searchParams.limit || searchParams.limit < 0 || searchParams.limit > 24 || searchParams.page < 0)  {
             return new Promise(() => {
                 throw {statusCode: 400, message: "Bad search params"};
             });
@@ -148,11 +150,11 @@ class MediasController {
 
         switch(searchParams.type) {
         case "latest":
-            return this.medias.findLatest(Number(searchParams.nbResult));
+            return this.medias.findLatest(Number(searchParams.limit));
         case "popular": 
-            return this.medias.findPopular(Number(searchParams.nbResult));
+            return this.medias.findPopular(Number(searchParams.limit));
         case "classic": 
-            return this.medias.findClassic(searchParams.terms, Number(searchParams.nbResult));
+            return this.medias.findClassic(searchParams.terms, Number(searchParams.limit));
         }
 
     }
