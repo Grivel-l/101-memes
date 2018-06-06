@@ -9,6 +9,7 @@ class MediaHover extends Component {
         super(props);
 
         this.quitHover = this.quitHover.bind(this);
+        this.renderTags = this.renderTags.bind(this);
     }
 
     quitHover(event) {
@@ -25,7 +26,13 @@ class MediaHover extends Component {
         }
         return (nbr);
     }
-
+    renderTags() {
+        return this.props.expand.tags.map((tag) => {
+            return (
+                <li key={tag} className={"tag"}>{tag}</li>
+            );
+        });
+    }
     render() {
         const date = this.props.expand !== null ? new Date(this.props.expand.createDate).toLocaleDateString() : null;
         return (
@@ -56,6 +63,10 @@ class MediaHover extends Component {
                                         {this.props.expand.author}
                                     </a>
                                 </h3>
+                                
+                                <ul className={"tags"}>
+                                    {this.renderTags()}
+                                </ul>
                                 <MoreButton media={this.props.expand}
                                     hideExpand={this.props.hideExpand}
                                 />

@@ -238,6 +238,26 @@ body {
                     }
                     
                 }
+                .tags {
+                    display: inline-block;
+                    width: 100%;
+                    list-style: none;
+                    padding: 0;
+                    font-size: 15px;
+                    li {
+                        height: 20px;
+                        line-height: 20px;
+                    }
+                    @media screen and (max-width: 992px) { 
+                        font-size: 14px;
+                        width: auto;
+                        li {
+                            margin: 0 10px;
+                            display: inline;
+                            line-height: 16px;
+                        }
+                    }
+                }
             }
         }
     }
