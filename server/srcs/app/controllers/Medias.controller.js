@@ -136,16 +136,6 @@ class MediasController {
 
     }
     searchMedia(searchParams) {
-        /*
-        
-        type = latest, popular, classic
-        Priority = Name, author, tag
-        type: enum [latest, popular, classic],
-        terms: String
-        page: default 1
-        limit: Number max 24
-
-        */
         if (searchParams.limit)
             searchParams.limit = Number(searchParams.limit);
         else {
