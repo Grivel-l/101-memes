@@ -82,7 +82,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                 .then(result => res.send(200, result))
                 .catch(error => {
                     log.error(error);
-                    res.send(error.statusCode || 500, {error});
+                    res.send(error.statusCode || 500, "Internal server error");
                 });
         });
     }).catch((err) => {

@@ -28,7 +28,9 @@ class PostButton extends Component {
             this.state.tmpImg !== nextState.tmpImg ||
             this.state.showLoader !== nextState.showLoader ||
             this.props.error.status !== nextProps.error.status ||
-            this.props.tagsArray !== nextProps.tagsArray
+            this.props.tagsArray.filter((el, index) => {
+                return (el !== nextProps.tagsArray[index]);
+            }).length > 0
         );
     }
 

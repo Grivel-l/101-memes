@@ -144,7 +144,7 @@ class MediasController {
         searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
         if (!searchParams.type ||
             (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") ||
-            searchParams.limit < 0 || searchParams.limit > 24 || searchParams.page < 1)  {
+            searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
             throw {statusCode: 400, message: "Bad search params"};
         }
 
