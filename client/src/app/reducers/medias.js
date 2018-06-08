@@ -33,6 +33,7 @@ const initialState = {
         message: null
     },
     search: {
+        searching: false,
         activeType: "latest",
         request: null
     },
@@ -155,19 +156,25 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_PENDING: {
         return {
             ...state,
+            search: {
+                ...state.search,
+                searching: true
+            }
         };
     }
     case MEDIAS_SEARCH_ERROR: {
         return {
             ...state,
+            search: initialState.search
         };
     }
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
-            data: payload.response.results,
+            data: payload.response.results || [],
             pageNbr: Math.floor(payload.response.total / config.imgPerPage + 1),
             search: {
+                searching: initialState.search.searching,
                 activeType: payload.request.type,
                 request: payload.request,
             }
