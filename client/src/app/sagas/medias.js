@@ -11,7 +11,8 @@ import {
     getMediasApi,
     publishMediaApi,
     deleteMediaApi,
-    reportMediaApi
+    reportMediaApi,
+    searchMediasApi
 } from "../api/medias";
 import {
     MEDIAS_GET,
@@ -25,9 +26,18 @@ import {
     MEDIAS_DELETE_SUCCESS,
     MEDIAS_DELETE_ERROR,
     MEDIAS_POST_ERROR,
-    MEDIAS_REPORT
+    MEDIAS_REPORT,
+    MEDIAS_SEARCH,
+    MEDIAS_SEARCH_PENDING,
+    MEDIAS_SEARCH_SUCCESS,
+    MEDIAS_SEARCH_ERROR,
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
+
+function *searchMedias({payload}) {
+    yield put({type: MEDIAS_SEARCH_PENDING});
+    yield call(apiCall, searchMediasApi, payload, MEDIAS_SEARCH_ERROR, MEDIAS_SEARCH_SUCCESS);
+}
 
 function *getMedias({payload}) {
     yield call(apiCall, getMediasApi, payload, MEDIAS_GET_ERROR, MEDIAS_GET_SUCCESS);
@@ -87,12 +97,17 @@ function* mediaReportWatcher() {
     yield takeEvery(MEDIAS_REPORT, reportMedia);
 }
 
+function* searchMediasWatcher() {
+    yield takeEvery(MEDIAS_SEARCH, searchMedias);
+} 
+
 function* flow() {
     yield all([
         fork(getMediasWatcher),
         fork(mediaPublishWatcher),
         fork(mediaDeleteWatcher),
-        fork(mediaReportWatcher)
+        fork(mediaReportWatcher),
+        fork(searchMediasWatcher)
     ]);
 }
 

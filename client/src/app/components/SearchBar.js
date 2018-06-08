@@ -7,10 +7,21 @@ class SearchBar extends Component {
         super(props);
 
         this.launchSearch = this.launchSearch.bind(this);
+        this.updateType = this.updateType.bind(this);
+
+        this.state = {
+            activeType: "classic"
+        };
     }
 
-    launchSearch(type) {
-        console.log(type);
+    launchSearch() {
+        this.props.searchMedias({"type": this.state.activeType, "terms": this.refs.searchInput.value, "limit": 24, "page": 1});
+    }
+
+    updateType(type) {
+        this.setState({
+            activeType: type
+        });
     }
 
     render() {
@@ -18,27 +29,27 @@ class SearchBar extends Component {
             <div className={"searchBarWrapper"}>
                 <div className={"searchBar"}>
                     <div className="searchInputWrapper">
-                        <input type="text" placeholder="Search Memes" />
-                        <button>
+                        <input type="text" placeholder="Search Memes" ref="searchInput"/>
+                        <button className={"searchButton"} onClick={this.launchSearch}>
                             Search
                         </button>
                     </div>
                     <div className="searchType">
-                        {(this.props.activeType !== "classic") && <button 
-                            className={"typeButton"}
-                            onClick={() => this.launchSearch("classic")}>
+                        <button 
+                            className={`typeButton ${this.state.activeType === "classic" ? "selected" : ""}`}
+                            onClick={() => this.updateType("classic")}>
                             Classic
-                        </button>}
-                        {(this.props.activeType !== "popular") && <button 
-                            className={"typeButton"}
-                            onClick={() => this.launchSearch("popular")}>
+                        </button>
+                        <button 
+                            className={`typeButton ${this.state.activeType === "popular" ? "selected" : ""}`}
+                            onClick={() => this.updateType("popular")}>
                             Popular
-                        </button>}
-                        {(this.props.activeType !== "latest") && <button 
-                            className={"typeButton"}
-                            onClick={() => this.launchSearch("latest")}>
+                        </button>
+                        <button 
+                            className={`typeButton ${this.state.activeType === "latest" ? "selected" : ""}`}
+                            onClick={() => this.updateType("latest")}>
                             Latest
-                        </button>}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -47,7 +58,8 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    activeType: PropTypes.string
+    activeType: PropTypes.string,
+    searchMedias: PropTypes.func
 };
 
 export default SearchBar;

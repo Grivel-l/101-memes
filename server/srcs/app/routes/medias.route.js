@@ -79,7 +79,14 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
 
         server.get("/media/search", (req, res) => {
             medias.searchMedia(req.params)
-                .then(result => res.send(200, result))
+                .then(result => {
+                    if (result.length > 0) {
+                        res.send(200, result[0]);
+                    } else {
+                        res.send(200, {total: 0, results: []});
+                    }
+                })
+                
                 .catch(error => {
                     log.error(error);
                     res.send(error.statusCode || 500, error.statusCode ? error.message : "Internal server error");

@@ -23,3 +23,9 @@ export const reportMediaApi = body => {
         method: "POST"
     });
 };
+
+export const searchMediasApi = params => {
+    return fetch(`/media/search?type=${params.type}&limit=${params.limit}&page=${params.page}&terms=${params.terms}`, {
+        method: "GET"
+    });
+};
