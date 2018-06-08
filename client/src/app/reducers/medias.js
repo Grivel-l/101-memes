@@ -10,8 +10,13 @@ import {
     MEDIAS_DELETE_SUCCESS,
     MEDIAS_DELETE_ERROR,
     NOTIFY_IMG_LOAD,
-    MEDIAS_TOGGLE_SOUND
+    MEDIAS_TOGGLE_SOUND,
+    MEDIAS_SEARCH_PENDING,
+    MEDIAS_SEARCH_SUCCESS,
+    MEDIAS_SEARCH_ERROR
 } from "../actions/medias";
+
+import config from "../../config/globalConfig";
 
 const initialState = {
     data: [],
@@ -29,6 +34,7 @@ const initialState = {
     },
     search: {
         activeType: "latest",
+        request: null
     },
     expand: null,
     gotSound: null
@@ -146,6 +152,27 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             gotSound: payload
         };
+    case MEDIAS_SEARCH_PENDING: {
+        return {
+            ...state,
+        };
+    }
+    case MEDIAS_SEARCH_ERROR: {
+        return {
+            ...state,
+        };
+    }
+    case MEDIAS_SEARCH_SUCCESS: {
+        return {
+            ...state,
+            data: payload.response.results,
+            pageNbr: Math.floor(payload.response.total / config.imgPerPage + 1),
+            search: {
+                activeType: payload.request.type,
+                request: payload.request,
+            }
+        };
+    }
     default:
         return state;
     }

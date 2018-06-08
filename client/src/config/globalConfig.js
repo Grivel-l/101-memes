@@ -4,5 +4,6 @@ export default {
     redirectionUrl: "https://the-matrix.le-101.fr",
     maxFileSize: 10, // mo
     maxTagsArraySize: 3,
-    maxTagsStringSize: 25
+    maxTagsStringSize: 25,
+    imgPerPage: 24,
 };

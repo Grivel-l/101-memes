@@ -27,5 +27,10 @@ export const reportMediaApi = body => {
 export const searchMediasApi = params => {
     return fetch(`/media/search?type=${params.type}&limit=${params.limit}&page=${params.page}&terms=${params.terms}`, {
         method: "GET"
+    }).then((response) => {
+        return {
+            request: params,
+            response,
+        };
     });
 };

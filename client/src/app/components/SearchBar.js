@@ -8,6 +8,7 @@ class SearchBar extends Component {
 
         this.launchSearch = this.launchSearch.bind(this);
         this.updateType = this.updateType.bind(this);
+        this.keyPress = this.keyPress.bind(this);
 
         this.state = {
             activeType: "classic"
@@ -24,13 +25,19 @@ class SearchBar extends Component {
         });
     }
 
+    keyPress(event) {
+        if (event.keyCode === 13){
+            this.launchSearch();
+        }
+    }
+
     render() {
         return (
             <div className={"searchBarWrapper"}>
                 <div className={"searchBar"}>
                     <div className="searchInputWrapper">
-                        <input type="text" placeholder="Search Memes" ref="searchInput"/>
-                        <button className={"searchButton"} onClick={this.launchSearch}>
+                        <input type="text" placeholder="Search Memes" ref="searchInput" onKeyDown={this.keyPress}/>
+                        <button className={"searchButton"} onClick={this.launchSearch} ref="searchButton">
                             Search
                         </button>
                     </div>
