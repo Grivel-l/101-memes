@@ -89,6 +89,9 @@ class App extends Component {
                 <div className="wrapper">
                     <SearchBar />
                     <div className={"subWrapper"}>
+                        <div className="category">
+                            {this.props.searchActiveType}
+                        </div>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
                         </div>
