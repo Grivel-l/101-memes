@@ -14,3 +14,7 @@ export const MEDIAS_DELETE_ERROR = "medias.delete.error";
 export const NOTIFY_IMG_LOAD = "notify.img.load";
 export const MEDIAS_TOGGLE_SOUND = "medias.toggle.sound";
 export const MEDIAS_REPORT = "medias.report";
+export const MEDIAS_SEARCH = "medias.search";
+export const MEDIAS_SEARCH_PENDING = "medias.search.pending";
+export const MEDIAS_SEARCH_ERROR = "medias.search.error";
+export const MEDIAS_SEARCH_SUCCESS = "medias.search.success";

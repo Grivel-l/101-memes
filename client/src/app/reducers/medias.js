@@ -27,6 +27,9 @@ const initialState = {
         delete: null,
         message: null
     },
+    search: {
+        activeType: "latest",
+    },
     expand: null,
     gotSound: null
 };

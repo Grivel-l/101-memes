@@ -2,8 +2,9 @@ import {connect} from "react-redux";
 
 import SearchBar from "../components/SearchBar";
 
-const mapStateToProps = () => {
+const mapStateToProps = ({medias}) => {
     return {
+        ...medias.search
     };
 };
 
