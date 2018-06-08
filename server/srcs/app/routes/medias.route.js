@@ -82,11 +82,11 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                 .then(result => res.send(200, result))
                 .catch(error => {
                     log.error(error);
-                    res.send(error.statusCode || 500, "Internal server error");
+                    res.send(error.statusCode || 500, error.statusCode ? error.message : "Internal server error");
                 });
         });
     }).catch((err) => {
-        log.error("Could'nt initiate model : ", err);
+        log.error("Couldn't initiate model : ", err);
         process.exit(1);
     });
 };

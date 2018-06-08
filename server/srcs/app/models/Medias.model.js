@@ -76,10 +76,66 @@ class MediasModel {
             throw ({statusCode: 501, Message: "not yet implemented"});
         });
     }
-    findClassic(terms, limit) {
-        return new Promise(() => {
-            throw ({statusCode: 501, Message: "not yet implemented"});
-        });
+    findClassic(page, terms, limit) {
+        return schema.aggregate([
+            {
+                $match: {
+                    $and: [{
+                        ...this.condition,
+                    }, {
+                        $or: [{
+                            name: terms
+                        }, {
+                            author: terms
+                        },{
+                            tags: terms
+                        }]
+                    }]
+                },
+            }, {
+                $addFields: {
+                    matchName: {
+                        $cond: [{
+                            $eq: [ "$name", terms ]
+                        }, 1, 0]
+                    },
+                    matchAuthor: {
+                        $cond: [{
+                            $eq: [ "$author", terms ]
+                        }, 1, 0]
+                    },
+                    matchTags: {
+                        $cond: [{
+                            $in: [ terms, "$tags" ]
+                        }, 1, 0]
+                    }
+                }
+            }, {
+                $sort: {
+                    name: 1,
+                    tags: 1,
+                    author: 1,
+                    createDate: -1
+                }
+            }, {
+                $group: {
+                    _id: null,
+                    total: {
+                        $sum: 1
+                    },
+                    results: {
+                        $push: "$$ROOT",
+                    }
+                }
+            }, {
+                $project: {
+                    _id: 0,
+                    total: 1,
+                    results: {
+                        $slice: [ "$results", (page - 1) * limit, limit]
+                    }
+                }
+            }]);
     }
 }
 

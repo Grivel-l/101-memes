@@ -153,7 +153,9 @@ class MediasController {
             return this.medias.findLatest(searchParams.page, searchParams.limit);
         case "popular": 
             return this.medias.findPopular(searchParams.limit);
-        case "classic": 
+        case "classic":
+            if (!searchParams.terms || searchParams.terms.trim().length === 0)
+                return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
             return this.medias.findClassic(searchParams.page, searchParams.terms, searchParams.limit);
         }
     }
