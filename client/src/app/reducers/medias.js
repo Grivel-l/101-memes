@@ -21,6 +21,7 @@ import config from "../../config/globalConfig";
 const initialState = {
     data: [],
     pageNbr: 0,
+    total: 0,
     status: {
         img: {
             getted: false,
@@ -171,8 +172,9 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
-            data: payload.response.results || [],
-            pageNbr: Math.floor(payload.response.total / config.imgPerPage + 1),
+            data: payload.response.data || [],
+            pageNbr: payload.response.pageNbr,
+            total: payload.response.total,
             search: {
                 searching: initialState.search.searching,
                 activeType: payload.request.type,

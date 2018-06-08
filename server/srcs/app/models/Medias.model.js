@@ -64,10 +64,11 @@ class MediasModel {
             .sort({createDate: -1})
             .skip((page - 1) * limit)
             .limit(limit)
-            .then(results => {
+            .then(data => {
                 return {
+                    total: this.total,
                     pageNbr: Math.ceil(this.total / limit),
-                    data: results
+                    data
                 };
             });
     }
@@ -123,7 +124,7 @@ class MediasModel {
                     total: {
                         $sum: 1
                     },
-                    results: {
+                    data: {
                         $push: "$$ROOT",
                     }
                 }
@@ -131,11 +132,20 @@ class MediasModel {
                 $project: {
                     _id: 0,
                     total: 1,
-                    results: {
-                        $slice: [ "$results", (page - 1) * limit, limit]
+                    data: {
+                        $slice: [ "$data", (page - 1) * limit, limit]
                     }
                 }
-            }]);
+            }
+        ]).then(data => {
+            if (!data[0]) {
+                return (null);
+            }
+            return {
+                pageNbr: Math.ceil(data[0].total  / limit),
+                ...data[0]
+            };
+        });
     }
 }
 

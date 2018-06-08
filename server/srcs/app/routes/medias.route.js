@@ -80,13 +80,12 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         server.get("/media/search", (req, res) => {
             medias.searchMedia(req.params)
                 .then(result => {
-                    if (result.length > 0) {
-                        res.send(200, result[0]);
+                    if (result && result.data && result.data.length > 0) {
+                        res.send(200, result);
                     } else {
-                        res.send(200, {total: 0, results: []});
+                        res.send(200, {total: 0, pageNbr: 0, data: []});
                     }
                 })
-                
                 .catch(error => {
                     log.error(error);
                     res.send(error.statusCode || 500, error.statusCode ? error.message : "Internal server error");

@@ -18,3 +18,7 @@ export const MEDIAS_SEARCH = "medias.search";
 export const MEDIAS_SEARCH_PENDING = "medias.search.pending";
 export const MEDIAS_SEARCH_ERROR = "medias.search.error";
 export const MEDIAS_SEARCH_SUCCESS = "medias.search.success";
+export const MEDIAS_SWAP_PAGE = "medias.swap.page";
+export const MEDIAS_SWAP_PAGE_PENDING = "medias.swap.page.pending";
+export const MEDIAS_SWAP_PAGE_ERROR = "medias.swap.page.error";
+export const MEDIAS_SWAP_PAGE_SUCCESS = "medias.swap.page.success";
