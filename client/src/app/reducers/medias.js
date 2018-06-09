@@ -199,7 +199,6 @@ const medias = (state = initialState, {type, payload}) => {
         };
     }
     case MEDIAS_SWAP_PAGE_SUCCESS: {
-        console.log(payload)
         return {
             ...state,
             searchRequest: payload.request.searchRequest,

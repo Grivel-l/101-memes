@@ -15,7 +15,6 @@ class Pagination extends Component {
                 key={`page${props.index}`}
                 className={this.props.searchRequest.page === props.index + 1 ? "paginator selected" : "paginator"}
                 onClick={() => {
-                    console.log(this.props)
                     this.props.swapPage({searchRequest: {
                         ...this.props.searchRequest,
                         page: props.index + 1
