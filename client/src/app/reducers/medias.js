@@ -13,7 +13,10 @@ import {
     MEDIAS_TOGGLE_SOUND,
     MEDIAS_SEARCH_PENDING,
     MEDIAS_SEARCH_SUCCESS,
-    MEDIAS_SEARCH_ERROR
+    MEDIAS_SEARCH_ERROR,
+    MEDIAS_SWAP_PAGE_PENDING,
+    MEDIAS_SWAP_PAGE_SUCCESS,
+    MEDIAS_SWAP_PAGE_ERROR
 } from "../actions/medias";
 
 const initialState = {
@@ -183,6 +186,24 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             results: payload.response.results,
             searchRequest: payload.request,
+        };
+    }
+    case MEDIAS_SWAP_PAGE_PENDING: {
+        return {
+            ...state,
+        };
+    }
+    case MEDIAS_SWAP_PAGE_ERROR: {
+        return {
+            ...state,
+        };
+    }
+    case MEDIAS_SWAP_PAGE_SUCCESS: {
+        console.log(payload)
+        return {
+            ...state,
+            searchRequest: payload.request.searchRequest,
+            results: payload.results
         };
     }
     default:

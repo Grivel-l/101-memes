@@ -88,7 +88,7 @@ function* reportMedia({payload}) {
 
 function *swapPageMedias({payload}) {
     yield put({type: MEDIAS_SWAP_PAGE_PENDING});
-    yield call(apiCall, swapPageMediasApi, payload, MEDIAS_SWAP_PAGE_SUCCESS, MEDIAS_SWAP_PAGE_ERROR);
+    yield call(apiCall, swapPageMediasApi, payload, MEDIAS_SWAP_PAGE_ERROR, MEDIAS_SWAP_PAGE_SUCCESS);
 }
 
 function *getMediasWatcher() {

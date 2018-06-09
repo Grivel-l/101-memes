@@ -6,15 +6,16 @@ import "../scss/pagination.css";
 class Pagination extends Component {
 
     shouldComponentUpdate(nextProps) {
-        return nextProps.page !== this.props.page || nextProps.pageNbr !== this.props.pageNbr;
+        return JSON.stringify(nextProps.searchRequest) !== JSON.stringify(this.props.searchRequest) || nextProps.pageNbr !== this.props.pageNbr;
     }
 
     Paginator(props) {
         return (
             <div
                 key={`page${props.index}`}
-                className={this.props.page === props.index + 1 ? "paginator selected" : "paginator"}
+                className={this.props.searchRequest.page === props.index + 1 ? "paginator selected" : "paginator"}
                 onClick={() => {
+                    console.log(this.props)
                     this.props.swapPage({searchRequest: {
                         ...this.props.searchRequest,
                         page: props.index + 1
@@ -29,13 +30,13 @@ class Pagination extends Component {
         let displayed = 0;
         const result = [];
 
-        if (this.props.page - 2 > 0) {
+        if (this.props.searchRequest.page - 2 > 0) {
             result.push(
                 <div key={"morePrev"} className={"morePage"}>
                     {"..."}
                 </div>
             );
-            i = this.props.page - 2;
+            i = this.props.searchRequest.page - 2;
         }
         while (i < this.props.pageNbr && displayed < 5) {
             displayed++;
@@ -51,19 +52,19 @@ class Pagination extends Component {
                 </div>
             );
         }
-        if (this.props.page < this.props.pageNbr) {
+        if (this.props.searchRequest.page < this.props.pageNbr) {
             result.push(
                 <div key={"next"} className={"paginator "} onClick={() => {
-                    window.location.href = `${config.clientUrl}?page=${this.props.page + 1}`;
+                    window.location.href = `${config.clientUrl}?page=${this.props.searchRequest.page + 1}`;
                 }}>
                     {">"}
                 </div>
             );
         }
-        if (this.props.page > 1) {
+        if (this.props.searchRequest.page > 1) {
             result.unshift(
                 <div key={"prev"} className={"paginator prev"}  onClick={() => {
-                    window.location.href = `${config.clientUrl}?page=${this.props.page - 1}`;
+                    window.location.href = `${config.clientUrl}?page=${this.props.searchRequest.page - 1}`;
                 }}>
                     {"<"}
                 </div>
@@ -81,7 +82,6 @@ class Pagination extends Component {
 }
 
 Pagination.propTypes = {
-    page: PropTypes.number,
     pageNbr: PropTypes.number,
     swapPage: PropTypes.func,
     searchRequest: PropTypes.object

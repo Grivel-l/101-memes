@@ -15,7 +15,6 @@ import "../scss/app.css";
 class App extends Component {
     constructor(props) {
         super(props);
-        this.page = 1;
         this.keyDown = this.keyDown.bind(this);
         this.adjustDivSize = this.adjustDivSize.bind(this);
         this.medias = React.createRef();
@@ -95,7 +94,7 @@ class App extends Component {
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
                         </div>
-                        <Pagination page={this.page} />
+                        <Pagination />
                     </div>
                     <Footer />
                     <PostButton showToast={this.props.showToast} />
