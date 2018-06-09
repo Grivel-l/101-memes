@@ -67,7 +67,7 @@ class MediasModel {
             .then(data => {
                 return {
                     total: this.total,
-                    pageNbr: Math.ceil(this.total / limit),
+                    pageNbr: Math.floor(this.total / limit) + 1,
                     data
                 };
             });
@@ -142,7 +142,7 @@ class MediasModel {
                 return (null);
             }
             return {
-                pageNbr: Math.ceil(data[0].total  / limit),
+                pageNbr: Math.floor(data[0].total  / limit) + 1,
                 ...data[0]
             };
         });

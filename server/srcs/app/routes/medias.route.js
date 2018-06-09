@@ -83,7 +83,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                     if (results && results.data && results.data.length > 0) {
                         res.send(200, {results});
                     } else {
-                        res.send(200, {results: { total: 0, pageNbr: 0, data: []}});
+                        res.send(200, {results: { total: 0, pageNbr: 1, data: []}});
                     }
                 })
                 .catch(error => {
