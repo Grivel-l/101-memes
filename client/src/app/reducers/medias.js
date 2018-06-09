@@ -147,7 +147,7 @@ const medias = (state = initialState, {type, payload}) => {
                 img: {
                     ...state.status.img,
                     getted: false,
-                    toLoad: state.status.img.total + 1,
+                    toLoad: state.status.img.toLoad + 1,
                     total: state.status.img.total + 1,
                 }
             },
