@@ -90,7 +90,7 @@ class App extends Component {
                     <SearchBar />
                     <div className={"subWrapper"}>
                         <div className="category">
-                            {this.props.searchActiveType}
+                            <p>{`${this.props.searchActiveType} (${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
                         </div>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
