@@ -5,7 +5,7 @@ import {MEDIAS_SEARCH} from "../actions/medias";
 
 const mapStateToProps = ({medias}) => {
     return {
-        ...medias.search
+        type: medias.searchRequest.type
     };
 };
 

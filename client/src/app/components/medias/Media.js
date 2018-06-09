@@ -37,10 +37,16 @@ class Media extends Component {
                 this.setState({muted: !this.state.muted});
             }
         }
+        if (nextProps.media.path !== this.props.media.path && !this.props.expanded && !this.props.postMedia) {
+            this.props.notifyImgUnload();
+        }
     }
 
     componentWillUnmount() {
+        if (!this.props.expanded && !this.props.postMedia)
+            this.props.notifyImgUnload();
         this.mounted = false;
+        
     }
 
     expand() {
@@ -141,7 +147,9 @@ Media.propTypes = {
     toggleSound: PropTypes.func.isRequired,
     gotSound: PropTypes.string,
     muted: PropTypes.bool,
-    postMedia: PropTypes.bool
+    postMedia: PropTypes.bool,
+    notifyImgLoad: PropTypes.func,
+    notifyImgUnload: PropTypes.func
 };
 
 export default Media;

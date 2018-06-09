@@ -11,6 +11,7 @@ import {
     MEDIAS_DELETE_SUCCESS,
     MEDIAS_DELETE_ERROR,
     NOTIFY_IMG_LOAD,
+    NOTIFY_IMG_UNLOAD,
     MEDIAS_TOGGLE_SOUND,
     MEDIAS_SEARCH_PENDING,
     MEDIAS_SEARCH_SUCCESS,
@@ -63,6 +64,17 @@ const medias = (state = initialState, {type, payload}) => {
                 },
             }
         };
+    case NOTIFY_IMG_UNLOAD: 
+        return {
+            ...state,
+            status: {
+                ...state.status,
+                img: {
+                    ...state.status.img,
+                    toLoad: state.status.img.toLoad + 1,
+                }
+            }
+        };
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
@@ -85,6 +97,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
+                img: {
+                    ...initialState.status.img,
+                    getted: true,
+                },
                 get: "PENDING",
                 redirect: payload.statusCode === 302,
             }
@@ -112,7 +128,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
+                img: {
+                    ...state.status.img,
+                    getted: true,
+                },
             },
             results: {
                 ...state.results,
@@ -127,6 +146,7 @@ const medias = (state = initialState, {type, payload}) => {
                 post: "PENDING",
                 img: {
                     ...state.status.img,
+                    getted: false,
                     toLoad: state.status.img.total + 1,
                     total: state.status.img.total + 1,
                 }
@@ -137,7 +157,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
+                img: {
+                    ...state.status.img,
+                    getted: true,
+                },
                 post: "ERROR",
             },
         };
@@ -149,6 +172,7 @@ const medias = (state = initialState, {type, payload}) => {
                 delete: "PENDING",
                 img: {
                     ...state.status.img,
+                    getted: false,
                     toLoad: state.status.img.total - payload - 1,
                     total: state.status.img.total - 1,
                 }
@@ -159,7 +183,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
+                img: {
+                    ...state.status.img,
+                    getted: true,
+                },
             },
             results: {
                 ...state.results,
@@ -171,7 +198,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
+                img: {
+                    ...state.status.img,
+                    getted: true,
+                },
                 delete: "ERROR",
             },
         };
@@ -185,6 +215,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
+                img: {
+                    ...state.status.img,
+                    getted: false,
+                },
                 searching: "PENDING",
             }
         };
@@ -194,21 +228,24 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
+                img: {
+                    ...state.status.img,
+                    getted: true,
+                },
                 searching: "ERROR",
             },
         };
     }
     case MEDIAS_SEARCH_SUCCESS: {
-        console.log(payload)
         return {
             ...state,
             status: {
                 ...initialState.status,
                 img: {
+                    ...state.status.img,
+                    total: payload.response.results.data.length,
+                    toLoad: payload.response.results.data.length - state.status.img.total,
                     getted: true,
-                    toLoad: payload.response.results.data.length,
-                    total: payload.response.results.data.length
                 },
             },
             results: payload.response.results,
@@ -220,7 +257,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...state.status,
-                img: initialState.status.img,
+                img: {
+                    ...state.status.img,
+                    getted: false,
+                },
                 get: "PENDING"
             }
         };
@@ -230,6 +270,10 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...state.status,
+                img: {
+                    ...state.status.img,
+                    getted: true
+                },
                 get: "ERROR"
             }
         };
@@ -240,9 +284,10 @@ const medias = (state = initialState, {type, payload}) => {
             status: {
                 ...initialState.status,
                 img: {
+                    ...state.status.img,
+                    total: payload.results.data.length,
+                    toLoad: payload.results.data.length - state.status.img.total,
                     getted: true,
-                    toLoad: payload.results.data.length,
-                    total: payload.results.data.length
                 },
             },
             searchRequest: payload.request.searchRequest,

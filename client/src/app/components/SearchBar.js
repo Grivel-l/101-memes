@@ -72,13 +72,13 @@ class SearchBar extends Component {
                             Classic
                         </button>
                     </div>
-                    {(this.state.activeType !== "popular") && <button 
-                        className={`categoryButton ${this.state.activeType === "popular" ? "selected" : ""}`}
+                    {(this.props.type !== "popular") && <button 
+                        className={"categoryButton"}
                         onClick={() => this.launchSearch("popular")}>
                             Popular
                     </button>}
-                    {(this.state.activeType === "latest") && <button 
-                        className={`categoryButton ${this.state.activeType === "latest" ? "selected" : ""}`}
+                    {(this.props.type !== "latest") && <button 
+                        className={"categoryButton"}
                         onClick={() => this.launchSearch("latest")}>
                             Latest
                     </button>}
@@ -89,7 +89,7 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    activeType: PropTypes.string,
+    type: PropTypes.string,
     searchMedias: PropTypes.func
 };
 
