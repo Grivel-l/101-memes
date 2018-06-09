@@ -70,15 +70,20 @@ class MediasController {
     getAll(page, limit, author) {
         return this.medias.getAll(page, limit)
             .then(result => {
-                result.author = author;
+                let role;
                 if (this.globalUsers.admins.filter(user => user.login === author).length !== 0) {
-                    result.role = "admin";
+                    role = "admin";
                 } else if (this.globalUsers.moderators.filter(user => user.login === author).length !== 0) {
-                    result.role = "moderator";
+                    role = "moderator";
                 } else {
-                    result.role = "user";
+                    role = "user";
                 }
-                return result;
+                return {results: result,
+                    user: {
+                        role,
+                        login: author
+                    }
+                };
             });
     }
 

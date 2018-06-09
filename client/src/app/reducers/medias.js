@@ -16,12 +16,12 @@ import {
     MEDIAS_SEARCH_ERROR
 } from "../actions/medias";
 
-import config from "../../config/globalConfig";
-
 const initialState = {
-    data: [],
-    pageNbr: 0,
-    total: 0,
+    results: {
+        data: [],
+        pageNbr: 0,
+        total: 0,
+    },
     status: {
         img: {
             getted: false,
@@ -31,12 +31,15 @@ const initialState = {
         get: null,
         post: null,
         delete: null,
-        message: null
+        message: null,
+        searching: false
     },
     search: {
-        searching: false,
-        activeType: "latest",
-        request: null
+        type: "latest",
+        terms: null,
+        limit: 24,
+        page: 1
+
     },
     expand: null,
     gotSound: null
@@ -58,15 +61,15 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            ...payload,
+            results: payload.results,
             status: {
                 ...state.status,
                 img: {
                     getted: true,
-                    toLoad: payload.data.length,
-                    total: payload.data.length
+                    toLoad: payload.results.data.length,
+                    total: payload.results.data.length
                 },
-            }
+            },
         };
     case MEDIAS_GET_ERROR:
         return {
@@ -94,7 +97,10 @@ const medias = (state = initialState, {type, payload}) => {
                 ...initialState.status,
                 img: state.status.img,
             },
-            data: [...[payload], ...state.data]
+            results: {
+                ...state.results,
+                data: [...[payload], ...state.results.data]
+            }
         };
     case MEDIAS_POST_PENDING:
         return {
@@ -138,7 +144,10 @@ const medias = (state = initialState, {type, payload}) => {
                 ...initialState.status,
                 img: state.status.img,
             },
-            data: [...state.data.filter(media => media._id !== payload._id)]
+            results: {
+                ...state.results,
+                data: [...state.results.data.filter(media => media._id !== payload._id)],
+            }
         };
     case MEDIAS_DELETE_ERROR:
         return {
@@ -175,11 +184,7 @@ const medias = (state = initialState, {type, payload}) => {
             data: payload.response.data || [],
             pageNbr: payload.response.pageNbr,
             total: payload.response.total,
-            search: {
-                searching: initialState.search.searching,
-                activeType: payload.request.type,
-                request: payload.request,
-            }
+            search: payload.request,
         };
     }
     default:

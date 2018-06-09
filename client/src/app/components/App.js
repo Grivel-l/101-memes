@@ -9,7 +9,7 @@ import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import SearchBar from "../containers/searchBar";
 import Footer from "../components/Footer";
-import Pagination from "../components/Pagination";
+import Pagination from "../containers/pagination";
 import "../scss/app.css";
 
 class App extends Component {
@@ -53,7 +53,7 @@ class App extends Component {
     }
 
     renderMedias() {
-        return this.props.data.map((media, index) => {
+        return this.props.results.data.map((media, index) => {
             return (
                 <MediaBlock key={`media${index}`} index={index} media={media} />
             );
@@ -95,7 +95,7 @@ class App extends Component {
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
                         </div>
-                        {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
+                        <Pagination page={this.page} />
                     </div>
                     <Footer />
                     <PostButton showToast={this.props.showToast} />
@@ -109,7 +109,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-    data: PropTypes.array,
+    results: PropTypes.object,
     pageNbr: PropTypes.number,
     getMedias: PropTypes.func,
     hideExpand: PropTypes.func,

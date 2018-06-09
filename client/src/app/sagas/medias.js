@@ -31,6 +31,10 @@ import {
     MEDIAS_SEARCH_PENDING,
     MEDIAS_SEARCH_SUCCESS,
     MEDIAS_SEARCH_ERROR,
+    MEDIAS_SWAP_PAGE,
+    MEDIAS_SWAP_PAGE_ERROR,
+    MEDIAS_SWAP_PAGE_PENDING,
+    MEDIAS_SWAP_PAGE_SUCCESS
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -81,6 +85,10 @@ function* reportMedia({payload}) {
     });
 }
 
+function swapPageMedias({payload}) {
+    console.log("swap page", payload);
+}
+
 function *getMediasWatcher() {
     yield takeEvery(MEDIAS_GET, getMedias);
 }
@@ -99,6 +107,10 @@ function* mediaReportWatcher() {
 
 function* searchMediasWatcher() {
     yield takeEvery(MEDIAS_SEARCH, searchMedias);
+}
+
+function* swapPageMediasWatcher() {
+    yield takeEvery(MEDIAS_SWAP_PAGE, swapPageMedias);
 } 
 
 function* flow() {
@@ -107,7 +119,8 @@ function* flow() {
         fork(mediaPublishWatcher),
         fork(mediaDeleteWatcher),
         fork(mediaReportWatcher),
-        fork(searchMediasWatcher)
+        fork(searchMediasWatcher),
+        fork(swapPageMediasWatcher)
     ]);
 }
 
