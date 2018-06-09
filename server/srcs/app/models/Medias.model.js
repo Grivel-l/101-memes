@@ -78,7 +78,7 @@ class MediasModel {
         });
     }
     findClassic(page, terms, limit) {
-        const before = Date.now();
+        /*const before = Date.now();*/
         return schema.aggregate([
             {
                 $match: {
@@ -131,10 +131,10 @@ class MediasModel {
                 }
             }, {
                 $sort: {
-                    name: 1,
-                    tags: 1,
-                    author: 1,
-                    createDate: -1
+                    matchName: 1,
+                    matchTags: 1,
+                    matchAuthor: 1,
+                    createDate: -1,
                 }
             }, {
                 $group: {
@@ -156,8 +156,8 @@ class MediasModel {
                 }
             }
         ]).then(data => {
-            const after = Date.now();
-            console.log(`Search for "${terms}", Execution time : ${after - before}ms` )
+            /*const after = Date.now();
+            console.log(`Search for "${terms}", Execution time : ${after - before}ms` )*/
             if (!data[0]) {
                 return (null);
             }
