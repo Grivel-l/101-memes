@@ -166,10 +166,10 @@ body {
                 align-items: center;
                 .expandedMediaImg {
                     max-width: 100%;
-                    max-height: 50vh!important;
+                    max-height: 70vh!important;
                     @media screen and (max-width : 992px) {
                         max-width: 100%;
-                        max-height: 100%;
+                        max-height: 50vh!important;
                     }
                 }
             }

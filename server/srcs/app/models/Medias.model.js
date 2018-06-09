@@ -78,6 +78,7 @@ class MediasModel {
         });
     }
     findClassic(page, terms, limit) {
+        const before = Date.now();
         return schema.aggregate([
             {
                 $match: {
@@ -155,6 +156,8 @@ class MediasModel {
                 }
             }
         ]).then(data => {
+            const after = Date.now();
+            console.log(`Search for "${terms}", Execution time : ${after - before}ms` )
             if (!data[0]) {
                 return (null);
             }
