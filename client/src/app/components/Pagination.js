@@ -54,7 +54,10 @@ class Pagination extends Component {
         if (this.props.searchRequest.page < this.props.pageNbr) {
             result.push(
                 <div key={"next"} className={"paginator "} onClick={() => {
-                    window.location.href = `${config.clientUrl}?page=${this.props.searchRequest.page + 1}`;
+                    this.props.swapPage({searchRequest: {
+                        ...this.props.searchRequest,
+                        page: this.props.searchRequest.page + 1
+                    }});
                 }}>
                     {">"}
                 </div>
@@ -63,7 +66,10 @@ class Pagination extends Component {
         if (this.props.searchRequest.page > 1) {
             result.unshift(
                 <div key={"prev"} className={"paginator prev"}  onClick={() => {
-                    window.location.href = `${config.clientUrl}?page=${this.props.searchRequest.page - 1}`;
+                    this.props.swapPage({searchRequest: {
+                        ...this.props.searchRequest,
+                        page: this.props.searchRequest.page - 1
+                    }});
                 }}>
                     {"<"}
                 </div>

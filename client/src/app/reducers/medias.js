@@ -73,6 +73,10 @@ const medias = (state = initialState, {type, payload}) => {
                     total: payload.results.data.length
                 },
             },
+            searchRequest: {
+                ...state.searchRequest,
+                page: payload.page
+            }
         };
     case MEDIAS_GET_ERROR:
         return {

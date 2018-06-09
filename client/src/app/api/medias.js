@@ -1,7 +1,12 @@
 import fetch from "./index";
 
-export const getMediasApi = (pageNbr, token) => {
-    return fetch(`/media/all?page=${pageNbr}&limit=24&token=${token}`);
+export const getMediasApi = (page, token) => {
+    return fetch(`/media/all?page=${page}&limit=24&token=${token}`).then(res => {
+        return {
+            ...res,
+            page
+        };
+    });
 };
 
 export const publishMediaApi = body => {

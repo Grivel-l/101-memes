@@ -17,6 +17,7 @@ import {
 } from "../api/medias";
 import {
     MEDIAS_GET,
+    MEDIAS_GET_PENDING,
     MEDIAS_GET_SUCCESS,
     MEDIAS_GET_ERROR,
     MEDIA_PUBLISH,
@@ -45,6 +46,7 @@ function *searchMedias({payload}) {
 }
 
 function *getMedias({payload}) {
+    yield put({type: MEDIAS_GET_PENDING});
     yield call(apiCall, getMediasApi, payload, MEDIAS_GET_ERROR, MEDIAS_GET_SUCCESS);
 }
 

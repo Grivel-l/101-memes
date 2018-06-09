@@ -1,5 +1,6 @@
 export const MEDIAS_GET_SUCCESS = "medias.get.success";
 export const MEDIAS_GET = "medias.get";
+export const MEDIAS_GET_PENDING = "medias.get.pending";
 export const MEDIAS_GET_ERROR = "medias.get.error";
 export const MEDIA_PUBLISH = "medias.publish";
 export const MEDIAS_POST_SUCCESS = "medias.post.success";
