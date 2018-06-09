@@ -63,12 +63,11 @@ const medias = (state = initialState, {type, payload}) => {
             }
         };
     case MEDIAS_GET_SUCCESS:
-    console.log("success", payload)
         return {
             ...state,
             results: payload.results,
             status: {
-                ...state.status,
+                ...initialState.status,
                 img: {
                     getted: true,
                     toLoad: payload.results.data.length,
@@ -77,11 +76,10 @@ const medias = (state = initialState, {type, payload}) => {
             },
             searchRequest: {
                 ...state.searchRequest,
-                page: payload.page
+                page: payload.page || 1
             }
         };
     case MEDIAS_GET_ERROR:
-    console.log("err", payload)
         return {
             ...state,
             status: {
@@ -89,15 +87,14 @@ const medias = (state = initialState, {type, payload}) => {
                 get: "ERROR"
             }
         };
-        case MEDIAS_GET_PENDING:
-        console.log("pend", payload)
-            return {
-                ...state,
-                status: {
-                    ...initialState.status,
-                    get: "PENDING"
-                }
-            };
+    case MEDIAS_GET_PENDING:
+        return {
+            ...state,
+            status: {
+                ...initialState.status,
+                get: "PENDING"
+            }
+        };
     case MEDIAS_EXPAND_SHOW:
         return {
             ...state,
