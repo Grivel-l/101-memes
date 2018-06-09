@@ -131,9 +131,9 @@ class MediasModel {
                 }
             }, {
                 $sort: {
-                    matchName: 1,
-                    matchTags: 1,
-                    matchAuthor: 1,
+                    matchName: -1,
+                    matchTags: -1,
+                    matchAuthor: -1,
                     createDate: -1,
                 }
             }, {
