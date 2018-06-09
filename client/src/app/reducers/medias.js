@@ -35,7 +35,7 @@ const initialState = {
         post: null,
         delete: null,
         message: null,
-        searching: false
+        searching: null
     },
     searchRequest: {
         type: "latest",
@@ -169,21 +169,30 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_PENDING: {
         return {
             ...state,
-            searchRequest: {
-                ...state.searchRequest,
-                searching: true
+            status: {
+                ...state.status,
+                img: initialState.status.img,
+                searching: "PENDING",
             }
         };
     }
     case MEDIAS_SEARCH_ERROR: {
         return {
             ...state,
-            searchRequest: initialState.searchRequest
+            status: {
+                ...initialState.status,
+                img: state.status.img,
+                searching: "ERROR",
+            },
         };
     }
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
+            status: {
+                ...initialState.status,
+                img: state.status.img,
+            },
             results: payload.response.results,
             searchRequest: payload.request,
         };
@@ -191,16 +200,33 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SWAP_PAGE_PENDING: {
         return {
             ...state,
+            status: {
+                ...state.status,
+                img: initialState.status.img,
+                get: "PENDING"
+            }
         };
     }
     case MEDIAS_SWAP_PAGE_ERROR: {
         return {
             ...state,
+            status: {
+                ...state.status,
+                get: "ERROR"
+            }
         };
     }
     case MEDIAS_SWAP_PAGE_SUCCESS: {
         return {
             ...state,
+            status: {
+                ...initialState.status,
+                img: {
+                    getted: true,
+                    toLoad: payload.results.data.length,
+                    total: payload.results.data.length
+                },
+            },
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };
