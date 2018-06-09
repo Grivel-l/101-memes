@@ -85,11 +85,11 @@ class MediasModel {
                         ...this.condition,
                     }, {
                         $or: [{
-                            name: terms
+                            name: { $regex: `.*${terms}.*`, $options : "i" }
                         }, {
-                            author: terms
+                            author: { $regex: `.*${terms}.*`, $options : "i" }
                         },{
-                            tags: terms
+                            tags: { $regex: `.*${terms}.*`, $options : "i" }
                         }]
                     }]
                 },
@@ -97,19 +97,36 @@ class MediasModel {
                 $addFields: {
                     matchName: {
                         $cond: [{
-                            $eq: [ "$name", terms ]
+                            $ne: [ { $indexOfBytes: [ { $toLower: "$name" }, terms.toLowerCase()] } , -1 ]
                         }, 1, 0]
                     },
                     matchAuthor: {
                         $cond: [{
-                            $eq: [ "$author", terms ]
+                            $ne: [ { $indexOfBytes: [ { $toLower: "$author" }, terms.toLowerCase()] } , -1 ]
                         }, 1, 0]
                     },
+                    binMatchTags: {
+                        $map:
+                            {
+                                input: "$tags",
+                                as: "tagsMatcher",
+                                in: { $cond: [{
+                                    $ne: [ { $indexOfBytes: [ { $toLower: "$$tagsMatcher" }, terms.toLowerCase()] } , -1 ]
+                                }, 1, 0]
+                                }
+                            }
+                    },
+                }
+            }, {
+                $addFields: {
                     matchTags: {
                         $cond: [{
-                            $in: [ terms, "$tags" ]
-                        }, 1, 0]
-                    }
+                            $in: [ 1, "$binMatchTags" ]
+                        }, 1, 0] }
+                }
+            }, {
+                $project: {
+                    binMatchTags: 0
                 }
             }, {
                 $sort: {
