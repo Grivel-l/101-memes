@@ -31,9 +31,6 @@ class SearchBar extends Component {
             }
         };
 
-        this.state = {
-            activeType: "classic"
-        };
     }
 
     launchSearch(preset = "classic") {
@@ -61,15 +58,8 @@ class SearchBar extends Component {
                 <div className={"searchBar"}>
                     <div className="searchInputWrapper">
                         <input type="text" placeholder="Search Memes" ref="searchInput" onKeyDown={this.keyPress}/>
-                        <button className={"searchButton"} onClick={this.launchSearch.bind(this, this.state.activeType)} ref="searchButton">
+                        <button className={"searchButton"} onClick={() => this.launchSearch()} ref="searchButton">
                             Search
-                        </button>
-                    </div>
-                    <div className="searchType">
-                        <button 
-                            className={`typeButton ${this.state.activeType === "classic" ? "selected" : ""}`}
-                            onClick={() => this.updateType("classic")}>
-                            Classic
                         </button>
                     </div>
                     {(this.props.type !== "popular") && <button 
