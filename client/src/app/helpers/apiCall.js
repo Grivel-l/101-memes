@@ -31,7 +31,7 @@ export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaste
         const result = yield call(funcApi, payload, token);
         if (result.error !== undefined) {
             if (ACTION_ERROR !== null) {
-                yield put({type: ACTION_ERROR});
+                yield put({type: ACTION_ERROR, payload: result});
             }
             throw result;
         }

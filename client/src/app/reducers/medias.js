@@ -1,6 +1,7 @@
 import {
     MEDIAS_GET_SUCCESS,
     MEDIAS_GET_ERROR,
+    MEDIAS_GET_PENDING,
     MEDIAS_EXPAND_SHOW,
     MEDIAS_EXPAND_HIDE,
     MEDIAS_POST_SUCCESS,
@@ -62,6 +63,7 @@ const medias = (state = initialState, {type, payload}) => {
             }
         };
     case MEDIAS_GET_SUCCESS:
+    console.log("success", payload)
         return {
             ...state,
             results: payload.results,
@@ -79,14 +81,23 @@ const medias = (state = initialState, {type, payload}) => {
             }
         };
     case MEDIAS_GET_ERROR:
+    console.log("err", payload)
         return {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
                 get: "ERROR"
             }
         };
+        case MEDIAS_GET_PENDING:
+        console.log("pend", payload)
+            return {
+                ...state,
+                status: {
+                    ...initialState.status,
+                    get: "PENDING"
+                }
+            };
     case MEDIAS_EXPAND_SHOW:
         return {
             ...state,
