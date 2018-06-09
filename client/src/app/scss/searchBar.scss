@@ -1,3 +1,6 @@
+@import "./colors.scss";
+@import "utilities/cross-browser.scss";
+
 .searchBarWrapper {
     height: 200px;
     width: 100%;
@@ -5,6 +8,35 @@
     justify-content: center;
     align-items: center;
     .searchBar {
+        .searchInputWrapper {
+            font-weight: bolder;
+            
+            padding: 5px 5px 5px 10px;
+           
+            background-color: $backColorDimmed;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #707070;
+            .searchInput {
+                background-color: transparent;
+                border: none;
+                font-size: 25px;
+                line-height: 30px;
+                outline: none;
+                color: #fff;
+            }
+            .searchButton {
+                margin-left: 10px;
+                background-color: #fff;
+                color: $backColorDimmed;
+                font-size: 25px;
+                line-height: 30px;
+                padding: 5px;
+                border-style: solid;
+                border-width: 2px;
+                border-color: #707070;
+            }
+        }
         .searchType {
             .typeButton {
                 &.selected {

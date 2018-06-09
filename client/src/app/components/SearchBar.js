@@ -57,7 +57,7 @@ class SearchBar extends Component {
             <div className={"searchBarWrapper"}>
                 <div className={"searchBar"}>
                     <div className="searchInputWrapper">
-                        <input type="text" placeholder="Search Memes" ref="searchInput" onKeyDown={this.keyPress}/>
+                        <input className={"searchInput"} type="text" placeholder="Search Memes" ref="searchInput" onKeyDown={this.keyPress}/>
                         <button className={"searchButton"} onClick={() => this.launchSearch()} ref="searchButton">
                             Search
                         </button>
