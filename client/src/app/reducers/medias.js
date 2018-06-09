@@ -34,7 +34,7 @@ const initialState = {
         message: null,
         searching: false
     },
-    search: {
+    searchRequest: {
         type: "latest",
         terms: null,
         limit: 24,
@@ -166,8 +166,8 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_PENDING: {
         return {
             ...state,
-            search: {
-                ...state.search,
+            searchRequest: {
+                ...state.searchRequest,
                 searching: true
             }
         };
@@ -175,16 +175,14 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_ERROR: {
         return {
             ...state,
-            search: initialState.search
+            searchRequest: initialState.searchRequest
         };
     }
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
-            data: payload.response.data || [],
-            pageNbr: payload.response.pageNbr,
-            total: payload.response.total,
-            search: payload.request,
+            results: payload.response.results,
+            searchRequest: payload.request,
         };
     }
     default:

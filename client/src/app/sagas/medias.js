@@ -12,7 +12,8 @@ import {
     publishMediaApi,
     deleteMediaApi,
     reportMediaApi,
-    searchMediasApi
+    searchMediasApi,
+    swapPageMediasApi
 } from "../api/medias";
 import {
     MEDIAS_GET,
@@ -85,8 +86,9 @@ function* reportMedia({payload}) {
     });
 }
 
-function swapPageMedias({payload}) {
-    console.log("swap page", payload);
+function *swapPageMedias({payload}) {
+    yield put({type: MEDIAS_SWAP_PAGE_PENDING});
+    yield call(apiCall, swapPageMediasApi, payload, MEDIAS_SWAP_PAGE_SUCCESS, MEDIAS_SWAP_PAGE_ERROR);
 }
 
 function *getMediasWatcher() {

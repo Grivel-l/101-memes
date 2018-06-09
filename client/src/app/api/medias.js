@@ -34,3 +34,15 @@ export const searchMediasApi = params => {
         };
     });
 };
+
+export const swapPageMediasApi = params => {
+    return fetch(`/media/search?type=${params.searchRequest.type}&limit=${params.searchRequest.limit}&page=${params.searchRequest.page}&terms=${params.searchRequest.terms}`, {
+        method: "GET"
+    }).then((response) => {
+        console.log(response)
+        return {
+            request: params,
+            response,
+        };
+    });
+};

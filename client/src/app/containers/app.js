@@ -14,7 +14,7 @@ const mapStateToProps = ({medias}) => {
         imgLoaded: (medias.status.img.getted === true && medias.status.img.toLoad <= 0),
         post: medias.status.post,
         delete: medias.status.delete,
-        searchActiveType: medias.search.type
+        searchActiveType: medias.searchRequest.type
     };
 };
 

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import config from "../../config/globalConfig";
+import PropTypes from "prop-types";
 import "../scss/pagination.css";
 
 class Pagination extends Component {
@@ -14,7 +15,10 @@ class Pagination extends Component {
                 key={`page${props.index}`}
                 className={this.props.page === props.index + 1 ? "paginator selected" : "paginator"}
                 onClick={() => {
-                    window.location.href = `${config.clientUrl}?page=${props.index + 1}`;
+                    this.props.swapPage({searchRequest: {
+                        ...this.props.searchRequest,
+                        page: props.index + 1
+                    }});
                 }}
             >{props.index + 1}</div>
         );
@@ -75,5 +79,12 @@ class Pagination extends Component {
         );
     }
 }
+
+Pagination.propTypes = {
+    page: PropTypes.number,
+    pageNbr: PropTypes.number,
+    swapPage: PropTypes.func,
+    searchRequest: PropTypes.object
+};
 
 export default Pagination;

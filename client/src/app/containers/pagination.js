@@ -6,7 +6,7 @@ import Paginatiom from "../components/Pagination";
 const mapStateToProps = ({medias}) => {
     return {
         pageNbr: medias.results.pageNbr,
-        search: medias.search
+        searchRequest: medias.searchRequest
     };
 };
 

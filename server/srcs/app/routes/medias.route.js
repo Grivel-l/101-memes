@@ -79,11 +79,11 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
 
         server.get("/media/search", (req, res) => {
             medias.searchMedia(req.params)
-                .then(result => {
-                    if (result && result.data && result.data.length > 0) {
-                        res.send(200, result);
+                .then(results => {
+                    if (results && results.data && results.data.length > 0) {
+                        res.send(200, {results});
                     } else {
-                        res.send(200, {total: 0, pageNbr: 0, data: []});
+                        res.send(200, {results: { total: 0, pageNbr: 0, data: []}});
                     }
                 })
                 .catch(error => {
