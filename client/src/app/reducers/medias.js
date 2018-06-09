@@ -184,8 +184,7 @@ const medias = (state = initialState, {type, payload}) => {
         return {
             ...state,
             status: {
-                ...state.status,
-                img: initialState.status.img,
+                ...initialState.status,
                 searching: "PENDING",
             }
         };
@@ -201,11 +200,16 @@ const medias = (state = initialState, {type, payload}) => {
         };
     }
     case MEDIAS_SEARCH_SUCCESS: {
+        console.log(payload)
         return {
             ...state,
             status: {
                 ...initialState.status,
-                img: state.status.img,
+                img: {
+                    getted: true,
+                    toLoad: payload.response.results.data.length,
+                    total: payload.response.results.data.length
+                },
             },
             results: payload.response.results,
             searchRequest: payload.request,
