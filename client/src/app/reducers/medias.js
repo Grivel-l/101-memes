@@ -76,7 +76,7 @@ const medias = (state = initialState, {type, payload}) => {
             },
             searchRequest: {
                 ...state.searchRequest,
-                page: payload.page || 1
+                page: payload.page  || 1
             }
         };
     case MEDIAS_GET_ERROR:

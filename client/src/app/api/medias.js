@@ -3,10 +3,17 @@ import fetch from "./index";
 export const getMediasApi = (page, token) => {
     return fetch(`/media/all?page=${page}&limit=24&token=${token}`).then(response => {
         if (!response.error) {
-            return {
-                ...response,
-                page
-            };
+            if (page <= response.results.pageNbr) {
+                return {
+                    ...response,
+                    page
+                };
+            } else {
+                return {
+                    statusCode: 302,
+                    error: "This page doesn't exists"
+                };
+            }
         } else {
             return response;
         }
@@ -38,10 +45,17 @@ export const searchMediasApi = params => {
         method: "GET"
     }).then((response) => {
         if (!response.error) {
-            return {
-                request: params,
-                response,
-            };
+            if (params.page <= response.results.pageNbr) {
+                return {
+                    request: params,
+                    response,
+                };
+            } else {
+                return {
+                    statusCode: 302,
+                    error: "This page doesn't exists"
+                };
+            }
         } else {
             return response;
         }
