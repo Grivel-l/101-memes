@@ -135,6 +135,7 @@ const medias = (state = initialState, {type, payload}) => {
             },
             results: {
                 ...state.results,
+                total: state.results.total + 1,
                 data: [...[payload], ...state.results.data]
             }
         };
@@ -190,6 +191,7 @@ const medias = (state = initialState, {type, payload}) => {
             },
             results: {
                 ...state.results,
+                total: state.results.total - 1,
                 data: [...state.results.data.filter(media => media._id !== payload._id)],
             }
         };

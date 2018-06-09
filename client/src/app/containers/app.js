@@ -10,13 +10,12 @@ import App from "../components/App";
 const mapStateToProps = ({medias}) => {
     return {
         ...medias,
-        status: medias.status.get,
-        imgLoaded: (medias.status.img.getted === true && medias.status.img.toLoad <= 0),
-        post: medias.status.post,
-        delete: medias.status.delete,
-        searching: medias.status.searching,
-        searchActiveType: medias.searchRequest.type,
-        redirect: medias.status.redirect
+        status: {
+            ...medias.status,
+            img : {
+                loaded: (medias.status.img.getted === true && medias.status.img.toLoad <= 0)
+            }
+        }
     };
 };
 

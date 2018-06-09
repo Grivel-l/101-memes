@@ -29,7 +29,7 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.redirect) {
+        if (nextProps.status.redirect) {
             window.history.pushState(null, null, "/");
             this.props.getMedias(1);
         }
@@ -61,7 +61,7 @@ class App extends Component {
     }
 
     adjustDivSize() {
-        if (this.props.imgLoaded === true) {
+        if (this.props.status.img.loaded === true) {
             const first = this.medias.current.children[0];
             if (first === undefined) {
                 return ;
@@ -90,7 +90,7 @@ class App extends Component {
                     <SearchBar />
                     <div className={"subWrapper"}>
                         <div className="category">
-                            <p>{`${this.props.searchActiveType} (${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
+                            <p>{`${this.props.searchRequest.type} (${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
                         </div>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
@@ -101,7 +101,7 @@ class App extends Component {
                     <PostButton showToast={this.props.showToast} />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
-                <Loader key="MainLoader" in={!((this.props.searching === "ERROR" || this.props.status === "ERROR" || this.props.delete === "ERROR" || this.props.post === "ERROR") || (this.props.imgLoaded && this.props.post !== "PENDING" && this.props.delete !== "PENDING" && this.props.status !== "PENDING" && this.props.searching !== "PENDING"))} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
+                <Loader key="MainLoader" in={!((this.props.status.searching === "ERROR" || this.props.status.get === "ERROR" || this.props.status.delete === "ERROR" || this.props.status.post === "ERROR") || (this.props.status.img.loaded && this.props.status.post !== "PENDING" && this.props.status.delete !== "PENDING" && this.props.status.get !== "PENDING" && this.props.status.searching !== "PENDING"))} transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}/>
                 <Toaster />
             </Fragment>
         );
