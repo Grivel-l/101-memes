@@ -3,7 +3,7 @@ import fetch from "./index";
 export const getMediasApi = (page, token) => {
     return fetch(`/media/all?page=${page}&limit=24&token=${token}`).then(response => {
         if (!response.error) {
-            if (page <= response.results.pageNbr) {
+            if (!page || page <= response.results.pageNbr) {
                 return {
                     ...response,
                     page
@@ -45,7 +45,7 @@ export const searchMediasApi = params => {
         method: "GET"
     }).then((response) => {
         if (!response.error) {
-            if (params.page <= response.results.pageNbr) {
+            if (!params.page || params.page <= response.results.pageNbr) {
                 return {
                     request: params,
                     response,

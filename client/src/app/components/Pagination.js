@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import config from "../../config/globalConfig";
 import PropTypes from "prop-types";
 import "../scss/pagination.css";
 

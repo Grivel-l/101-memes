@@ -15,7 +15,8 @@ const mapStateToProps = ({medias}) => {
         post: medias.status.post,
         delete: medias.status.delete,
         searching: medias.status.searching,
-        searchActiveType: medias.searchRequest.type
+        searchActiveType: medias.searchRequest.type,
+        redirect: medias.status.redirect
     };
 };
 

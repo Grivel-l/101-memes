@@ -36,7 +36,8 @@ const initialState = {
         post: null,
         delete: null,
         message: null,
-        searching: null
+        searching: null,
+        redirect: false
     },
     searchRequest: {
         type: "latest",
@@ -84,7 +85,8 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                get: "ERROR"
+                get: "PENDING",
+                redirect: payload.statusCode === 302,
             }
         };
     case MEDIAS_GET_PENDING:

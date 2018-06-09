@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import Loader from "./Loader";
 import MediaHover from "./medias/MediaHover";
 import MediaBlock from "./medias/MediaBlock";
-import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import SearchBar from "../containers/searchBar";
@@ -19,6 +18,7 @@ class App extends Component {
         this.adjustDivSize = this.adjustDivSize.bind(this);
         this.medias = React.createRef();
         this.subWrapperSize = "0px";
+
     }
 
     componentWillMount() {
@@ -29,8 +29,9 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.page > nextProps.pageNbr && nextProps.pageNbr !== 0) {
-            window.location = config.clientUrl;
+        if (nextProps.redirect) {
+            window.history.pushState(null, null, "/");
+            this.props.getMedias(1);
         }
     }
 
