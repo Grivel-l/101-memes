@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const configs = require("../configs/database");
 
 class Database {
-    constructor(log) {
+    constructor(log = null) {
         this.log = log;
         this.looping = true;
         this.connect = this.connect.bind(this);
@@ -13,7 +13,11 @@ class Database {
             mongoose.connect(configs.url, configs.options)
                 .then(() => {
                     this.looping = false;
-                    this.log.info("Connected to database");
+                    if (this.log !== null) {
+                        this.log.info("Connected to database");
+                    } else {
+                        console.info("Connected to database");
+                    }
                     res === null ? resolve(mongoose) : res(mongoose);
                 })
                 .catch(err => {
@@ -26,7 +30,11 @@ class Database {
     init() {
         mongoose.connection.on("disconnected", () => {
             if (!this.looping) {
-                this.log.error("Disconnected from database");
+                if (this.log !== null) {
+                    this.log.error("Disconnected from database");
+                } else {
+                    console.error("Connected to database");
+                }
                 this.looping = true;
                 this.connect();
             }
