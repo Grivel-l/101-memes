@@ -22,8 +22,8 @@ class MigrationsModel {
         });
     }
 
-    getLast() {
-        return this.schema.findOne({}, {}, {
+    getLast(condition = {}) {
+        return this.schema.findOne(condition, {}, {
             limit: 1,
             sort: {name: -1}
         });

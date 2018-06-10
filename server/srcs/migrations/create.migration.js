@@ -20,8 +20,8 @@ function createFile() {
                 .then(({_id}) => {
                     try {
                         fs.writeFileSync(`${baseDir}${process.argv[2]}/${last}_${process.argv[3]}.migration.js`, `module.exports = {
-    run: mongoose => {},
-    rollback: mongoose => {}
+    run: mongoose => new Promise(resolve => resolve()),
+    rollback: mongoose => new Promise(resolve => resolve())
 }
 `);
                         console.log("Migration successFully created !");
