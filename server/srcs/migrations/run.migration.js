@@ -24,7 +24,11 @@ function runMigrations(migrations, migrationsModel) {
 }
 
 mongoose.connection.on("connected", () => {
-    require("../app/models/schemas/Migrations.schema")(mongoose);
+    try {
+        require("../app/models/schemas/index")(mongoose);
+    } catch (error) {
+        unknownError(error);
+    }
     const migrationsModel = new MigrationsModel();
     migrationsModel.getAll()
         .then(migrations => runMigrations(migrations, migrationsModel))

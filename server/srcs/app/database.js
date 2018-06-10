@@ -33,7 +33,7 @@ class Database {
                 if (this.log !== null) {
                     this.log.error("Disconnected from database");
                 } else {
-                    console.error("Connected to database");
+                    console.error("Disconnected from database");
                 }
                 this.looping = true;
                 this.connect();
