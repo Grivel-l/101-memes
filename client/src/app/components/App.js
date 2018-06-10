@@ -109,15 +109,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-    results: PropTypes.object,
-    pageNbr: PropTypes.number,
     getMedias: PropTypes.func,
     hideExpand: PropTypes.func,
     showToast: PropTypes.func,
-    searching: PropTypes.string,
-    status: PropTypes.string,
-    post: PropTypes.string,
-    delete: PropTypes.string
 };
 
 export default App;
