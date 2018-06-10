@@ -11,8 +11,8 @@ class SearchBar extends Component {
         this.keyPress = this.keyPress.bind(this);
 
         this.categoryPresets = {
-            classic: {
-                type: "classic",
+            custom: {
+                type: "custom",
                 terms: true,
                 limit: 24,
                 page: 1
@@ -33,7 +33,7 @@ class SearchBar extends Component {
 
     }
 
-    launchSearch(preset = "classic") {
+    launchSearch(preset = "custom") {
         this.props.searchMedias({
             ...this.categoryPresets[preset],
             terms: this.categoryPresets[preset].terms ? this.refs.searchInput.value : ""

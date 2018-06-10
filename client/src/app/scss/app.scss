@@ -73,7 +73,9 @@ body {
         text-align: center;
         font-size: 25px;
         margin-bottom: 30px;
-        text-transform: capitalize;
+        .capitalize {
+            text-transform: capitalize;
+        }
     }
 }
 

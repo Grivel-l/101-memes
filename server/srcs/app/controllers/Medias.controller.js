@@ -148,7 +148,7 @@ class MediasController {
         }
         searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
         if (!searchParams.type ||
-            (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "classic") ||
+            (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "custom") ||
             searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
             return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
         }
@@ -158,10 +158,10 @@ class MediasController {
             return this.medias.findLatest(searchParams.page, searchParams.limit);
         case "popular": 
             return this.medias.findPopular(searchParams.limit);
-        case "classic":
+        case "custom":
             if (!searchParams.terms || searchParams.terms.trim().length === 0)
                 return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-            return this.medias.findClassic(searchParams.page, searchParams.terms, searchParams.limit);
+            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit);
         }
     }
 }

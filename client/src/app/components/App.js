@@ -90,7 +90,7 @@ class App extends Component {
                     <SearchBar />
                     <div className={"subWrapper"}>
                         <div className="category">
-                            <p>{`${this.props.searchRequest.type} (${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
+                            <p><span className={"capitalize"}>{`${this.props.searchRequest.type}`}</span> {`(${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
                         </div>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}

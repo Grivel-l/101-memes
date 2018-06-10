@@ -77,7 +77,7 @@ class MediasModel {
             throw ({statusCode: 501, Message: "not yet implemented"});
         });
     }
-    findClassic(page, terms, limit) {
+    findCustom(page, terms, limit) {
         /*const before = Date.now();*/
         return schema.aggregate([
             {
