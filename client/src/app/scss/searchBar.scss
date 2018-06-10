@@ -13,10 +13,10 @@
             
             padding: 5px 5px 5px 10px;
            
-            background-color: $backColorDimmed;
+            background-color: transparent;
             border-style: solid;
-            border-width: 2px;
-            border-color: #707070;
+            border-width: 3px;
+            border-color: #fff;
             .searchInput {
                 background-color: transparent;
                 border: none;
@@ -24,23 +24,45 @@
                 line-height: 30px;
                 outline: none;
                 color: #fff;
+                vertical-align: top;
+                &::placeholder {
+                    color: #fff;
+                }
             }
             .searchButton {
-                margin-left: 10px;
-                background-color: #fff;
-                color: $backColorDimmed;
-                font-size: 25px;
-                line-height: 30px;
-                padding: 5px;
-                border-style: solid;
-                border-width: 2px;
-                border-color: #707070;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                vertical-align: top;
+                margin: 0px 0px 0px 10px;
+                height: 32px;
+                width: 40px;
+                svg {
+                    height: 100%;
+                    width: 100%;
+                    fill: #fff;
+                }
             }
         }
-        .searchType {
-            .typeButton {
-                &.selected {
-                }
+        .categoryWrapper {
+            display: flex;
+            justify-content: stretch;
+            align-content: stretch;
+            width: calc(100% + 4px);
+            margin: 0 -2px;
+            .categoryButton {
+                flex-grow: 1;
+                align-self: stretch;
+                background-color: transparent;
+                border-style: solid;
+                border-width: 3px;
+                border-color: #fff;
+                outline: none;
+                width: auto;
+                margin: 4px 2px 0 2px;
+                color: #fff;
+                font-size: 20px;
+                padding: 2px 20px;;
             }
         }
     }
