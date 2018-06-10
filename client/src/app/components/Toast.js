@@ -7,9 +7,9 @@ class Toast extends Component {
         super();
 
         this.state = {
-            transition: "off"
+            transition: "off",
         };
-
+        this.mounted = true;
         this.transitionDuration = 600;
         this.renderButton = this.renderButton.bind(this);
         this.dismissToast = this.dismissToast.bind(this);
@@ -23,12 +23,15 @@ class Toast extends Component {
             }, 100);
             if (typeof(this.props.toast.timeout) === "number")
                 setTimeout(() => {
-                    this.dismissToast();
+                    if (this.mounted) {
+                        this.dismissToast();
+                    }
                 }, this.props.toast.timeout);
         }
     }
 
     dismissToast() {
+        this.mounted = false;
         this.setState({
             transition: "off"
         });
