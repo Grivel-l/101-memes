@@ -15,6 +15,23 @@ class MigrationsModel {
     removeMigration(_id) {
         return this.schema.remove({_id});
     }
+
+    getAll() {
+        return this.schema.find({executed: false}, {}, {
+            sort: {name: 1}
+        });
+    }
+
+    getLast() {
+        return this.schema.findOne({}, {}, {
+            limit: 1,
+            sort: {name: -1}
+        });
+    }
+
+    updateOne(_id, updated) {
+        return this.schema.updateOne({_id}, updated);
+    }
 }
 
 module.exports = MigrationsModel;

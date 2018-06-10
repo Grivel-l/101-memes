@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --harmony --inspect srcs/app/index.js | bunyan",
+    "start": "migration:run; nodemon --harmony --inspect srcs/app/index.js | bunyan",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:create": "node srcs/migrations/create.migration.js"
+    "migrations:create": "node srcs/migrations/create.migration.js",
+	"migrations:run": "node srcs/migrations/run.migration.js"
   },
   "repository": {
     "type": "git",
