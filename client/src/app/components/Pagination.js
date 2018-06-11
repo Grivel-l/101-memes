@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import isEqual from "lodash.isequal";
+
 import "../scss/pagination.css";
 
 class Pagination extends Component {
 
     shouldComponentUpdate(nextProps) {
-        return JSON.stringify(nextProps.searchRequest) !== JSON.stringify(this.props.searchRequest) || nextProps.pageNbr !== this.props.pageNbr;
+        return !isEqual(nextProps.searchRequest, this.props.searchRequest)|| nextProps.pageNbr !== this.props.pageNbr;
     }
 
     Paginator(props) {
