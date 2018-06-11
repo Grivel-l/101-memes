@@ -9,14 +9,20 @@ const {fileMaxSize} = require("../../configs/global");
 
 class MediasController {
     constructor(dtb, globalUsers) {
-        this.medias = new MediasModel(dtb);
-        this.users = new UsersModel(dtb);
-        this.mediaDir = "./srcs/imgs/";
-        this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];
-        
-        this.globalUsers = globalUsers;
+        return new Promise((resolve, reject) => {
+            new MediasModel().then((medias) => {
+                this.medias = medias;
+                this.users = new UsersModel(dtb);
+                this.mediaDir = "./srcs/imgs/";
+                this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
+                this.globalUsers = globalUsers;
+                resolve(this);
+            }).catch(err => {
+                reject(err);
+            });
+        });
     }
-    
+
     getName() {
         const filename = uuid();
         try {
@@ -27,7 +33,7 @@ class MediasController {
         }
     }
     
-    uploadFile(name, media, author, size) {
+    uploadFile(name, tags = "", media, author, size) {
         const magic = new Magic(MAGIC_MIME_TYPE);
         return new Promise((resolve, reject) => {
             magic.detectFile(media.path, (err, type) => {
@@ -54,7 +60,7 @@ class MediasController {
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.medias.addFile(name, filepath, author, type)
+                this.medias.addFile(name, tags, filepath, author, type)
                     .then(result => resolve(result))
                     .catch(err => reject({statusCode: 500, message: err}));
             });
@@ -64,15 +70,20 @@ class MediasController {
     getAll(page, limit, author) {
         return this.medias.getAll(page, limit)
             .then(result => {
-                result.author = author;
+                let role;
                 if (this.globalUsers.admins.filter(user => user.login === author).length !== 0) {
-                    result.role = "admin";
+                    role = "admin";
                 } else if (this.globalUsers.moderators.filter(user => user.login === author).length !== 0) {
-                    result.role = "moderator";
+                    role = "moderator";
                 } else {
-                    result.role = "user";
+                    role = "user";
                 }
-                return result;
+                return {results: result,
+                    user: {
+                        role,
+                        login: author
+                    }
+                };
             });
     }
 
@@ -128,6 +139,30 @@ class MediasController {
                     .then(media => media.path);
             });
 
+    }
+    searchMedia(searchParams) {
+        if (searchParams.limit)
+            searchParams.limit = Number(searchParams.limit);
+        else {
+            return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+        }
+        searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
+        if (!searchParams.type ||
+            (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "custom") ||
+            searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
+            return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+        }
+
+        switch(searchParams.type) {
+        case "latest":
+            return this.medias.findLatest(searchParams.page, searchParams.limit);
+        case "popular": 
+            return this.medias.findPopular(searchParams.limit);
+        case "custom":
+            if (!searchParams.terms || searchParams.terms.trim().length === 0)
+                return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit);
+        }
     }
 }
 

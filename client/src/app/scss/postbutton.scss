@@ -37,7 +37,7 @@
     }
 }
 .postButton {
-    font-size: 25px;
+    font-size: 24px;
     font-weight: bolder;
     svg {
         @include transition(fill 0.15s ease-out);
@@ -127,7 +127,8 @@
         position: initial;
         height: 60px;
         width: 100%;
-        font-size: 25px;        
+        font-size: 24px;
+        @include transition(background-color 0.15s ease-out, color 0.15s ease-out);        
         &:before {
             content: "Upload";
         }
@@ -138,9 +139,10 @@
         border-style: solid;
         border-color: #fff;
         color: #fff;
-        padding: 10px 0px;
+        padding: 5px 0;
         outline-width: 0;
-        font-size: 25px;        
+        font-size: 24px;
+        height: 45px;
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
             color: #fff;
             opacity: 0.8; /* Firefox */
@@ -156,9 +158,19 @@
         width: 100%;
         display: flex; /* comportement visuel de cellule */
         justify-content: center;
+        @media (max-width: 1900px) {
+            min-width: 45vw;
+        }
+        @media (max-width: 1500px) {
+            min-width: 60vw;
+        }
+        @media (max-width: 1200px) {
+            min-width: 70vw;
+        }
         @media (max-width: 992px) { 
             min-width: 80vw;
         }
+
         .soundButton {
             z-index: 25;
         }
@@ -173,6 +185,83 @@
             top: 0;
             bottom: 0;
             margin: auto;
+        }
+    }
+    .tagsForm {
+        width: 100%;
+        h2 {
+            margin: 0 0 10px 0;
+            color: #fff;
+            font-size: 25px;
+            font-weight: normal;
+        }
+        .tagInput {
+            display: inline-block;
+            background-color: transparent;
+            border-width: 0 0 3px 0;
+            border-style: solid;
+            border-color: #fff;
+            color: #fff;
+            padding: 5px 0;
+            width: calc(100% - 70px);
+            outline-width: 0;
+            font-size: 24px;
+            height: 45px;
+            margin-bottom: 10px;
+            vertical-align: top;
+            &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #fff;
+                opacity: 0.8; /* Firefox */
+            }
+        }
+        .delTagButton {
+            display: inline-block;
+            outline: none;
+            width: 60px;
+            height: 58px;
+            background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
+            border: 3px solid white;
+            margin-left: 10px; 
+            color: #fff;
+            padding: 5px;
+            @include transition(background-color 0.15s ease-out);
+            svg {
+                @include transition(fill 0.15s ease-out);
+                fill: #fff;
+                width: calc(100% - 10px);
+                height: calc(100% - 10px);
+            }
+            &:hover {
+                background-color: rgba($color: #fff, $alpha: 0.8);
+                color: $backColorDimmed;
+                svg {
+                    fill: rgba($color: $backColorDimmed, $alpha:1);
+                }
+            }
+        }
+        .addTag {
+            margin-top: 10px; 
+            background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
+            border: 3px solid white;
+            color: #fff;
+            height: 60px;
+            width: 60px;
+            padding: 5px;
+            outline: none;
+            @include transition(background-color 0.15s ease-out);
+            svg {
+                @include transition(fill 0.15s ease-out);
+                fill: #fff;
+                width: calc(100% - 10px);
+                height: calc(100% - 10px);
+            }
+            &:hover {
+                background-color: rgba($color: #fff, $alpha: 0.8);
+                color: $backColorDimmed;
+                svg {
+                    fill: rgba($color: $backColorDimmed, $alpha:1);
+                }
+            }
         }
     }
 }

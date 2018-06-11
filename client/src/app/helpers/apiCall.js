@@ -8,12 +8,21 @@ function* handleError(error) {
     if (error.status === 403 || error.status === 401) {
         document.location = config.redirectionUrl;
     }
-    yield put({type: TOAST_SHOW, payload: {
-        message: error.error || "An error occured",
-        type: "error",
-        timeout: 3000,
-        action: null
-    }});
+    if (error.statusCode === 302) {
+        yield put({type: TOAST_SHOW, payload: {
+            message: error.error || "Warning",
+            type: "warn",
+            timeout: 3000,
+            action: null
+        }});
+    } else {
+        yield put({type: TOAST_SHOW, payload: {
+            message: error.error || "An error occured",
+            type: "error",
+            timeout: 3000,
+            action: null
+        }});
+    }
 }
 
 export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaster = null) {
@@ -31,7 +40,7 @@ export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaste
         const result = yield call(funcApi, payload, token);
         if (result.error !== undefined) {
             if (ACTION_ERROR !== null) {
-                yield put({type: ACTION_ERROR});
+                yield put({type: ACTION_ERROR, payload: result});
             }
             throw result;
         }
