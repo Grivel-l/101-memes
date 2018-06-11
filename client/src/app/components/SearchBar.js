@@ -10,7 +10,7 @@ class SearchBar extends Component {
         this.updateType = this.updateType.bind(this);
         this.keyPress = this.keyPress.bind(this);
         this.searchInput = React.createRef();
-
+        this.OldSearchTerms = null;
         this.categoryPresets = {
             custom: {
                 type: "custom",
@@ -35,10 +35,13 @@ class SearchBar extends Component {
     }
 
     launchSearch(preset = "custom") {
-        this.props.searchMedias({
-            ...this.categoryPresets[preset],
-            terms: this.categoryPresets[preset].terms ? this.searchInput.current.value : ""
-        });
+        if (this.OldSearchTerms !== this.searchInput.current.value && this.searchInput.current.value.length > 0) {
+            this.OldSearchTerms = this.searchInput.current.value;
+            this.props.searchMedias({
+                ...this.categoryPresets[preset],
+                terms: this.categoryPresets[preset].terms ? this.searchInput.current.value : ""
+            });
+        }
     }
 
     updateType(type) {
