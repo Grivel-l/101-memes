@@ -2,7 +2,6 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 
 const {unknownError} = require("./helper.migration");
-const MigrationsModel = require("../app/models/Migrations.model");
 const Database = require("../app/database");
 const dtb = new Database();
 const baseDir = "./srcs/migrations/";
@@ -11,22 +10,37 @@ function printUsage() {
     console.log("Usage: npm run migration:create dirName migrationName");
 }
 
-function createFile() {
-    const migrationsModel = new MigrationsModel();
-    return migrationsModel.getLast()
-        .then(migration => {
-            const last = migration === null ? 0 :parseInt(migration.name.split("_")[0], 10) + 1;
-            try {
-                fs.writeFileSync(`${baseDir}${process.argv[2]}/${last}_${process.argv[3]}.migration.js`, `module.exports = {
-run: mongoose => new Promise(resolve => resolve()),
-rollback: mongoose => new Promise(resolve => resolve())
-}
-`);
-                console.log("Migration successFully created !");
-            } catch (error) {
-                unknownError(error);
+function getNbr(nbr, dir) {
+    try {
+        fs.readdirSync(dir).map(file => {
+            if (!file.includes("migration.js") && fs.statSync(`${dir}/${file}`).isDirectory()) {
+                const nbr2 = getNbr(nbr, `${dir}/${file}`);
+                if (nbr2 > nbr) {
+                    nbr = nbr2;
+                }
+            } else if (file.includes("migration.js") && dir !== baseDir) {
+                if (parseInt(file.split("_")[0], 10) > nbr) {
+                    nbr = parseInt(file.split("_")[0], 10);
+                }
             }
         });
+    } catch (error) {
+        unknownError(error);
+    }
+    return nbr;
+}
+
+function createFile() {
+    try {
+        fs.writeFileSync(`${baseDir}${process.argv[2]}/${getNbr(0, baseDir) + 1}_${process.argv[3]}.migration.js`, `module.exports = {
+    run: mongoose => new Promise(resolve => resolve()),
+    rollback: mongoose => new Promise(resolve => resolve())
+}
+`);
+        console.log("Migration successFully created !");
+    } catch (error) {
+        unknownError(error);
+    }
 }
 
 if  (process.argv[2] === undefined || process.argv[3] === undefined) {
@@ -48,9 +62,8 @@ mongoose.connection.on("connected", () => {
             unknownError(error);
         }
     }
-    createFile()
-        .then(() => process.exit(0))
-        .catch(error => unknownError(error));
+    createFile();
+    process.exit(0);
 });
 dtb.init()
     .catch(error => {
