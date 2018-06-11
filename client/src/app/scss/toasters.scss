@@ -124,7 +124,7 @@ $coefficient: 0.7vw;
     }
     .dismiss-toast {
         color: #fff;
-        padding: get_size(1, $coefficient);
+        padding: 0;
         position: absolute;
         top: 0;
         right: 0;
@@ -133,5 +133,15 @@ $coefficient: 0.7vw;
         font-weight: bolder;
         font-size: get_size(1.5, $coefficient);
         cursor: pointer;
+        svg {
+            @media screen and (max-width : 992px){
+                width: 20px;
+                height: 30px;
+                margin-top: 5px;
+            }
+            margin-top: 10px;
+            margin-right: 10px;
+            fill: #fff;
+        }
     }
 }

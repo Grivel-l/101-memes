@@ -4,22 +4,21 @@ import PropTypes from "prop-types";
 import Loader from "./Loader";
 import MediaHover from "./medias/MediaHover";
 import MediaBlock from "./medias/MediaBlock";
-import config from "../../config/globalConfig";
 import PostButton from "../containers/postbutton";
 import Toaster from "../containers/toaster";
 import SearchBar from "../containers/searchBar";
 import Footer from "../components/Footer";
-import Pagination from "../components/Pagination";
+import Pagination from "../containers/pagination";
 import "../scss/app.css";
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.page = 1;
         this.keyDown = this.keyDown.bind(this);
         this.adjustDivSize = this.adjustDivSize.bind(this);
         this.medias = React.createRef();
         this.subWrapperSize = "0px";
+
     }
 
     componentWillMount() {
@@ -30,8 +29,9 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.page > nextProps.pageNbr && nextProps.pageNbr !== 0) {
-            window.location = config.clientUrl;
+        if (nextProps.status.redirect) {
+            window.history.pushState(null, null, "/");
+            this.props.getMedias(1);
         }
     }
 
@@ -53,7 +53,7 @@ class App extends Component {
     }
 
     renderMedias() {
-        return this.props.data.map((media, index) => {
+        return this.props.results.data.map((media, index) => {
             return (
                 <MediaBlock key={`media${index}`} index={index} media={media} />
             );
@@ -61,7 +61,7 @@ class App extends Component {
     }
 
     adjustDivSize() {
-        if (this.props.imgLoaded === true) {
+        if (this.props.status.img.loaded === true) {
             const first = this.medias.current.children[0];
             if (first === undefined) {
                 return ;
@@ -89,16 +89,19 @@ class App extends Component {
                 <div className="wrapper">
                     <SearchBar />
                     <div className={"subWrapper"}>
+                        <div className="category">
+                            <p><span className={"capitalize"}>{`${this.props.searchRequest.type}`}</span> {`(${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
+                        </div>
                         <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
                             {this.renderMedias()}
                         </div>
-                        {this.props.pageNbr > 0 ? <Pagination page={this.page} pageNbr={this.props.pageNbr}/> : ""}
+                        <Pagination />
                     </div>
                     <Footer />
                     <PostButton showToast={this.props.showToast} />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
-                <Loader key="MainLoader" in={(this.props.status !== "ERROR" && this.props.delete !== "ERROR" && this.props.post !== "ERROR") && (!this.props.imgLoaded || this.props.post === "PENDING" || this.props.delete === "PENDING")} transparent={this.props.post === "PENDING" || this.props.delete === "PENDING"}/>
+                <Loader key="MainLoader" in={!((this.props.status.searching === "ERROR" || this.props.status.get === "ERROR" || this.props.status.delete === "ERROR" || this.props.status.post === "ERROR") || (this.props.status.img.loaded && this.props.status.post !== "PENDING" && this.props.status.delete !== "PENDING" && this.props.status.get !== "PENDING" && this.props.status.searching !== "PENDING"))} transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}/>
                 <Toaster />
             </Fragment>
         );
@@ -106,11 +109,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-    data: PropTypes.array,
-    pageNbr: PropTypes.number,
     getMedias: PropTypes.func,
     hideExpand: PropTypes.func,
-    showToast: PropTypes.func
+    showToast: PropTypes.func,
 };
 
 export default App;
