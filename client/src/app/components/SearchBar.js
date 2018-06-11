@@ -34,8 +34,16 @@ class SearchBar extends Component {
 
     }
 
-    launchSearch(preset = "custom") {
-        if (this.OldSearchTerms !== this.searchInput.current.value && this.searchInput.current.value.length > 0) {
+    launchSearch(preset = "custom", force = false) {
+        if (!this.searchInput.current.value) {
+            if (this.props.type !== "latest") {
+                this.OldSearchTerms = this.searchInput.current.value;
+                this.props.searchMedias({
+                    ...this.categoryPresets["latest"],
+                    terms: this.categoryPresets[preset].terms ? this.searchInput.current.value : ""
+                });
+            } 
+        }else if (force === true || (this.OldSearchTerms !== this.searchInput.current.value)) {
             this.OldSearchTerms = this.searchInput.current.value;
             this.props.searchMedias({
                 ...this.categoryPresets[preset],
@@ -74,12 +82,12 @@ class SearchBar extends Component {
                     <div className={"categoryWrapper"}>
                         {(this.props.type !== "popular") && <button 
                             className={"categoryButton"}
-                            onClick={() => this.launchSearch("popular")}>
+                            onClick={() => this.launchSearch("popular", true)}>
                             Popular
                         </button>}
                         {(this.props.type !== "latest") && <button 
                             className={"categoryButton"}
-                            onClick={() => this.launchSearch("latest")}>
+                            onClick={() => this.launchSearch("latest", true)}>
                             Latest
                         </button>}
                     </div>
