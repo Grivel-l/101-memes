@@ -26,12 +26,6 @@ export default (url, options = null) => {
                         error: "Can't reach server"
                     };
                 }
-                if (response.status === 501) {
-                    return {
-                        status: 501,
-                        error: "Not Implemented"
-                    };
-                }
                 return response.json()
                     .then(({error}) => {
                         return {
