@@ -42,8 +42,10 @@ class SearchBar extends Component {
                     ...this.categoryPresets["latest"],
                     terms: this.categoryPresets[preset].terms ? this.searchInput.current.value : ""
                 });
+                return ;
             } 
-        }else if (force === true || (this.OldSearchTerms !== this.searchInput.current.value)) {
+        }
+        if (force === true || (this.OldSearchTerms !== this.searchInput.current.value)) {
             this.OldSearchTerms = this.searchInput.current.value;
             this.props.searchMedias({
                 ...this.categoryPresets[preset],
