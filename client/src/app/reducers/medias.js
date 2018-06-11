@@ -101,7 +101,7 @@ const medias = (state = initialState, {type, payload}) => {
                     ...initialState.status.img,
                     getted: true,
                 },
-                get: "PENDING",
+                get: "ERROR",
                 redirect: payload.statusCode === 302,
             }
         };
