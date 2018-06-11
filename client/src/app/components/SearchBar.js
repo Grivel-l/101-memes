@@ -9,6 +9,7 @@ class SearchBar extends Component {
         this.launchSearch = this.launchSearch.bind(this);
         this.updateType = this.updateType.bind(this);
         this.keyPress = this.keyPress.bind(this);
+        this.searchInput = React.createRef();
 
         this.categoryPresets = {
             custom: {
@@ -36,7 +37,7 @@ class SearchBar extends Component {
     launchSearch(preset = "custom") {
         this.props.searchMedias({
             ...this.categoryPresets[preset],
-            terms: this.categoryPresets[preset].terms ? this.refs.searchInput.value : ""
+            terms: this.categoryPresets[preset].terms ? this.searchInput.current.value : ""
         });
     }
 
@@ -57,8 +58,8 @@ class SearchBar extends Component {
             <div className={"searchBarWrapper"}>
                 <div className={"searchBar"}>
                     <div className="searchInputWrapper">
-                        <input className={"searchInput"} type="text" placeholder="Search Memes" ref="searchInput" onKeyDown={this.keyPress}/>
-                        <button className={"searchButton"} onClick={() => this.launchSearch()} ref="searchButton">
+                        <input className={"searchInput"} type="text" placeholder="Search Memes" ref={this.searchInput} onKeyDown={this.keyPress}/>
+                        <button className={"searchButton"} onClick={() => this.launchSearch()}>
                             <svg version={"1.1"} xmlns={"http://www.w3.org/2000/svg"} height={"30px"} width={"30px"} x={"0px"} y={"0px"}
                                 viewBox={"0 0 250.313 250.313"}>
                                 <g>
