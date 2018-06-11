@@ -16,24 +16,16 @@ function createFile() {
     return migrationsModel.getLast()
         .then(migration => {
             const last = migration === null ? 0 :parseInt(migration.name.split("_")[0], 10) + 1;
-            return migrationsModel.createMigration(process.argv[2], `${last}_${process.argv[3]}`)
-                .then(({_id}) => {
-                    try {
-                        fs.writeFileSync(`${baseDir}${process.argv[2]}/${last}_${process.argv[3]}.migration.js`, `module.exports = {
-    run: mongoose => new Promise(resolve => resolve()),
-    rollback: mongoose => new Promise(resolve => resolve())
+            try {
+                fs.writeFileSync(`${baseDir}${process.argv[2]}/${last}_${process.argv[3]}.migration.js`, `module.exports = {
+run: mongoose => new Promise(resolve => resolve()),
+rollback: mongoose => new Promise(resolve => resolve())
 }
 `);
-                        console.log("Migration successFully created !");
-                    } catch (error) {
-                        migrationsModel.removeMigration(_id)
-                            .then(() => unknownError(error))
-                            .catch(err => {
-                                console.log("An unknow error occured", err);
-                                unknownError(error);
-                            });
-                    }
-                });
+                console.log("Migration successFully created !");
+            } catch (error) {
+                unknownError(error);
+            }
         });
 }
 

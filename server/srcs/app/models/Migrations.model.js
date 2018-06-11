@@ -6,7 +6,7 @@ class MigrationsModel {
     createMigration(path, name) {
         return this.schema.create({
             name,
-            path: `${path}/`,
+            path: `${path}`,
             executed: false,
             createDate: new Date()
         });
@@ -17,9 +17,9 @@ class MigrationsModel {
     }
 
     getAll() {
-        return this.schema.find({executed: false}, {}, {
+        return this.schema.find({}, {}, {
             sort: {name: 1}
-        });
+        }).lean();
     }
 
     getLast(condition = {}) {

@@ -1,5 +1,7 @@
+const fs = require("fs");
 const mongoose = require("mongoose");
 
+const baseDir = "./srcs/migrations";
 const {unknownError} = require("./helper.migration");
 const MigrationsModel = require("../app/models/Migrations.model");
 const Database = require("../app/database");
@@ -10,7 +12,7 @@ function runMigrations(migrations, migrationsModel) {
         console.log("All migrations have been updated");
         process.exit(0);
     }
-    require(`./${migrations[0].path}${migrations[0].name}.migration.js`).run(mongoose)
+    require(`${migrations[0].path}${migrations[0].name}.migration.js`).run(mongoose)
         .then(() => {
             console.log(`Migration with _id: ${migrations[0]._id} and name: ${migrations[0].name} successfully executed`);
             migrationsModel.updateOne(migrations.shift()._id, {executed: true})
@@ -23,6 +25,34 @@ function runMigrations(migrations, migrationsModel) {
         });
 }
 
+function getToRun(migrations, dir, toRun) {
+    try {
+        fs.readdirSync(dir).map(file => {
+            if (!file.includes("migration.js") && fs.statSync(`${dir}/${file}`).isDirectory()) {
+                getToRun(migrations, `${dir}/${file}`, toRun);
+            } else if (file.includes("migration.js") && dir !== baseDir) {
+                const path = `.${dir.substring(baseDir.length)}/`;
+                let migration = {};
+                let isIn = true;
+                migrations.map(mig => {
+                    if (mig.path === path && mig.name === file.split(".")[0]) {
+                        if (mig.executed) {
+                            isIn = false;
+                        } else {
+                            migration = {...mig};
+                        }
+                    }
+                });
+                if (isIn) {
+                    toRun.push(Object.keys(migration).length === 0 ? {path, name: file.split(".")[0]} : migration);
+                }
+            }
+        });
+    } catch (error) {
+        unknownError(error);
+    }
+}
+
 mongoose.connection.on("connected", () => {
     try {
         require("../app/models/schemas/index")(mongoose);
@@ -31,7 +61,17 @@ mongoose.connection.on("connected", () => {
     }
     const migrationsModel = new MigrationsModel();
     migrationsModel.getAll()
-        .then(migrations => runMigrations(migrations, migrationsModel))
+        .then(migrations => {
+            const toRun = [];
+            getToRun(migrations, baseDir, toRun);
+            return Promise.all(toRun.map(mig => {
+                if (Object.keys(mig).length > 2) {
+                    return new Promise(resolve => resolve(mig));
+                }
+                return migrationsModel.createMigration(mig.path, mig.name);
+            }))
+                .then(toRun => runMigrations(toRun, migrationsModel));
+        })
         .catch(error => unknownError(error));
 });
 dtb.init()
