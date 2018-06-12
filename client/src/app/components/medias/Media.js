@@ -9,7 +9,8 @@ class Media extends Component {
 
         this.state = {
             muted: props.muted,
-            hasAudio: false
+            hasAudio: false,
+            mediaLoaded: false
         };
 
         this.mounted = true;
@@ -28,7 +29,8 @@ class Media extends Component {
             this.props.media._id !== nextProps.media._id ||
             this.props.media.path !== nextProps.media.path ||
             this.props.clickable !== nextProps.clickable || 
-            this.props.className !== nextProps.className);
+            this.props.className !== nextProps.className ||
+            this.state.mediaLoaded !== nextState.mediaLoaded);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,16 +39,10 @@ class Media extends Component {
                 this.setState({muted: !this.state.muted});
             }
         }
-        if (nextProps.media.path !== this.props.media.path && !this.props.expanded && !this.props.postMedia) {
-            this.props.notifyImgUnload();
-        }
     }
 
     componentWillUnmount() {
-        if (!this.props.expanded && !this.props.postMedia)
-            this.props.notifyImgUnload();
         this.mounted = false;
-        
     }
 
     expand() {
@@ -121,14 +117,29 @@ class Media extends Component {
         } else {
             return (
                 <Fragment>
+                    {!this.state.mediaLoaded &&
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                display: "inline",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                backgroundColor: "white"
+                            }}
+                        />
+                    }
                     <img
                         src={this.props.media.path}
                         alt={this.props.media.name}
                         onClick={this.expand}
                         onLoad={() => {
-                            if (!this.props.expanded && !this.props.postMedia)
-                                this.props.notifyImgLoad();
+                            if (!this.props.expanded && !this.props.postMedia) {
+                                this.setState({mediaLoaded: true});
+                            }
                         }}
+                        style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         className={this.props.className || null}
                     />
                     {this.props.expanded && 
@@ -160,8 +171,6 @@ Media.propTypes = {
     gotSound: PropTypes.string,
     muted: PropTypes.bool,
     postMedia: PropTypes.bool,
-    notifyImgLoad: PropTypes.func,
-    notifyImgUnload: PropTypes.func
 };
 
 export default Media;

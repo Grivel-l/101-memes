@@ -10,8 +10,6 @@ import {
     MEDIAS_DELETE_PENDING,
     MEDIAS_DELETE_SUCCESS,
     MEDIAS_DELETE_ERROR,
-    NOTIFY_IMG_LOAD,
-    NOTIFY_IMG_UNLOAD,
     MEDIAS_TOGGLE_SOUND,
     MEDIAS_SEARCH_PENDING,
     MEDIAS_SEARCH_SUCCESS,
@@ -28,11 +26,6 @@ const initialState = {
         total: 0,
     },
     status: {
-        img: {
-            getted: false,
-            toLoad: 0,
-            total: 0
-        },
         get: null,
         post: null,
         delete: null,
@@ -53,40 +46,10 @@ const initialState = {
 
 const medias = (state = initialState, {type, payload}) => {
     switch (type) {
-    case NOTIFY_IMG_LOAD: 
-        return {
-            ...state,
-            status: {
-                ...state.status,
-                img: {
-                    ...state.status.img,
-                    toLoad: state.status.img.toLoad - 1,
-                },
-            }
-        };
-    case NOTIFY_IMG_UNLOAD: 
-        return {
-            ...state,
-            status: {
-                ...state.status,
-                img: {
-                    ...state.status.img,
-                    toLoad: state.status.img.toLoad + 1,
-                }
-            }
-        };
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
             results: payload.results,
-            status: {
-                ...initialState.status,
-                img: {
-                    getted: true,
-                    toLoad: payload.results.data.length,
-                    total: payload.results.data.length
-                },
-            },
             searchRequest: {
                 ...state.searchRequest,
                 page: payload.page  || 1
@@ -97,10 +60,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...initialState.status.img,
-                    getted: true,
-                },
                 get: "ERROR",
                 redirect: payload.statusCode === 302,
             }
@@ -128,10 +87,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    getted: true,
-                },
             },
             results: {
                 ...state.results,
@@ -144,13 +99,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                post: "PENDING",
-                img: {
-                    ...state.status.img,
-                    getted: false,
-                    toLoad: state.status.img.toLoad + 1,
-                    total: state.status.img.total + 1,
-                }
+                post: "PENDING"
             },
         };
     case MEDIAS_POST_ERROR:
@@ -158,10 +107,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    getted: true,
-                },
                 post: "ERROR",
             },
         };
@@ -171,24 +116,11 @@ const medias = (state = initialState, {type, payload}) => {
             status: {
                 ...initialState.status,
                 delete: "PENDING",
-                img: {
-                    ...state.status.img,
-                    getted: false,
-                    toLoad: state.status.img.toLoad - payload - 1,
-                    total: state.status.img.total - 1,
-                }
             },
         };
     case MEDIAS_DELETE_SUCCESS:
         return {
             ...state,
-            status: {
-                ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    getted: true,
-                },
-            },
             results: {
                 ...state.results,
                 total: state.results.total - 1,
@@ -200,10 +132,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    getted: true,
-                },
                 delete: "ERROR",
             },
         };
@@ -217,10 +145,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    getted: false,
-                },
                 searching: "PENDING",
             }
         };
@@ -230,10 +154,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    getted: true,
-                },
                 searching: "ERROR",
             },
         };
@@ -241,15 +161,6 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
-            status: {
-                ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    total: payload.response.results.data.length,
-                    toLoad: payload.response.results.data.length - state.status.img.total,
-                    getted: true,
-                },
-            },
             results: payload.response.results,
             searchRequest: payload.request,
         };
@@ -259,10 +170,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...state.status,
-                img: {
-                    ...state.status.img,
-                    getted: false,
-                },
                 get: "PENDING"
             }
         };
@@ -272,10 +179,6 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             status: {
                 ...state.status,
-                img: {
-                    ...state.status.img,
-                    getted: true
-                },
                 get: "ERROR"
             }
         };
@@ -283,15 +186,6 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SWAP_PAGE_SUCCESS: {
         return {
             ...state,
-            status: {
-                ...initialState.status,
-                img: {
-                    ...state.status.img,
-                    total: payload.results.data.length,
-                    toLoad: payload.results.data.length - state.status.img.total,
-                    getted: true,
-                },
-            },
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };

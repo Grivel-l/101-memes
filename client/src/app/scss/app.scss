@@ -27,6 +27,7 @@ body {
 }
 
 .mediaContainer {
+    overflow: hidden;
     background-color: #1e212a;
     border: 2px solid #707070;
     flex-basis: auto;   
@@ -85,7 +86,6 @@ body {
 .flexContainer {
     width: 90%;
     display: flex;
-    height: 300px;
     margin: 0 auto;
     flex-flow: row wrap;
     justify-content: center;
