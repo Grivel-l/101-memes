@@ -3,20 +3,14 @@
 .loader {
     height: 100%;
     width: 100%;
-    position: fixed;
-    top:0;
-    left: 0;
     @include transition(height 0s linear 0.3s, opacity 0.3s ease-out 0s);
     opacity: 0;
-    z-index: 100;
     display: block;
     background-color: black;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 30%;
-    transform: translateZ(0);
+    background-size: contain;
     background-image: url("../../imgs/loaderImg.svg");
-
     &.entering {
         opacity: 0;
         @include transition(height 0s linear 0s, opacity 0s ease-out 0s);
@@ -39,4 +33,8 @@
         height: 0%;        
         opacity: 0;
     }
+}
+
+.loaderHover {
+    position: fixed;
 }

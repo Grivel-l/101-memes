@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
+import Loader from "./Loader";
 import MediaHover from "./medias/MediaHover";
 import MediaBlock from "./medias/MediaBlock";
 import PostButton from "../containers/postbutton";
@@ -58,6 +59,7 @@ class App extends Component {
     }
 
     render() {
+        console.log(this.props.status);
         return (
             <Fragment>
                 <div className="wrapper">
@@ -75,6 +77,11 @@ class App extends Component {
                     <PostButton showToast={this.props.showToast} />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
+                <Loader
+                    in={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING" || this.props.status.searching === "PENDING"}
+                    transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
+                    hover={true}
+                />
                 <Toaster />
             </Fragment>
         );

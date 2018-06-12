@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
+import Loader from "../Loader";
 import MoreButton from "../../containers/medias/moreButton";
 
 class Media extends Component {
@@ -61,6 +62,9 @@ class Media extends Component {
         if (split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) {
             return (
                 <Fragment>
+                    {!this.state.mediaLoaded &&
+                        <Loader in={true} />
+                    }
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
                         alt={this.props.media.name}
@@ -72,10 +76,7 @@ class Media extends Component {
                         ref={ref => {
                             if (!this.ref) {
                                 this.ref = true;
-                                ref.addEventListener("canplaythrough", () => {
-                                    if (!this.props.expanded && !this.props.postMedia)
-                                        this.props.notifyImgLoad();
-                                });
+                                ref.addEventListener("canplaythrough", () => this.setState({mediaLoaded: true}));
                                 ref.addEventListener("loadeddata", () => {
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
                                         if (this.mounted) {
@@ -118,27 +119,13 @@ class Media extends Component {
             return (
                 <Fragment>
                     {!this.state.mediaLoaded &&
-                        <div
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                display: "inline",
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                backgroundColor: "white"
-                            }}
-                        />
+                        <Loader in={true} />
                     }
                     <img
                         src={this.props.media.path}
                         alt={this.props.media.name}
                         onClick={this.expand}
-                        onLoad={() => {
-                            if (!this.props.expanded && !this.props.postMedia) {
-                                this.setState({mediaLoaded: true});
-                            }
-                        }}
+                        onLoad={() => this.setState({mediaLoaded: true})}
                         style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         className={this.props.className || null}
                     />
