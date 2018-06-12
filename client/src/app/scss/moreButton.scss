@@ -52,6 +52,7 @@
             .moreOption {
                 @include transition(background-color 0.15s ease-out, color 0.15s ease-out);
                 background-color: rgba(255, 255, 255, 0);
+                outline: none;
                 border-width: 0px 3px 3px 3px;
                 border-style: solid;
                 border-color: #fff;

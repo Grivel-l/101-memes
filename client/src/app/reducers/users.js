@@ -12,8 +12,7 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            login: payload.author,
-            role: payload.role
+            ...payload.user,
         };
     default:
         return state;

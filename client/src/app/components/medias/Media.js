@@ -37,10 +37,16 @@ class Media extends Component {
                 this.setState({muted: !this.state.muted});
             }
         }
+        if (nextProps.media.path !== this.props.media.path && !this.props.expanded && !this.props.postMedia) {
+            this.props.notifyImgUnload();
+        }
     }
 
     componentWillUnmount() {
+        if (!this.props.expanded && !this.props.postMedia)
+            this.props.notifyImgUnload();
         this.mounted = false;
+        
     }
 
     expand() {
@@ -63,7 +69,8 @@ class Media extends Component {
                         alt={this.props.media.name}
                         loop={true}
                         onLoadedData={() => {
-                            this.props.notifyImgLoad();
+                            if (!this.props.expanded && !this.props.postMedia)
+                                this.props.notifyImgLoad();
                         }}
                         autoPlay={true}
                         onClick={this.expand}
@@ -107,7 +114,8 @@ class Media extends Component {
                         alt={this.props.media.name}
                         onClick={this.expand}
                         onLoad={() => {
-                            this.props.notifyImgLoad();
+                            if (!this.props.expanded && !this.props.postMedia)
+                                this.props.notifyImgLoad();
                         }}
                         className={this.props.className || null}
                     />
@@ -125,7 +133,8 @@ class Media extends Component {
 
 Media.defaultProps = {
     muted: true,
-    expanded: false
+    expanded: false,
+    postMedia: false,
 };
 
 Media.propTypes = {
@@ -137,7 +146,10 @@ Media.propTypes = {
     className: PropTypes.string,
     toggleSound: PropTypes.func.isRequired,
     gotSound: PropTypes.string,
-    muted: PropTypes.bool
+    muted: PropTypes.bool,
+    postMedia: PropTypes.bool,
+    notifyImgLoad: PropTypes.func,
+    notifyImgUnload: PropTypes.func
 };
 
 export default Media;

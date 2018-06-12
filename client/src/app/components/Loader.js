@@ -13,8 +13,8 @@ class Loader extends Component {
             in: this.props.in,
         };
     }
-    shouldComponentUpdate(nextProps) {
-        return nextProps.in !== this.state.in;
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.in !== this.state.in || nextState.in !== this.state.in;
     }
     componentWillMount() {
         if (this.props.in) {
@@ -22,7 +22,7 @@ class Loader extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.in) {
+        if (nextProps.in === false) {
             setTimeout(()=> {
                 this.setState({
                     in: nextProps.in

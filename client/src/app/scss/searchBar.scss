@@ -1,4 +1,91 @@
-.searchBar {
+@import "./colors.scss";
+@import "utilities/cross-browser.scss";
+
+.searchBarWrapper {
     height: 200px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .searchBar {
+        .searchInputWrapper {
+            font-weight: bolder;
+            padding: 5px 5px 5px 10px;
+            background-color: transparent;
+            border-style: solid;
+            border-width: 3px;
+            border-color: #fff;
+            .searchInput {
+                background-color: transparent;
+                border: none;
+                font-size: 25px;
+                line-height: 30px;
+                outline: none;
+                color: #fff;
+                vertical-align: top;
+                width: 50vw;
+                @media screen and (min-width : 1900) {
+                    width: 40vw;
+                }
+                @media screen and (max-width : 992px) {
+                    width: 80vw;
+                }
+                &::placeholder {
+                    color: #fff;
+                }
+            }
+            .searchButton {
+                cursor: pointer;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                vertical-align: top;
+                margin: 0px 0px 0px 10px;
+                height: 32px;
+                width: 40px;
+                @media screen and (max-width : 992px) {
+                    width: 30px;
+                }  
+                svg {
+                    @include transition(fill 0.15s ease-out);        
+                    height: 100%;
+                    width: 100%;
+                    fill: #fff;
+                }
+                &:hover {
+                    svg {
+                        fill: rgba($color: $lightDimmed, $alpha: 1.0);
+                    }
+                }
+            }
+        }
+        .categoryWrapper {
+            display: flex;
+            justify-content: stretch;
+            align-content: stretch;
+            width: calc(100% + 4px);
+            margin: 0 -2px;
+            .categoryButton {
+                cursor: pointer;
+                font-weight: bolder;
+                flex-grow: 1;
+                align-self: stretch;
+                background-color: transparent;
+                border-style: solid;
+                border-width: 3px;
+                border-color: #fff;
+                outline: none;
+                width: auto;
+                margin: 4px 2px 0 2px;
+                color: #fff;
+                font-size: 20px;
+                padding: 5px;
+                @include transition(background-color 0.15s ease-out, color 0.15s ease-out);        
+                &:hover {
+                    background-color: rgba($color: #fff, $alpha: 0.8);
+                    color: $backColorDimmed;
+                }
+            }
+        }
+    }
 }

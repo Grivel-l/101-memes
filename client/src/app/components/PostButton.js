@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import config from "../../config/globalConfig";
 import Media from "../containers/medias/media";
+import TagsForm from "../containers/tagsForm";
 import placeholder from "../../imgs/imgPlaceholder.svg";
 import "../scss/postbutton.css";
 
@@ -13,7 +14,7 @@ class PostButton extends Component {
         this.state = {
             active: false,
             tmpImg: null,
-            showLoader: false
+            showLoader: false,
         };
         this.filename = null;
         this.showImage = this.showImage.bind(this);
@@ -26,7 +27,10 @@ class PostButton extends Component {
             this.state.active !== nextState.active ||
             this.state.tmpImg !== nextState.tmpImg ||
             this.state.showLoader !== nextState.showLoader ||
-            this.props.error.status !== nextProps.error.status
+            this.props.error.status !== nextProps.error.status ||
+            this.props.tagsArray.filter((el, index) => {
+                return (el !== nextProps.tagsArray[index]);
+            }).length > 0
         );
     }
 
@@ -75,6 +79,7 @@ class PostButton extends Component {
             const form = new FormData();
             form.append("name", this.filename.value);
             form.append("media", this.state.tmpImg.file);
+            form.append("tags", this.props.tagsArray);
             this.props.publishMedia(form);
             this.filename.value = "";
             this.setState({
@@ -112,6 +117,7 @@ class PostButton extends Component {
                                 media={media}
                                 clickable={false}
                                 className={"postMediaImg"}
+                                postMedia={true}
                             />
                         </div>
                         <input
@@ -121,6 +127,7 @@ class PostButton extends Component {
                             className={"nameInput postInput"}
                             maxLength={50}
                         />
+                        <TagsForm reset={this.state.active === false}/>
                         <div
                             className={"postButton finalPostButton"}
                             onClick={this.publishMedia}
@@ -158,7 +165,8 @@ class PostButton extends Component {
 PostButton.propTypes = {
     publishMedia: PropTypes.func,
     error: PropTypes.object,
-    showToast: PropTypes.func
+    showToast: PropTypes.func,
+    tagsArray: PropTypes.arrayOf(String).isRequired,
 };
 
 export default PostButton;
