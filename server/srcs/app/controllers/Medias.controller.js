@@ -136,13 +136,7 @@ class MediasController {
                     throw {statusCode: 404};
                 }
                 return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
-                    .then(media => {
-                        const split = media.path.split(".");
-                        if (split[split.length - 1] === "mp4" || split[split.length - 1] === "webm") {
-                            split[split.length - 1] = "gif";
-                        }
-                        return split.join(".");
-                    });
+                    .then(media => media.path);
             });
 
     }
