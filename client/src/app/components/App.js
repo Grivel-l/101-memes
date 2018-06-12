@@ -59,7 +59,6 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.props.status);
         return (
             <Fragment>
                 <div className="wrapper">

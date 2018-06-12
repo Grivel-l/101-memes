@@ -73,6 +73,7 @@ class Media extends Component {
                         onClick={this.expand}
                         muted={this.state.muted}
                         className={this.props.className || null}
+                        style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         ref={ref => {
                             if (!this.ref) {
                                 this.ref = true;
