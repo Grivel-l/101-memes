@@ -2,12 +2,11 @@ const MediasController = require("../controllers/Medias.controller");
 
 module.exports = (server, plugins, log, dtb, globalUsers) => {
     new MediasController(dtb, globalUsers).then((medias) => {
-
         server.get("/srcs/imgs/*", plugins.serveStatic({
             appendRequestPath: false,
             directory: `${__dirname}/../../imgs/`
         }));
-    
+
         server.post("/media", (req, res) => {
             if (req.params.name === undefined) {
                 return res.send(400, {error: "name param is missing"});

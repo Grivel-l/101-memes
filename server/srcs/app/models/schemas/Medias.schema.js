@@ -16,7 +16,11 @@ module.exports = dtb => {
             }
         },
         deleted: {type: Boolean, default: false},
-        createDate: {type: Date, required: true}
+        createDate: {type: Date, required: true},
+        sizes: {type: Object, required: true, properties: {
+            width: {type: Number},
+            height: {type: Number}
+        }}
     }));
 };
 

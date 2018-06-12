@@ -25,6 +25,7 @@
     "mongoose": "^5.0.16",
     "node-fetch": "^2.1.2",
     "nodemailer": "^4.6.5",
+    "probe-image-size": "^4.0.0",
     "restify": "^7.1.1",
     "restify-cors-middleware": "^1.1.0",
     "uuid": "^3.2.1"

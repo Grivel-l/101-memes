@@ -2,7 +2,10 @@ const fs = require("fs");
 const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
 const nodemailer = require("nodemailer");
+const probe = require("probe-image-size");
 
+const MediasHelper = require("../helpers/Medias.helper");
+const mediasHelper = new MediasHelper();
 const MediasModel = require("../models/Medias.model");
 const UsersModel = require("../models/Users.model");
 const {fileMaxSize} = require("../../configs/global");
@@ -60,8 +63,12 @@ class MediasController {
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.medias.addFile(name, tags, filepath, author, type)
-                    .then(result => resolve(result))
+                mediasHelper.getImageSizes(filepath)
+                    .then(sizes => {
+                        this.medias.addFile(name, tags, filepath, author, type, sizes)
+                            .then(result => resolve(result))
+                            .catch(err => reject({statusCode: 500, message: err}));
+                    })
                     .catch(err => reject({statusCode: 500, message: err}));
             });
         });
@@ -128,31 +135,21 @@ class MediasController {
                 });
         });
     }
-  
-    getRandomUrl() {
-        return this.medias.count()
-            .then(nbr => {
-                if (nbr === 0) {
-                    throw {statusCode: 404};
-                }
-                return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
-                    .then(media => media.path);
-            });
 
-    }
-    searchMedia(searchParams) {
-        if (searchParams.limit)
-            searchParams.limit = Number(searchParams.limit);
-        else {
-            return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+    searchMedia(searchParams, noCheck = false, count = false) {
+        if (!noCheck) {
+            if (searchParams.limit !== undefined)
+                searchParams.limit = Number(searchParams.limit);
+            else {
+                return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+            }
+            searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
+            if (!searchParams.type ||
+                (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "custom") ||
+                searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
+                return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+            }
         }
-        searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
-        if (!searchParams.type ||
-            (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "custom") ||
-            searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
-            return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-        }
-
         switch(searchParams.type) {
         case "latest":
             return this.medias.findLatest(searchParams.page, searchParams.limit);
@@ -161,7 +158,7 @@ class MediasController {
         case "custom":
             if (!searchParams.terms || searchParams.terms.trim().length === 0)
                 return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit);
+            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit, count, searchParams.random);
         }
     }
 }

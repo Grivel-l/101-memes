@@ -15,14 +15,15 @@ class MediasModel {
         });
     }
 
-    addFile(name, tags, filepath, author, type) {
+    addFile(name, tags, filepath, author, type, sizes) {
         return schema.create({
             name,
             author,
             type,
             tags: tags.split(",").filter(tag => tag.length > 0),
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
-            createDate: new Date()
+            createDate: new Date(),
+            sizes
         }).then(result => {
             this.total += 1;
             return result;
