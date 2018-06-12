@@ -3,6 +3,7 @@ const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
 const nodemailer = require("nodemailer");
 
+const MediasHelper = require("../helpers/medias.helper");
 const MediasModel = require("../models/Medias.model");
 const UsersModel = require("../models/Users.model");
 const {fileMaxSize} = require("../../configs/global");
@@ -12,6 +13,7 @@ class MediasController {
         return new Promise((resolve, reject) => {
             new MediasModel().then((medias) => {
                 this.medias = medias;
+                this.mediasHelper = new MediasHelper();
                 this.users = new UsersModel(dtb);
                 this.mediaDir = "./srcs/imgs/";
                 this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
@@ -53,15 +55,19 @@ class MediasController {
                 if (size / 1024 / 1024 > fileMaxSize) {
                     return reject({statusCode: 400, message: "File is too big"});
                 }
-                const filepath = `${this.mediaDir}${this.getName()}.${extension}`;
+                const filename = this.getName();
+                const filepath = `${this.mediaDir}${filename}.${extension}`;
                 try {
                     fs.writeFileSync(filepath, fs.readFileSync(media.path));
                     fs.unlinkSync(media.path);
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.medias.addFile(name, tags, filepath, author, type)
-                    .then(result => resolve(result))
+                this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
+                    .then(() => {
+                        return this.medias.addFile(name, tags, filepath, author, type)
+                            .then(result => resolve(result));
+                    })
                     .catch(err => reject({statusCode: 500, message: err}));
             });
         });

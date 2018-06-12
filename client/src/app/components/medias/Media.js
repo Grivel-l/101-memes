@@ -61,17 +61,14 @@ class Media extends Component {
     }
 
     render() {
-        if (this.props.media.type.split("/")[0] === "video") {
+        const split = this.props.media.type.split("/");
+        if (split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) {
             return (
                 <Fragment>
                     <video
-                        src={this.props.media.path}
+                        src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
                         alt={this.props.media.name}
                         loop={true}
-                        onLoadedData={() => {
-                            if (!this.props.expanded && !this.props.postMedia)
-                                this.props.notifyImgLoad();
-                        }}
                         autoPlay={true}
                         onClick={this.expand}
                         muted={this.state.muted}
@@ -79,6 +76,10 @@ class Media extends Component {
                         ref={ref => {
                             if (!this.ref) {
                                 this.ref = true;
+                                ref.addEventListener("canplaythrough", () => {
+                                    if (!this.props.expanded && !this.props.postMedia)
+                                        this.props.notifyImgLoad();
+                                });
                                 ref.addEventListener("loadeddata", () => {
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
                                         if (this.mounted) {
@@ -88,7 +89,18 @@ class Media extends Component {
                                 });
                             }
                         }}
-                    />
+                    >
+                        {this.props.className !== "postMediaImg" && ["webm", "mp4"].map((ext, index) => {
+                            const split = this.props.media.path.split(".");
+                            return (
+                                <source
+                                    src={`${this.props.media.path.substring(0, this.props.media.path.length - split[split.length - 1].length)}${ext}`}
+                                    type={`video/${ext}`}
+                                    key={`${this.props.media._id}${index}`}
+                                />
+                            );
+                        })}
+                    </video>
                     {this.props.expanded && 
                         <MoreButton media={this.props.media}
                             hideExpand={this.props.hideExpand}
