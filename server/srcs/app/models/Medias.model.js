@@ -77,7 +77,7 @@ class MediasModel {
             throw ({statusCode: 501, error: "not yet implemented"});
         });
     }
-    findCustom(page, terms, limit) {
+    findCustom(page, terms, limit, count, random = null) {
         /*const before = Date.now();*/
         return schema.aggregate([
             {
@@ -150,22 +150,27 @@ class MediasModel {
                 $project: {
                     _id: 0,
                     total: 1,
-                    data: {
-                        $slice: [ "$data", (page - 1) * limit, limit]
-                    }
+                    data: count ? null : {
+                        $slice: [ "$data", random === null ? (page - 1) * limit : random, limit]
+                    },
+                    count: !count ? null : {$sum: 1}
                 }
             }
-        ]).then(data => {
-            /*const after = Date.now();
-            console.log(`Search for "${terms}", Execution time : ${after - before}ms` )*/
-            if (!data[0]) {
-                return (null);
-            }
-            return {
-                pageNbr: Math.floor(data[0].total  / limit) + 1,
-                ...data[0]
-            };
-        });
+        ])
+            .then(data => {
+                /*const after = Date.now();
+                console.log(`Search for "${terms}", Execution time : ${after - before}ms` )*/
+                if (count) {
+                    return data;
+                }
+                if (!data[0]) {
+                    return (null);
+                }
+                return {
+                    pageNbr: Math.floor(data[0].total  / limit) + 1,
+                    ...data[0]
+                };
+            });
     }
 }
 

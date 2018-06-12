@@ -77,6 +77,27 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                 });
         });
 
+        server.post("/media/slack", (req, res) => {
+            medias.searchMedia({type: "custom", terms: req.body.text}, true, true)
+                .then(total => {
+                    if (total[0] === undefined || total[0].total === 0) {
+                        throw {statusCode: 404};
+                    }
+                    return medias.searchMedia({type: "custom", limit: 1, random: Math.floor(Math.random() * Math.floor(total[0].total)), terms: req.body.text}, true, false)
+                        .then(media => {
+                            const split = media.data[0].path.split(".");
+                            if (split[split.length - 1] === "mp4" || split[split.length - 1] === "webm") {
+                                split[split.length - 1] = "gif";
+                            }
+                            res.send(200, {attachments: [{imageUrl: split.join(".")}]});
+                        });
+                })
+                .catch(error => {
+                    log.error(error);
+                    res.send(error.statusCode || 500, error.statusCode === 500 ? "Internal server error" : error.message);
+                });
+        });
+
         server.get("/media/search", (req, res) => {
             medias.searchMedia(req.params)
                 .then(results => {
