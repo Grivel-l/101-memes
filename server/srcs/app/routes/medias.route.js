@@ -64,20 +64,8 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                     res.send(500, {error: "Internal Server Error"});
                 });
         });
-    
-        server.post("/media/slack/random", (req, res) => {
-            medias.getRandomUrl()
-                .then(imageUrl => res.send(200, {attachments: [{imageUrl}]}))
-                .catch(err => {
-                    if (typeof err === "object") {
-                        if (err.kind === "ObjectId" || err.statusCode === 404) {
-                            return res.send(200, "No media has been found");
-                        }
-                    }
-                });
-        });
 
-        server.post("/media/slack", (req, res) => {
+        server.post("/media/slack/search", (req, res) => {
             medias.searchMedia({type: "custom", terms: req.body.text}, true, true)
                 .then(total => {
                     if (total[0] === undefined || total[0].total === 0) {

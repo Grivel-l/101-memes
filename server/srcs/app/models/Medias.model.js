@@ -49,10 +49,6 @@ class MediasModel {
         return schema.count(this.condition);
     }
 
-    findAndSkip(rand) {
-        return schema.findOne(this.condition, this.fieldsToGet).skip(rand);
-    }
-
     /*
     ***
     **** SEARCH FUNCTIONS
