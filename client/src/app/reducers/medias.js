@@ -125,7 +125,8 @@ const medias = (state = initialState, {type, payload}) => {
                 ...state.results,
                 total: state.results.total - 1,
                 data: [...state.results.data.filter(media => media._id !== payload._id)],
-            }
+            },
+            status: {...initialState.status}
         };
     case MEDIAS_DELETE_ERROR:
         return {

@@ -21,10 +21,8 @@ class Media extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.media === undefined) {
-            return false;
-        }
-        return (this.state.muted !== nextState.muted ||
+        return (nextProps.media === undefined ||
+            this.state.muted !== nextState.muted ||
             this.props.gotSound !== nextProps.gotSound ||
             this.state.hasAudio !== nextState.hasAudio ||
             this.props.media._id !== nextProps.media._id ||
@@ -35,6 +33,11 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.media !== undefined) {
+            if (this.state.mediaLoaded && (nextProps.media === undefined || this.props.media._id !== nextProps.media._id)) {
+                this.setState({mediaLoaded: false});
+            }
+        }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
             if (this.mounted) {
                 this.setState({muted: !this.state.muted});
@@ -58,6 +61,9 @@ class Media extends Component {
     }
 
     render() {
+        if (this.props.media === undefined) {
+            return null;
+        }
         const split = this.props.media.type.split("/");
         if (split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) {
             return (
