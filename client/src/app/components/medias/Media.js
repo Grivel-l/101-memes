@@ -69,10 +69,6 @@ class Media extends Component {
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
                         alt={this.props.media.name}
                         loop={true}
-                        onLoadedData={() => {
-                            if (!this.props.expanded && !this.props.postMedia)
-                                this.props.notifyImgLoad();
-                        }}
                         autoPlay={true}
                         onClick={this.expand}
                         muted={this.state.muted}
@@ -80,6 +76,10 @@ class Media extends Component {
                         ref={ref => {
                             if (!this.ref) {
                                 this.ref = true;
+                                ref.addEventListener("canplaythrough", () => {
+                                    if (!this.props.expanded && !this.props.postMedia)
+                                        this.props.notifyImgLoad();
+                                });
                                 ref.addEventListener("loadeddata", () => {
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
                                         if (this.mounted) {
