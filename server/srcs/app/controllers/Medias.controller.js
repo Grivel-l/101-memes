@@ -68,9 +68,7 @@ class MediasController {
                         .then(() => {
                             return this.medias.addFile(name, tags, filepath, author, type, width, height)
                                 .then(result => resolve(result));
-                        })
-                        .catch(err => reject({statusCode: 500, message: err}));
-
+                        });
                 }).catch(err => reject({statusCode: 500, message: err}));
             });
         });

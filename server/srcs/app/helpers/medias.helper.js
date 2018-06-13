@@ -1,7 +1,7 @@
 const ffmpeg = require("ffmpeg");
 const probe = require("probe-image-size");
 const fs = require("fs");
-const getVideoDimensions = require('get-video-dimensions');
+const getVideoDimensions = require("get-video-dimensions");
 
 class MediasHelper {
     convertVideo(extension, filename, filepath) {
@@ -39,7 +39,6 @@ class MediasHelper {
         });
     }
     getSizeMedia(extension, filename, filepath) {
-        console.log(extension, filename, filepath)
         if (["webm", "mp4"].includes(extension)) {
             return getVideoDimensions(`${filepath}${filename}.${extension}`);
         } else {
