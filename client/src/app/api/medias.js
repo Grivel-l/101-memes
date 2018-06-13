@@ -40,8 +40,8 @@ export const reportMediaApi = body => {
     });
 };
 
-export const searchMediasApi = params => {
-    return fetch(`/media/search?type=${params.type}&limit=${params.limit}&page=${params.page}&terms=${params.terms}`, {
+export const searchMediasApi = (params, token) => {
+    return fetch(`/media/search?type=${params.type}&limit=${params.limit}&page=${params.page}&terms=${params.terms}&token=${token}`, {
         method: "GET"
     }).then((response) => {
         if (!response.error) {
