@@ -62,8 +62,8 @@ export const searchMediasApi = (params, token) => {
     });
 };
 
-export const swapPageMediasApi = params => {
-    return fetch(`/media/search?type=${params.searchRequest.type}&limit=${params.searchRequest.limit}&page=${params.searchRequest.page}&terms=${params.searchRequest.terms}`, {
+export const swapPageMediasApi = (params, token) => {
+    return fetch(`/media/search?type=${params.searchRequest.type}&limit=${params.searchRequest.limit}&page=${params.searchRequest.page}&terms=${params.searchRequest.terms}&token=${token}`, {
         method: "GET"
     }).then((response) => {
         if (!response.error) {
