@@ -1,4 +1,7 @@
 const ffmpeg = require("ffmpeg");
+const probe = require("probe-image-size");
+const fs = require("fs");
+const getVideoDimensions = require('get-video-dimensions');
 
 class MediasHelper {
     convertVideo(extension, filename, filepath) {
@@ -34,6 +37,14 @@ class MediasHelper {
                 .then(() => resolve())
                 .catch(error => reject(error));
         });
+    }
+    getSizeMedia(extension, filename, filepath) {
+        console.log(extension, filename, filepath)
+        if (["webm", "mp4"].includes(extension)) {
+            return getVideoDimensions(`${filepath}${filename}.${extension}`);
+        } else {
+            return probe(fs.createReadStream(`${filepath}${filename}.${extension}`));
+        }
     }
 }
 

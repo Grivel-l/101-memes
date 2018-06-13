@@ -63,12 +63,15 @@ class MediasController {
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
-                    .then(() => {
-                        return this.medias.addFile(name, tags, filepath, author, type)
-                            .then(result => resolve(result));
-                    })
-                    .catch(err => reject({statusCode: 500, message: err}));
+                this.mediasHelper.getSizeMedia(extension, filename, this.mediaDir).then(({width, height}) => {
+                    this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
+                        .then(() => {
+                            return this.medias.addFile(name, tags, filepath, author, type, width, height)
+                                .then(result => resolve(result));
+                        })
+                        .catch(err => reject({statusCode: 500, message: err}));
+
+                }).catch(err => reject({statusCode: 500, message: err}));
             });
         });
     }
