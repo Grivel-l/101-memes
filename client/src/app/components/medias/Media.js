@@ -33,11 +33,6 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.media !== undefined) {
-            if (this.state.mediaLoaded && (nextProps.media === undefined || this.props.media._id !== nextProps.media._id)) {
-                this.setState({mediaLoaded: false});
-            }
-        }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
             if (this.mounted) {
                 this.setState({muted: !this.state.muted});
@@ -137,7 +132,8 @@ class Media extends Component {
                         className={this.props.className || null}
                     />
                     {this.props.expanded && 
-                        <MoreButton media={this.props.media}
+                        <MoreButton
+                            media={this.props.media}
                             hideExpand={this.props.hideExpand}
                             small={false}
                         />
