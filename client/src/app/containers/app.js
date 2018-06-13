@@ -12,9 +12,6 @@ const mapStateToProps = ({medias}) => {
         ...medias,
         status: {
             ...medias.status,
-            img : {
-                loaded: (medias.status.img.getted === true && medias.status.img.toLoad <= 0)
-            }
         }
     };
 };

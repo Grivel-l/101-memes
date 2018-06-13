@@ -14,18 +14,14 @@ import "../scss/app.css";
 class App extends Component {
     constructor(props) {
         super(props);
-        this.keyDown = this.keyDown.bind(this);
-        this.adjustDivSize = this.adjustDivSize.bind(this);
-        this.medias = React.createRef();
-        this.subWrapperSize = "0px";
 
+        this.keyDown = this.keyDown.bind(this);
     }
 
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
         document.addEventListener("keydown", this.keyDown);
-        window.addEventListener("resize", this.adjustDivSize);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,13 +33,6 @@ class App extends Component {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
-        window.removeEventListener("resize", this.adjustDivSize);
-    }
-
-    componentDidUpdate() {
-        setTimeout(()=> {
-            this.adjustDivSize();
-        }, 100);
     }
 
     keyDown({keyCode}) {
@@ -58,20 +47,6 @@ class App extends Component {
                 <MediaBlock key={`media${index}`} index={index} media={media} />
             );
         });
-    }
-
-    adjustDivSize() {
-        if (this.props.status.img.loaded === true) {
-            const first = this.medias.current.children[0];
-            if (first === undefined) {
-                return ;
-            }
-            const last = this.medias.current.children[this.medias.current.children.length - 1];
-            const style = window.getComputedStyle(first);
-            const size = Number(style.height.replace(/px/g,""));
-            const marginTop = Number(style.marginTop.replace(/px/g,""));
-            document.getElementsByClassName("flexContainer")[0].style.height = `${this.getY(last) + size + marginTop * 2 - this.getY(first)}px`;
-        }
     }
 
     getY(el) {
@@ -92,7 +67,7 @@ class App extends Component {
                         <div className="category">
                             <p><span className={"capitalize"}>{`${this.props.searchRequest.type}`}</span> {`(${this.props.results.total} result${this.props.results.total !== 1 ? "s" : ""})`}</p>
                         </div>
-                        <div className={"flexContainer"}  style={{height: (this.subWrapperSize)}} ref={this.medias}>
+                        <div className={"flexContainer"}>
                             {this.renderMedias()}
                         </div>
                         <Pagination />
@@ -101,7 +76,11 @@ class App extends Component {
                     <PostButton showToast={this.props.showToast} />
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
-                <Loader key="MainLoader" in={!((this.props.status.searching === "ERROR" || this.props.status.get === "ERROR" || this.props.status.delete === "ERROR" || this.props.status.post === "ERROR") || (this.props.status.img.loaded && this.props.status.post !== "PENDING" && this.props.status.delete !== "PENDING" && this.props.status.get !== "PENDING" && this.props.status.searching !== "PENDING"))} transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}/>
+                <Loader
+                    in={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
+                    transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
+                    hover={true}
+                />
                 <Toaster />
             </Fragment>
         );

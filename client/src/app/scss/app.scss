@@ -85,11 +85,11 @@ body {
 .flexContainer {
     width: 90%;
     display: flex;
-    height: 300px;
     margin: 0 auto;
     flex-flow: row wrap;
     justify-content: center;
     align-content: flex-start;
+    position: relative;
 }
 
 .subMediaContainer {

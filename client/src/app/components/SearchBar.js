@@ -10,7 +10,7 @@ class SearchBar extends Component {
         this.updateType = this.updateType.bind(this);
         this.keyPress = this.keyPress.bind(this);
         this.searchInput = React.createRef();
-        this.OldSearchTerms = null;
+        this.OldSearchTerms = "";
         this.categoryPresets = {
             custom: {
                 type: "custom",
