@@ -64,13 +64,11 @@ class MediasModel {
             .sort({createDate: -1})
             .skip((page - 1) * limit)
             .limit(limit)
-            .then(data => {
-                return {
-                    total: this.total,
-                    pageNbr: Math.floor(this.total / limit) + 1,
-                    data
-                };
-            });
+            .then(data => ({
+                data,
+                total: this.total,
+                pageNbr: this.total === limit ? 1 : Math.floor(this.total / limit) + 1
+            }));
     }
     findPopular() {
         return new Promise(() => {
