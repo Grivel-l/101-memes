@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
-import Loader from "../Loader";
 import MoreButton from "../../containers/medias/moreButton";
 
 class Media extends Component {
@@ -67,7 +66,6 @@ class Media extends Component {
         const split = this.props.media.type.split("/");
         return (
             <Fragment>
-                {!this.state.mediaLoaded && <Loader in={true} />}
                 {(split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) ?
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}

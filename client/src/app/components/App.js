@@ -16,12 +16,17 @@ class App extends Component {
         super(props);
 
         this.keyDown = this.keyDown.bind(this);
+        this.triggerRender = this.triggerRender.bind(this);
+        this.state = {
+            triggerRender: false
+        };
     }
 
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
         document.addEventListener("keydown", this.keyDown);
+        window.addEventListener("resize", this.triggerRender);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -31,8 +36,14 @@ class App extends Component {
         }
     }
 
+    triggerRender() {
+        this.setState({
+            triggerRender: !this.state.triggerRender
+        });
+    }  
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
+        document.removeEventListener("resize", null);
     }
 
     keyDown({keyCode}) {
@@ -44,7 +55,7 @@ class App extends Component {
     renderMedias() {
         return this.props.results.data.map((media, index) => {
             return (
-                <MediaBlock key={`media${index}`} index={index} media={media} />
+                <MediaBlock key={`media${index}`} triggerRender={this.state.triggerRender} index={index} media={media} />
             );
         });
     }

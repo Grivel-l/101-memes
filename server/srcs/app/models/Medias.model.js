@@ -7,7 +7,7 @@ class MediasModel {
             this.condition = {
                 deleted: false
             };
-            this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate"];
+            this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate", "width", "height"];
             schema.count(this.condition).then((total) => {
                 this.total = total;
                 resolve(this);
