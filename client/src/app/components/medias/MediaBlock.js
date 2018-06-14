@@ -19,24 +19,6 @@ class MediaBlock extends Component {
         );
     }
 
-    getWidthLoader(width, height) {
-        
-        let max;
-        if (window.innerWidth > 1920) {
-            max = 300;
-        } else if (window.innerWidth > 1200) {
-            max = 250;
-        } else if (window.innerWidth > 768) {
-            max = 200;
-        } else if (window.innerWidth > 576) {
-            max = 150;
-        } else {
-            max = 125;
-        }
-        const res = height > max ? width - ((height - max) / height) * width : width;
-        return res > (window.innerWidth/100) * 80 ? Math.ceil((window.innerWidth / 100) * 80) : Math.ceil(res);
-    }
-
     render() {
         return (
             <div className={"mediaContainer"}>
@@ -45,8 +27,8 @@ class MediaBlock extends Component {
                     clickable={true}
                     className={"mediaImg"}
                     index={this.props.index}
+                    triggerRender={this.props.triggerRender}
                 />
-                <Loader ref={this.loader} width={`${this.getWidthLoader(this.props.media.width, this.props.media.height)}px`} in={true} />
             </div>
         );
     }

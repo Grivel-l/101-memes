@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
-
+import Loader from "../Loader";
 import MoreButton from "../../containers/medias/moreButton";
 
 class Media extends Component {
@@ -28,7 +28,8 @@ class Media extends Component {
             this.props.media.path !== nextProps.media.path ||
             this.props.clickable !== nextProps.clickable || 
             this.props.className !== nextProps.className ||
-            this.state.mediaLoaded !== nextState.mediaLoaded);
+            this.state.mediaLoaded !== nextState.mediaLoaded) ||
+            this.props.triggerRender !== nextProps.triggerRender;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -59,6 +60,23 @@ class Media extends Component {
         this.setState({muted: !this.state.muted}, () => this.props.toggleSound(this.props.media._id));
     }
 
+    getWidthLoader(width, height) {
+        let max;
+        if (window.innerWidth > 1920) {
+            max = 300;
+        } else if (window.innerWidth > 1200) {
+            max = 250;
+        } else if (window.innerWidth > 768) {
+            max = 200;
+        } else if (window.innerWidth > 576) {
+            max = 150;
+        } else {
+            max = 125;
+        }
+        const res = height > max ? width - ((height - max) / height) * width : width;
+        return res > (window.innerWidth/100) * 80 ? Math.ceil((window.innerWidth / 100) * 80) : Math.ceil(res);
+    }
+
     render() {
         if (this.props.media === undefined) {
             return null;
@@ -66,6 +84,7 @@ class Media extends Component {
         const split = this.props.media.type.split("/");
         return (
             <Fragment>
+                <Loader ref={this.loader} width={`${this.getWidthLoader(this.props.media.width, this.props.media.height)}px`} in={true} />
                 {(split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) ?
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
