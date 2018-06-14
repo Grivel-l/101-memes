@@ -76,3 +76,10 @@ export const swapPageMediasApi = (params, token) => {
         }
     });
 };
+
+export const upvoteApi = ({mediaId, token}) => {
+    return fetch(`/media/vote/${mediaId}`, {
+        body: {token},
+        method: "PUT"
+    });
+};

@@ -13,7 +13,8 @@ import {
     deleteMediaApi,
     reportMediaApi,
     searchMediasApi,
-    swapPageMediasApi
+    swapPageMediasApi,
+    upvoteApi
 } from "../api/medias";
 import {
     MEDIAS_GET,
@@ -36,7 +37,9 @@ import {
     MEDIAS_SWAP_PAGE,
     MEDIAS_SWAP_PAGE_ERROR,
     MEDIAS_SWAP_PAGE_PENDING,
-    MEDIAS_SWAP_PAGE_SUCCESS
+    MEDIAS_SWAP_PAGE_SUCCESS,
+    MEDIAS_UPVOTE,
+    MEDIAS_UPVOTE_SUCCESS
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -88,6 +91,10 @@ function* reportMedia({payload}) {
     });
 }
 
+function* mediasUpvote({payload}) {
+    yield call(apiCall, upvoteApi, {mediaId: payload}, null, MEDIAS_UPVOTE_SUCCESS, null);
+}
+
 function *swapPageMedias({payload}) {
     yield put({type: MEDIAS_SWAP_PAGE_PENDING});
     yield call(apiCall, swapPageMediasApi, payload, MEDIAS_SWAP_PAGE_ERROR, MEDIAS_SWAP_PAGE_SUCCESS);
@@ -115,7 +122,11 @@ function* searchMediasWatcher() {
 
 function* swapPageMediasWatcher() {
     yield takeEvery(MEDIAS_SWAP_PAGE, swapPageMedias);
-} 
+}
+
+function* mediasUpvoteWatcher() {
+    yield takeEvery(MEDIAS_UPVOTE, mediasUpvote);
+}
 
 function* flow() {
     yield all([
@@ -124,7 +135,8 @@ function* flow() {
         fork(mediaDeleteWatcher),
         fork(mediaReportWatcher),
         fork(searchMediasWatcher),
-        fork(swapPageMediasWatcher)
+        fork(swapPageMediasWatcher),
+        fork(mediasUpvoteWatcher)
     ]);
 }
 

@@ -16,7 +16,8 @@ import {
     MEDIAS_SEARCH_ERROR,
     MEDIAS_SWAP_PAGE_PENDING,
     MEDIAS_SWAP_PAGE_SUCCESS,
-    MEDIAS_SWAP_PAGE_ERROR
+    MEDIAS_SWAP_PAGE_ERROR,
+    MEDIAS_UPVOTE_SUCCESS
 } from "../actions/medias";
 
 const initialState = {
@@ -141,7 +142,7 @@ const medias = (state = initialState, {type, payload}) => {
             ...state,
             gotSound: payload
         };
-    case MEDIAS_SEARCH_PENDING: {
+    case MEDIAS_SEARCH_PENDING:
         return {
             ...state,
             status: {
@@ -149,8 +150,7 @@ const medias = (state = initialState, {type, payload}) => {
                 searching: "PENDING",
             }
         };
-    }
-    case MEDIAS_SEARCH_ERROR: {
+    case MEDIAS_SEARCH_ERROR:
         return {
             ...state,
             status: {
@@ -158,15 +158,13 @@ const medias = (state = initialState, {type, payload}) => {
                 searching: "ERROR",
             },
         };
-    }
-    case MEDIAS_SEARCH_SUCCESS: {
+    case MEDIAS_SEARCH_SUCCESS:
         return {
             ...state,
             results: payload.response.results,
             searchRequest: payload.request,
         };
-    }
-    case MEDIAS_SWAP_PAGE_PENDING: {
+    case MEDIAS_SWAP_PAGE_PENDING:
         return {
             ...state,
             status: {
@@ -174,8 +172,7 @@ const medias = (state = initialState, {type, payload}) => {
                 get: "PENDING"
             }
         };
-    }
-    case MEDIAS_SWAP_PAGE_ERROR: {
+    case MEDIAS_SWAP_PAGE_ERROR:
         return {
             ...state,
             status: {
@@ -183,14 +180,28 @@ const medias = (state = initialState, {type, payload}) => {
                 get: "ERROR"
             }
         };
-    }
-    case MEDIAS_SWAP_PAGE_SUCCESS: {
+    case MEDIAS_SWAP_PAGE_SUCCESS:
         return {
             ...state,
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };
-    }
+    case MEDIAS_UPVOTE_SUCCESS:
+        return {
+            ...state,
+            results: {
+                ...state.results,
+                data: [
+                    ...state.results.data.map(media => {
+                        return {
+                            ...media,
+                            voted: (media._id === payload._id) ? !media.voted : media.voted,
+                            votes: media.voted ? media.votes - 1 : media.votes + 1
+                        };
+                    })
+                ]
+            }
+        };
     default:
         return state;
     }

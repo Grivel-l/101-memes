@@ -7,7 +7,14 @@ class MediasModel {
             this.condition = {
                 deleted: false
             };
-            this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate"];
+            this.fieldsToGet = {
+                name: 1,
+                tags: 1,
+                path: 1,
+                author: 1,
+                type: 1,
+                createDate: 1
+            };
             schema.count(this.condition).then((total) => {
                 this.total = total;
                 resolve(this);
@@ -29,12 +36,12 @@ class MediasModel {
         });
     }
 
-    getAll(page = 1, limit = 20) {
-        return this.findLatest(page, limit);
+    getAll(page = 1, limit = 20, author) {
+        return this.findLatest(page, limit, author);
     }
 
     getById(_id) {
-        return schema.findById(_id, this.fieldsToGet);
+        return schema.findById(_id, Object.keys(this.fieldsToGet));
     }
 
     deleteMedia(_id) {
@@ -50,7 +57,7 @@ class MediasModel {
     }
 
     findAndSkip(rand) {
-        return schema.findOne(this.condition, this.fieldsToGet).skip(rand);
+        return schema.findOne(this.condition, Object.keys(this.fieldsToGet)).skip(rand);
     }
 
     /*
@@ -59,8 +66,20 @@ class MediasModel {
     ***
     */
 
-    findLatest(page, limit) {
-        return schema.find(this.condition, this.fieldsToGet)
+    findLatest(page, limit, author) {
+        return schema.aggregate([{
+            $match: this.condition
+        }, {
+            $project: {
+                voted: {
+                    $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
+                },
+                votes: {
+                    $size: "$votes"
+                },
+                ...this.fieldsToGet
+            }
+        }])
             .sort({createDate: -1})
             .skip((page - 1) * limit)
             .limit(limit)
@@ -72,12 +91,14 @@ class MediasModel {
                 };
             });
     }
+
     findPopular() {
         return new Promise(() => {
             throw ({statusCode: 501, error: "not yet implemented"});
         });
     }
-    findCustom(page, terms, limit) {
+
+    findCustom(page, terms, limit, author) {
         /*const before = Date.now();*/
         return schema.aggregate([
             {
@@ -148,6 +169,13 @@ class MediasModel {
                 }
             }, {
                 $project: {
+                    voted: {
+                        $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
+                    },
+                    votes: {
+                        $size: "$votes"
+                    },
+                    ...this.fieldsToGet,
                     _id: 0,
                     total: 1,
                     data: {
@@ -166,6 +194,14 @@ class MediasModel {
                 ...data[0]
             };
         });
+    }
+
+    hasVoted(author, _id) {
+        return schema.find({_id, votes: {$in: [author]}});
+    }
+
+    vote(author, _id, deleteVote) {
+        return schema.findOneAndUpdate({_id}, deleteVote ? {$pull: {votes: author}} : {$push: {votes: author}}, {fields: Object.keys(this.fieldsToGet)});
     }
 }
 
