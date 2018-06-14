@@ -25,7 +25,7 @@ class MediaBlock extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillUpdate(nextProps) {
         if (nextProps.media._id !== this.props.media._id) {
             this.setState({
                 loading: true
