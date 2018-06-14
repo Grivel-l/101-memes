@@ -10,25 +10,54 @@ class MediaBlock extends Component {
         super();
 
         this.loader = React.createRef();
+        this.notifyLoad = this.notifyLoad.bind(this);
+        this.state = {
+            loading: true
+        };
     }
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps, nextState) {
         return (
             this.props.media._id !== nextProps.media._id ||
             this.props.index !== nextProps.index || 
-            this.props.triggerRender !== nextProps.triggerRender
+            this.props.triggerRender !== nextProps.triggerRender || 
+            this.state.loading !== nextState.loading
         );
+    }
+
+    getWidthLoader(width, height) {
+        let max;
+        if (window.innerWidth > 1920) {
+            max = 300;
+        } else if (window.innerWidth > 1200) {
+            max = 250;
+        } else if (window.innerWidth > 768) {
+            max = 200;
+        } else if (window.innerWidth > 576) {
+            max = 150;
+        } else {
+            max = 125;
+        }
+        const res = height > max ? width - ((height - max) / height) * width : width;
+        return res > (window.innerWidth/100) * 80 ? Math.ceil((window.innerWidth / 100) * 80) : Math.ceil(res);
+    }
+
+    notifyLoad() {
+        this.setState({
+            loading: false
+        });
     }
 
     render() {
         return (
-            <div className={"mediaContainer"}>
+            <div className={"mediaContainer"} style={{width: `${this.getWidthLoader(this.props.media.width, this.props.media.height)}px`}}>
                 <Media
                     media={this.props.media}
                     clickable={true}
                     className={"mediaImg"}
                     index={this.props.index}
-                    triggerRender={this.props.triggerRender}
+                    notifyLoad={this.notifyLoad}
                 />
+                <Loader ref={this.loader} in={this.state.loading} />
             </div>
         );
     }

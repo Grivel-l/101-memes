@@ -28,8 +28,7 @@ class Media extends Component {
             this.props.media.path !== nextProps.media.path ||
             this.props.clickable !== nextProps.clickable || 
             this.props.className !== nextProps.className ||
-            this.state.mediaLoaded !== nextState.mediaLoaded) ||
-            this.props.triggerRender !== nextProps.triggerRender;
+            this.state.mediaLoaded !== nextState.mediaLoaded);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -60,23 +59,6 @@ class Media extends Component {
         this.setState({muted: !this.state.muted}, () => this.props.toggleSound(this.props.media._id));
     }
 
-    getWidthLoader(width, height) {
-        let max;
-        if (window.innerWidth > 1920) {
-            max = 300;
-        } else if (window.innerWidth > 1200) {
-            max = 250;
-        } else if (window.innerWidth > 768) {
-            max = 200;
-        } else if (window.innerWidth > 576) {
-            max = 150;
-        } else {
-            max = 125;
-        }
-        const res = height > max ? width - ((height - max) / height) * width : width;
-        return res > (window.innerWidth/100) * 80 ? Math.ceil((window.innerWidth / 100) * 80) : Math.ceil(res);
-    }
-
     render() {
         if (this.props.media === undefined) {
             return null;
@@ -84,7 +66,6 @@ class Media extends Component {
         const split = this.props.media.type.split("/");
         return (
             <Fragment>
-                <Loader ref={this.loader} width={`${this.getWidthLoader(this.props.media.width, this.props.media.height)}px`} in={true} />
                 {(split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) ?
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
@@ -100,6 +81,8 @@ class Media extends Component {
                                 this.ref = true;
                                 ref.addEventListener("canplaythrough", () => this.setState({mediaLoaded: true}));
                                 ref.addEventListener("loadeddata", () => {
+                                    if (this.props.notifyLoad)
+                                        this.props.notifyLoad();
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
                                         if (this.mounted) {
                                             this.setState({hasAudio: true});
@@ -124,7 +107,11 @@ class Media extends Component {
                         src={this.props.media.path}
                         alt={this.props.media.name}
                         onClick={this.expand}
-                        onLoad={() => this.setState({mediaLoaded: true})}
+                        onLoad={() => {
+                            if (this.props.notifyLoad)
+                                this.props.notifyLoad();
+                            this.setState({mediaLoaded: true});
+                        }}
                         style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         className={this.props.className || null}
                     />}
