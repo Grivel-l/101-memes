@@ -22,3 +22,5 @@ export const MEDIAS_SWAP_PAGE = "medias.swap.page";
 export const MEDIAS_SWAP_PAGE_PENDING = "medias.swap.page.pending";
 export const MEDIAS_SWAP_PAGE_ERROR = "medias.swap.page.error";
 export const MEDIAS_SWAP_PAGE_SUCCESS = "medias.swap.page.success";
+export const MEDIAS_UPVOTE = "medias.upvote";
+export const MEDIAS_UPVOTE_SUCCESS = "medias.upvote.success";
