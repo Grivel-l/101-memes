@@ -64,7 +64,7 @@ class MediasController {
                     return reject({statusCode: 500, message: err});
                 }
                 this.mediasHelper.getSizeMedia(extension, filename, this.mediaDir).then(({width, height}) => {
-                    this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
+                    return this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
                         .then(() => {
                             return this.medias.addFile(name, tags, filepath, author, type, width, height)
                                 .then(result => resolve(result));

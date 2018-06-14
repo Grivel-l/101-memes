@@ -55,7 +55,9 @@ const medias = (state = {
         return {
             ...state,
             results: payload.results,
-            status: initialState.status,
+            status: {
+                ...initialState.status
+            },
             searchRequest: {
                 ...state.searchRequest,
                 page: payload.page  || 1
@@ -168,7 +170,9 @@ const medias = (state = {
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
-            status: initialState.status,
+            status: {
+                ...initialState.status
+            },
             results: payload.response.results,
             searchRequest: payload.request,
         };
@@ -194,7 +198,9 @@ const medias = (state = {
     case MEDIAS_SWAP_PAGE_SUCCESS: {
         return {
             ...state,
-            status: initialState.status,
+            status: {
+                ...initialState.status
+            },
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };

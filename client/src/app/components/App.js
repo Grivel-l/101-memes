@@ -43,7 +43,7 @@ class App extends Component {
     }  
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
-        document.removeEventListener("resize", null);
+        document.removeEventListener("resize", this.triggerRender);
     }
 
     keyDown({keyCode}) {
