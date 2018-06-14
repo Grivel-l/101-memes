@@ -34,9 +34,7 @@ class Media extends Component {
             this.setState({hasAudio: false});
         }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
-            if (this.mounted) {
-                this.setState({muted: !this.state.muted});
-            }
+            this.setState({muted: !this.state.muted});
         }
     }
 
@@ -74,7 +72,9 @@ class Media extends Component {
                         ref={ref => {
                             if (!this.ref) {
                                 this.ref = true;
-                                ref.addEventListener("canplaythrough", () => this.setState({mediaLoaded: true}));
+                                ref.addEventListener("canplaythrough", () => {
+                                    if (this.mounted)
+                                        this.setState({mediaLoaded: true});});
                                 ref.addEventListener("loadeddata", () => {
                                     if (this.props.notifyLoad)
                                         this.props.notifyLoad();

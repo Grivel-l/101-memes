@@ -14,6 +14,7 @@ class MediaBlock extends Component {
         this.state = {
             loading: true
         };
+        this.mounted = true;
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (
@@ -22,6 +23,18 @@ class MediaBlock extends Component {
             this.props.triggerRender !== nextProps.triggerRender || 
             this.state.loading !== nextState.loading
         );
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.media._id !== this.props.media._id) {
+            this.setState({
+                loading: true
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     getWidthLoader(width, height) {
@@ -42,9 +55,10 @@ class MediaBlock extends Component {
     }
 
     notifyLoad() {
-        this.setState({
-            loading: false
-        });
+        if (this.mounted)
+            this.setState({
+                loading: false
+            });
     }
 
     render() {
