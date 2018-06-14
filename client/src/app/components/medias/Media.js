@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
-import Loader from "../Loader";
 import MoreButton from "../../containers/medias/moreButton";
 
 class Media extends Component {
@@ -9,8 +8,7 @@ class Media extends Component {
 
         this.state = {
             muted: props.muted,
-            hasAudio: false,
-            mediaLoaded: false
+            hasAudio: false
         };
 
         this.mounted = true;
@@ -32,11 +30,6 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.media !== undefined) {
-            if (this.state.mediaLoaded && (nextProps.media === undefined || this.props.media._id !== nextProps.media._id)) {
-                this.setState({mediaLoaded: false});
-            }
-        }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
             if (this.mounted) {
                 this.setState({muted: !this.state.muted});
@@ -75,7 +68,6 @@ class Media extends Component {
                         onClick={this.expand}
                         muted={this.state.muted}
                         className={this.props.className || null}
-                        style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         ref={ref => {
                             if (!this.ref) {
                                 this.ref = true;
@@ -112,7 +104,6 @@ class Media extends Component {
                                 this.props.notifyLoad();
                             this.setState({mediaLoaded: true});
                         }}
-                        style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         className={this.props.className || null}
                     />}
                 {this.props.expanded && 
