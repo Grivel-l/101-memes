@@ -44,12 +44,18 @@ const initialState = {
     gotSound: null
 };
 
-const medias = (state = initialState, {type, payload}) => {
+const medias = (state = {
+    ...initialState, 
+    status: {
+        ...initialState.status,
+        get: "PENDING"
+    }}, {type, payload}) => {
     switch (type) {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
             results: payload.results,
+            status: initialState.status,
             searchRequest: {
                 ...state.searchRequest,
                 page: payload.page  || 1
@@ -162,6 +168,7 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_SUCCESS: {
         return {
             ...state,
+            status: initialState.status,
             results: payload.response.results,
             searchRequest: payload.request,
         };
@@ -187,6 +194,7 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SWAP_PAGE_SUCCESS: {
         return {
             ...state,
+            status: initialState.status,
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };

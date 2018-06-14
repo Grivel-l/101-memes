@@ -88,7 +88,7 @@ class App extends Component {
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
                 <Loader
-                    in={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
+                    in={this.props.status.get === "PENDING" || this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
                     transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
                     hover={true}
                 />
