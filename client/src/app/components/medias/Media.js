@@ -105,7 +105,8 @@ class Media extends Component {
                         onLoad={() => {
                             if (this.props.notifyLoad)
                                 this.props.notifyLoad();
-                            this.setState({mediaLoaded: true});
+                            if (this.mounted)
+                                this.setState({mediaLoaded: true});
                         }}
                         className={this.props.className || null}
                     />}
