@@ -187,20 +187,33 @@ const medias = (state = initialState, {type, payload}) => {
             results: payload.results
         };
     case MEDIAS_UPVOTE_SUCCESS:
+        const expand = state.expand === null ? null : {...state.expand};
+        if (expand !== null) {
+            if (expand._id === payload._id) {
+                expand.votes = expand.voted ? expand.votes - 1 : expand.votes + 1;
+                expand.voted = !expand.voted;
+            }
+        }
         return {
             ...state,
             results: {
                 ...state.results,
                 data: [
                     ...state.results.data.map(media => {
+                        if (media._id === payload._id) {
+                            return {
+                                ...media,
+                                voted: !media.voted,
+                                votes: media.voted ? media.votes - 1 : media.votes + 1
+                            };
+                        }
                         return {
-                            ...media,
-                            voted: (media._id === payload._id) ? !media.voted : media.voted,
-                            votes: media.voted ? media.votes - 1 : media.votes + 1
+                            ...media
                         };
                     })
                 ]
-            }
+            },
+            expand
         };
     default:
         return state;

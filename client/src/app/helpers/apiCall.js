@@ -48,7 +48,6 @@ export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaste
             yield put(toaster);
         }
         if (ACTION_SUCCESS !== null) {
-            console.log("Result: ", result);
             yield put({payload: result, type: ACTION_SUCCESS});
         }
     }

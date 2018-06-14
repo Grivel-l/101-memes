@@ -67,7 +67,8 @@ class MediaHover extends Component {
                                 {(this.props.expand.tags.length > 0) && <ul className={"tags"}>
                                     {this.renderTags()}
                                 </ul>}
-                                <MoreButton media={this.props.expand}
+                                <MoreButton
+                                    media={this.props.expand}
                                     hideExpand={this.props.hideExpand}
                                 />
                             </div>

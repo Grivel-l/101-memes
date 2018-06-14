@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-import Upvote from "../../containers/medias/upvote";
 import Media from "../../containers/medias/media";
 import "../../scss/app.css";
 
@@ -22,11 +21,6 @@ class MediaBlock extends Component {
                     clickable={true}
                     className={"mediaImg"}
                     index={this.props.index}
-                />
-                <Upvote
-                    _id={this.props.media._id}
-                    votesNbr={this.props.media.votes}
-                    voted={this.props.media.voted}
                 />
             </div>
         );

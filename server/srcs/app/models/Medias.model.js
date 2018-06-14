@@ -30,10 +30,11 @@ class MediasModel {
             tags: tags.split(",").filter(tag => tag.length > 0),
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
             createDate: new Date()
-        }).then(result => {
-            this.total += 1;
-            return result;
-        });
+        })
+            .then(result => {
+                this.total += 1;
+                return {...result._doc, votes: 0};
+            });
     }
 
     getAll(page = 1, limit = 20, author) {

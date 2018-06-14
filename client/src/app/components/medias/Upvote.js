@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 class Upvote extends Component {
     render() {
+        console.log("Votes: ", this.props.votesNbr);
         return (
             <div
                 className={this.props.voted ? "upVoteContainer upVoteVoted" : "upVoteContainer"}
