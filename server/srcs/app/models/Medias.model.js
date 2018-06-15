@@ -149,7 +149,17 @@ class MediasModel {
                 }
             }, {
                 $project: {
-                    binMatchTags: 0
+                    voted: {
+                        $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
+                    },
+                    votes: {
+                        $size: "$votes"
+                    },
+                    ...this.fieldsToGet
+                }
+            }, {
+                $project: {
+                    binMatchTags: 0,
                 }
             }, {
                 $sort: {
@@ -170,13 +180,6 @@ class MediasModel {
                 }
             }, {
                 $project: {
-                    voted: {
-                        $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
-                    },
-                    votes: {
-                        $size: "$votes"
-                    },
-                    ...this.fieldsToGet,
                     _id: 0,
                     total: 1,
                     data: {
@@ -190,6 +193,7 @@ class MediasModel {
             if (!data[0]) {
                 return (null);
             }
+            console.log("Data: ", data);
             return {
                 pageNbr: Math.floor(data[0].total  / limit) + 1,
                 ...data[0]
