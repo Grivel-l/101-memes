@@ -193,7 +193,6 @@ class MediasModel {
             if (!data[0]) {
                 return (null);
             }
-            console.log("Data: ", data);
             return {
                 pageNbr: Math.floor(data[0].total  / limit) + 1,
                 ...data[0]
