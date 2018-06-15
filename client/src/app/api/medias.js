@@ -40,8 +40,8 @@ export const reportMediaApi = body => {
     });
 };
 
-export const searchMediasApi = params => {
-    return fetch(`/media/search?type=${params.type}&limit=${params.limit}&page=${params.page}&terms=${params.terms}`, {
+export const searchMediasApi = (params, token) => {
+    return fetch(`/media/search?type=${params.type}&limit=${params.limit}&page=${params.page}&terms=${params.terms}&token=${token}`, {
         method: "GET"
     }).then((response) => {
         if (!response.error) {
@@ -62,8 +62,8 @@ export const searchMediasApi = params => {
     });
 };
 
-export const swapPageMediasApi = params => {
-    return fetch(`/media/search?type=${params.searchRequest.type}&limit=${params.searchRequest.limit}&page=${params.searchRequest.page}&terms=${params.searchRequest.terms}`, {
+export const swapPageMediasApi = (params, token) => {
+    return fetch(`/media/search?type=${params.searchRequest.type}&limit=${params.searchRequest.limit}&page=${params.searchRequest.page}&terms=${params.searchRequest.terms}&token=${token}`, {
         method: "GET"
     }).then((response) => {
         if (!response.error) {
@@ -74,5 +74,11 @@ export const swapPageMediasApi = params => {
         } else {
             return response;
         }
+    });
+};
+
+export const upvoteApi = ({mediaId, token}) => {
+    return fetch(`/media/vote/${mediaId}?token=${token}`, {
+        method: "PUT"
     });
 };

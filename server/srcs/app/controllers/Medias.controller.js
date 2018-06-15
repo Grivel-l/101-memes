@@ -3,6 +3,7 @@ const uuid = require("uuid/v4");
 const {Magic, MAGIC_MIME_TYPE} = require("mmmagic");
 const nodemailer = require("nodemailer");
 
+const MediasHelper = require("../helpers/medias.helper");
 const MediasModel = require("../models/Medias.model");
 const UsersModel = require("../models/Users.model");
 const {fileMaxSize} = require("../../configs/global");
@@ -12,6 +13,7 @@ class MediasController {
         return new Promise((resolve, reject) => {
             new MediasModel().then((medias) => {
                 this.medias = medias;
+                this.mediasHelper = new MediasHelper();
                 this.users = new UsersModel(dtb);
                 this.mediaDir = "./srcs/imgs/";
                 this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
@@ -53,22 +55,26 @@ class MediasController {
                 if (size / 1024 / 1024 > fileMaxSize) {
                     return reject({statusCode: 400, message: "File is too big"});
                 }
-                const filepath = `${this.mediaDir}${this.getName()}.${extension}`;
+                const filename = this.getName();
+                const filepath = `${this.mediaDir}${filename}.${extension}`;
                 try {
                     fs.writeFileSync(filepath, fs.readFileSync(media.path));
                     fs.unlinkSync(media.path);
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.medias.addFile(name, tags, filepath, author, type)
-                    .then(result => resolve(result))
+                this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
+                    .then(() => {
+                        return this.medias.addFile(name, tags, filepath, author, type)
+                            .then(result => resolve(result));
+                    })
                     .catch(err => reject({statusCode: 500, message: err}));
             });
         });
     }
 
     getAll(page, limit, author) {
-        return this.medias.getAll(page, limit)
+        return this.medias.getAll(page, limit, author)
             .then(result => {
                 let role;
                 if (this.globalUsers.admins.filter(user => user.login === author).length !== 0) {
@@ -147,7 +153,7 @@ class MediasController {
 
     }
 
-    searchMedia(searchParams, noCheck = false, count = false) {
+    searchMedia(searchParams, author, noCheck = false, count = false) {
         if (!noCheck) {
             if (searchParams.limit !== undefined)
                 searchParams.limit = Number(searchParams.limit);
@@ -163,14 +169,19 @@ class MediasController {
         }
         switch(searchParams.type) {
         case "latest":
-            return this.medias.findLatest(searchParams.page, searchParams.limit);
+            return this.medias.findLatest(searchParams.page, searchParams.limit, author);
         case "popular": 
             return this.medias.findPopular(searchParams.limit);
         case "custom":
             if (!searchParams.terms || searchParams.terms.trim().length === 0)
                 return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit, count, searchParams.random);
+            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit, author, count, searchParams.random);
         }
+    }
+
+    vote(author, mediaId) {
+        return this.medias.hasVoted(author, mediaId)
+            .then(voted => this.medias.vote(author, mediaId, voted.length > 0));
     }
 }
 

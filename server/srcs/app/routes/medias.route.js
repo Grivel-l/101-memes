@@ -28,7 +28,12 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         });
     
         server.get("/media/all", (req, res) => {
-            medias.getAll(req.params.page, parseInt(req.params.limit, 10), req.author)
+            const page = parseInt(req.params.page, 10);
+            const limit = parseInt(req.params.limit, 10);
+            if (typeof page !== "number" || typeof limit !== "number") {
+                return res.send(400, {});
+            }
+            medias.getAll(page, limit, req.author)
                 .then(medias => res.send(200, medias))
                 .catch(err => {
                     log.error(err);
@@ -99,7 +104,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         });
 
         server.get("/media/search", (req, res) => {
-            medias.searchMedia(req.params)
+            medias.searchMedia(req.params, req.author)
                 .then(results => {
                     if (results && results.data && results.data.length > 0) {
                         res.send(200, {results});
@@ -107,6 +112,18 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                         res.send(200, {results: { total: 0, pageNbr: 1, data: []}});
                     }
                 })
+                .catch(error => {
+                    log.error(error);
+                    res.send(error.statusCode || 500, error.statusCode === 500 ? "Internal server error" : error.message);
+                });
+        });
+
+        server.put("/media/vote/:mediaId", (req, res) => {
+            if (req.params.mediaId === undefined) {
+                return res.send(400, {error: "mediaId param is missing"});
+            }
+            medias.vote(req.author, req.params.mediaId)
+                .then(result => res.send(200, result))
                 .catch(error => {
                     log.error(error);
                     res.send(error.statusCode || 500, error.statusCode === 500 ? "Internal server error" : error.message);
