@@ -71,19 +71,21 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         });
 
         server.post("/media/slack/search", (req, res) => {
-            medias.searchMedia({type: "custom", terms: req.body.text}, true, true)
-                .then(total => {
-                    if (total[0] === undefined || total[0].total === 0) {
+            medias.searchMedia({
+                type: "custom",
+                terms: req.body.text,
+                page: 1,
+                limit: 1
+            }, true, true)
+                .then(({data}) => {
+                    if (data.length === 0) {
                         throw {statusCode: 404};
                     }
-                    return medias.searchMedia({type: "custom", limit: 1, random: Math.floor(Math.random() * Math.floor(total[0].total)), terms: req.body.text}, true, false)
-                        .then(media => {
-                            const split = media.data[0].path.split(".");
-                            if (split[split.length - 1] === "mp4" || split[split.length - 1] === "webm") {
-                                split[split.length - 1] = "gif";
-                            }
-                            res.send(200, {attachments: [{imageUrl: split.join(".")}]});
-                        });
+                    const split = data[0].path.split(".");
+                    if (split[split.length - 1] === "mp4" || split[split.length - 1] === "webm") {
+                        split[split.length - 1] = "gif";
+                    }
+                    res.send(200, {attachments: [{title: data.name, imageUrl: split.join(".")}]});
                 })
                 .catch(error => {
                     log.error(error);

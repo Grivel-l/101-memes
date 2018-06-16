@@ -135,7 +135,7 @@ class MediasController {
         });
     }
 
-    searchMedia(searchParams, author, noCheck = false, count = false) {
+    searchMedia(searchParams, author, noCheck = false) {
         if (!noCheck) {
             if (searchParams.limit !== undefined)
                 searchParams.limit = Number(searchParams.limit);
@@ -157,7 +157,7 @@ class MediasController {
         case "custom":
             if (!searchParams.terms || searchParams.terms.trim().length === 0)
                 return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit, author, count, searchParams.random);
+            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit, author);
         }
     }
 

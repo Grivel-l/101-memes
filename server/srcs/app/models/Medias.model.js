@@ -95,7 +95,7 @@ class MediasModel {
         });
     }
 
-    findCustom(page, terms, limit, author, count, random = null) {
+    findCustom(page, terms, limit, author) {
         /*const before = Date.now();*/
         return schema.aggregate([
             {
@@ -178,19 +178,15 @@ class MediasModel {
                 $project: {
                     _id: 0,
                     total: 1,
-                    data: count ? null : {
-                        $slice: [ "$data", random === null ? (page - 1) * limit : random, limit]
-                    },
-                    count: !count ? null : {$sum: 1}
+                    data: {
+                        $slice: [ "$data", (page - 1) * limit, limit]
+                    }
                 }
             }
         ])
             .then(data => {
                 /*const after = Date.now();
                 console.log(`Search for "${terms}", Execution time : ${after - before}ms` )*/
-                if (count) {
-                    return data;
-                }
                 if (!data[0]) {
                     return (null);
                 }
