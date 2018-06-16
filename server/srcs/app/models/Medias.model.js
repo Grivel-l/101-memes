@@ -145,7 +145,17 @@ class MediasModel {
                 }
             }, {
                 $project: {
-                    binMatchTags: 0
+                    voted: {
+                        $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
+                    },
+                    votes: {
+                        $size: "$votes"
+                    },
+                    ...this.fieldsToGet
+                }
+            }, {
+                $project: {
+                    binMatchTags: 0,
                 }
             }, {
                 $sort: {
@@ -166,13 +176,6 @@ class MediasModel {
                 }
             }, {
                 $project: {
-                    voted: {
-                        $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
-                    },
-                    votes: {
-                        $size: "$votes"
-                    },
-                    ...this.fieldsToGet,
                     _id: 0,
                     total: 1,
                     data: count ? null : {
