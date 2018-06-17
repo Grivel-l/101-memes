@@ -215,6 +215,7 @@
             }
         }
         .delTagButton {
+            cursor: pointer;
             display: inline-block;
             outline: none;
             width: 60px;
@@ -240,6 +241,7 @@
             }
         }
         .addTag {
+            cursor: pointer;
             margin-top: 10px; 
             background-color: rgba($color: $backColorDimmed, $alpha: 0.8);
             border: 3px solid white;
