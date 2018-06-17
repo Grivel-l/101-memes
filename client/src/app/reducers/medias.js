@@ -17,7 +17,7 @@ import {
     MEDIAS_SWAP_PAGE_PENDING,
     MEDIAS_SWAP_PAGE_SUCCESS,
     MEDIAS_SWAP_PAGE_ERROR,
-    MEDIAS_UPVOTE_SUCCESS
+    MEDIAS_UPVOTE_UPDATE
 } from "../actions/medias";
 
 const initialState = {
@@ -44,6 +44,37 @@ const initialState = {
     expand: null,
     gotSound: null
 };
+
+function updateVotes(state, _id) {
+    const expand = state.expand === null ? null : {...state.expand};
+    if (expand !== null) {
+        if (expand._id === _id) {
+            expand.votes = expand.voted ? expand.votes - 1 : expand.votes + 1;
+            expand.voted = !expand.voted;
+        }
+    }
+    return {
+        ...state,
+        results: {
+            ...state.results,
+            data: [
+                ...state.results.data.map(media => {
+                    if (media._id === _id) {
+                        return {
+                            ...media,
+                            voted: !media.voted,
+                            votes: media.voted ? media.votes - 1 : media.votes + 1
+                        };
+                    }
+                    return {
+                        ...media
+                    };
+                })
+            ]
+        },
+        expand
+    };
+}
 
 const medias = (state = initialState, {type, payload}) => {
     switch (type) {
@@ -186,35 +217,8 @@ const medias = (state = initialState, {type, payload}) => {
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };
-    case MEDIAS_UPVOTE_SUCCESS:
-        const expand = state.expand === null ? null : {...state.expand};
-        if (expand !== null) {
-            if (expand._id === payload._id) {
-                expand.votes = expand.voted ? expand.votes - 1 : expand.votes + 1;
-                expand.voted = !expand.voted;
-            }
-        }
-        return {
-            ...state,
-            results: {
-                ...state.results,
-                data: [
-                    ...state.results.data.map(media => {
-                        if (media._id === payload._id) {
-                            return {
-                                ...media,
-                                voted: !media.voted,
-                                votes: media.voted ? media.votes - 1 : media.votes + 1
-                            };
-                        }
-                        return {
-                            ...media
-                        };
-                    })
-                ]
-            },
-            expand
-        };
+    case MEDIAS_UPVOTE_UPDATE:
+        return updateVotes(state, payload._id);
     default:
         return state;
     }

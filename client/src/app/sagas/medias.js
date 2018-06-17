@@ -39,7 +39,7 @@ import {
     MEDIAS_SWAP_PAGE_PENDING,
     MEDIAS_SWAP_PAGE_SUCCESS,
     MEDIAS_UPVOTE,
-    MEDIAS_UPVOTE_SUCCESS
+    MEDIAS_UPVOTE_UPDATE
 } from "../actions/medias";
 import {TOAST_SHOW} from "../actions/toasts";
 
@@ -92,7 +92,9 @@ function* reportMedia({payload}) {
 }
 
 function* mediasUpvote({payload}) {
-    yield call(apiCall, upvoteApi, {mediaId: payload}, null, MEDIAS_UPVOTE_SUCCESS, null);
+    yield call(apiCall, upvoteApi, {mediaId: payload}, MEDIAS_UPVOTE_UPDATE, null, null, function *() {
+        yield put({type: MEDIAS_UPVOTE_UPDATE, payload: {_id: payload}});
+    });
 }
 
 function *swapPageMedias({payload}) {

@@ -58,7 +58,6 @@ class Media extends Component {
     }
 
     render() {
-        console.log("In media", this.props.media.votes);
         if (this.props.media === undefined) {
             return null;
         }
