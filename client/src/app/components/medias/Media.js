@@ -35,11 +35,6 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.media !== undefined) {
-            if (this.state.mediaLoaded && (nextProps.media === undefined || this.props.media._id !== nextProps.media._id)) {
-                this.setState({mediaLoaded: false});
-            }
-        }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
             if (this.mounted) {
                 this.setState({muted: !this.state.muted});
