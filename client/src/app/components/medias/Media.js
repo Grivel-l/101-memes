@@ -34,6 +34,7 @@ class Media extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.media !== undefined && nextProps.media !== undefined && this.props.media._id !== nextProps.media._id) {
+            this.ref = false;
             this.setState({hasAudio: false});
         }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
@@ -66,14 +67,14 @@ class Media extends Component {
                 {(split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) ?
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
-                        alt={this.props.media.path}
+                        alt={this.props.media.name}
                         loop={true}
                         autoPlay={true}
                         onClick={this.expand}
                         muted={this.state.muted}
                         className={this.props.className || null}
                         ref={ref => {
-                            if (!this.ref) {
+                            if (!this.ref && ref !== null) {
                                 this.ref = true;
                                 ref.addEventListener("canplaythrough", () => {
                                     if (this.mounted)
