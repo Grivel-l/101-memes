@@ -66,7 +66,7 @@ class Media extends Component {
                 {(split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) ?
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
-                        alt={this.props.media.name}
+                        alt={this.props.media.path}
                         loop={true}
                         autoPlay={true}
                         onClick={this.expand}
@@ -89,6 +89,7 @@ class Media extends Component {
                                 });
                             }
                         }}
+                        key={`${this.props.media._id}`}
                     >
                         {this.props.className !== "postMediaImg" && ["webm", "mp4"].map((ext, index) => {
                             const split = this.props.media.path.split(".");

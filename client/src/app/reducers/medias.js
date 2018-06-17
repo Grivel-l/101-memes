@@ -39,7 +39,6 @@ const initialState = {
         terms: null,
         limit: 24,
         page: 1
-
     },
     expand: null,
     gotSound: null
@@ -86,7 +85,9 @@ const medias = (state = {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            results: payload.results,
+            results: {
+                ...payload.results
+            },
             status: {
                 ...initialState.status
             },
@@ -115,7 +116,7 @@ const medias = (state = {
     case MEDIAS_EXPAND_SHOW:
         return {
             ...state,
-            expand: payload
+            expand: {...payload}
         };
     case MEDIAS_EXPAND_HIDE:
         return {
@@ -203,8 +204,12 @@ const medias = (state = {
             status: {
                 ...initialState.status
             },
-            results: payload.response.results,
-            searchRequest: payload.request,
+            results: {
+                ...payload.response.results
+            },
+            searchRequest: {
+                ...payload.request
+            },
         };
     case MEDIAS_SWAP_PAGE_PENDING:
         return {
@@ -228,8 +233,12 @@ const medias = (state = {
             status: {
                 ...initialState.status
             },
-            searchRequest: payload.request.searchRequest,
-            results: payload.results
+            searchRequest: {
+                ...payload.request.searchRequest
+            },
+            results: {
+                ...payload.results
+            }
         };
     case MEDIAS_UPVOTE_UPDATE:
         return updateVotes(state, payload._id);
