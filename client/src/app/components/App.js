@@ -17,12 +17,17 @@ class App extends Component {
 
         this.page = 1;
         this.keyDown = this.keyDown.bind(this);
+        this.triggerRender = this.triggerRender.bind(this);
+        this.state = {
+            triggerRender: false
+        };
     }
 
     componentWillMount() {
         this.page = parseInt(new URLSearchParams(window.location.search).get("page") || this.page, 10);
         this.props.getMedias(this.page);
         document.addEventListener("keydown", this.keyDown);
+        window.addEventListener("resize", this.triggerRender);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -32,8 +37,14 @@ class App extends Component {
         }
     }
 
+    triggerRender() {
+        this.setState({
+            triggerRender: !this.state.triggerRender
+        });
+    }  
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyDown);
+        document.removeEventListener("resize", this.triggerRender);
     }
 
     keyDown({keyCode}) {
@@ -43,7 +54,7 @@ class App extends Component {
     }
 
     renderMedias() {
-        return this.props.results.data.map((media, index) => <MediaBlock key={`media${index}`} index={index} media={media} />);
+        return this.props.results.data.map((media, index) => <MediaBlock key={`media${index}`} triggerRender={this.state.triggerRender} index={index} media={media} />);
     }
 
     getY(el) {
@@ -74,7 +85,7 @@ class App extends Component {
                 </div>
                 <MediaHover expand={this.props.expand} hideExpand={this.props.hideExpand} />
                 <Loader
-                    in={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
+                    in={this.props.status.get === "PENDING" || this.props.status.searching === "PENDING"  || this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
                     transparent={this.props.status.post === "PENDING" || this.props.status.delete === "PENDING"}
                     hover={true}
                 />

@@ -39,7 +39,6 @@ const initialState = {
         terms: null,
         limit: 24,
         page: 1
-
     },
     expand: null,
     gotSound: null
@@ -76,12 +75,22 @@ function updateVotes(state, _id) {
     };
 }
 
-const medias = (state = initialState, {type, payload}) => {
+const medias = (state = {
+    ...initialState, 
+    status: {
+        ...initialState.status,
+        get: "PENDING"
+    }}, {type, payload}) => {
     switch (type) {
     case MEDIAS_GET_SUCCESS:
         return {
             ...state,
-            results: payload.results,
+            results: {
+                ...payload.results
+            },
+            status: {
+                ...initialState.status
+            },
             searchRequest: {
                 ...state.searchRequest,
                 page: payload.page  || 1
@@ -107,7 +116,7 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_EXPAND_SHOW:
         return {
             ...state,
-            expand: payload
+            expand: {...payload}
         };
     case MEDIAS_EXPAND_HIDE:
         return {
@@ -192,8 +201,15 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SEARCH_SUCCESS:
         return {
             ...state,
-            results: payload.response.results,
-            searchRequest: payload.request,
+            status: {
+                ...initialState.status
+            },
+            results: {
+                ...payload.response.results
+            },
+            searchRequest: {
+                ...payload.request
+            },
         };
     case MEDIAS_SWAP_PAGE_PENDING:
         return {
@@ -214,8 +230,15 @@ const medias = (state = initialState, {type, payload}) => {
     case MEDIAS_SWAP_PAGE_SUCCESS:
         return {
             ...state,
-            searchRequest: payload.request.searchRequest,
-            results: payload.results
+            status: {
+                ...initialState.status
+            },
+            searchRequest: {
+                ...payload.request.searchRequest
+            },
+            results: {
+                ...payload.results
+            }
         };
     case MEDIAS_UPVOTE_UPDATE:
         return updateVotes(state, payload._id);

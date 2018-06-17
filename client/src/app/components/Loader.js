@@ -16,7 +16,7 @@ class Loader extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return nextProps.in !== this.state.in ||
             nextState.in !== this.state.in ||
-            this.props.hover !== nextProps.hover;
+            this.props.hover !== nextProps.hover;  
     }
     componentWillMount() {
         if (this.props.in) {
@@ -42,7 +42,7 @@ class Loader extends Component {
         return (
             <Transition in={this.state.in} timeout={0}>
                 {(status) => (
-                    <div className={`${this.props.hover ? "loaderHover" : ""} ${this.transparent ? "transparent" : ""} ${this.props.name ? `loader${this.props.name}` : ""} loader ${status}`} />
+                    <div style={{pointerEvents: this.state.in ? "all" : "none"}} className={`${this.props.hover ? "loaderHover" : ""} ${this.transparent ? "transparent" : ""} ${this.props.name ? `loader${this.props.name}` : ""} loader ${status}`} />
                 )}
             </Transition>
         );

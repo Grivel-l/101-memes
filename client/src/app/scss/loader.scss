@@ -37,4 +37,8 @@
 
 .loaderHover {
     position: fixed;
+    background-size: 30%;
+    @media screen and (max-width : 992px) {
+        background-size: 60%;
+    }
 }

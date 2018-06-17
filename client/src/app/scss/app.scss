@@ -54,6 +54,13 @@ body {
         height: 125px;
         margin: 2px;
     }
+    .loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .wrapper {
@@ -107,7 +114,7 @@ body {
     transform: translateY(-50%);
     max-height: 100%;
     height: auto;
-    max-width: 80vw;
+    max-width: 100%;
 }
 
 .expandWrapper {

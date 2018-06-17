@@ -2,7 +2,6 @@ import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
 import Upvote from "../../containers/medias/upvote";
-import Loader from "../Loader";
 import MoreButton from "../../containers/medias/moreButton";
 
 class Media extends Component {
@@ -11,8 +10,7 @@ class Media extends Component {
 
         this.state = {
             muted: props.muted,
-            hasAudio: false,
-            mediaLoaded: false
+            hasAudio: false
         };
 
         this.mounted = true;
@@ -35,10 +33,12 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.media !== undefined && nextProps.media !== undefined && this.props.media._id !== nextProps.media._id) {
+            this.ref = false;
+            this.setState({hasAudio: false});
+        }
         if (!this.state.muted && nextProps.gotSound !== this.props.media._id) {
-            if (this.mounted) {
-                this.setState({muted: !this.state.muted});
-            }
+            this.setState({muted: !this.state.muted});
         }
     }
 
@@ -64,7 +64,6 @@ class Media extends Component {
         const split = this.props.media.type.split("/");
         return (
             <Fragment>
-                {!this.state.mediaLoaded && <Loader in={true} />}
                 {(split[0] === "video" || (this.props.className !== "postMediaImg" && split[1] === "gif")) ?
                     <video
                         src={this.props.className !== "postMediaImg" ? null : this.props.media.path}
@@ -74,12 +73,15 @@ class Media extends Component {
                         onClick={this.expand}
                         muted={this.state.muted}
                         className={this.props.className || null}
-                        style={this.state.mediaLoaded ? {} : {opacity: 0}}
                         ref={ref => {
-                            if (!this.ref) {
+                            if (!this.ref && ref !== null) {
                                 this.ref = true;
-                                ref.addEventListener("canplaythrough", () => this.setState({mediaLoaded: true}));
+                                ref.addEventListener("canplaythrough", () => {
+                                    if (this.mounted)
+                                        this.setState({mediaLoaded: true});});
                                 ref.addEventListener("loadeddata", () => {
+                                    if (this.props.notifyLoad)
+                                        this.props.notifyLoad();
                                     if (ref.mozHasAudio || ref.webkitAudioDecodedByteCount > 0) {
                                         if (this.mounted) {
                                             this.setState({hasAudio: true});
@@ -88,6 +90,7 @@ class Media extends Component {
                                 });
                             }
                         }}
+                        key={`${this.props.media._id}`}
                     >
                         {this.props.className !== "postMediaImg" && ["webm", "mp4"].map((ext, index) => {
                             const split = this.props.media.path.split(".");
@@ -104,8 +107,12 @@ class Media extends Component {
                         src={this.props.media.path}
                         alt={this.props.media.name}
                         onClick={this.expand}
-                        onLoad={() => this.setState({mediaLoaded: true})}
-                        style={this.state.mediaLoaded ? {} : {opacity: 0}}
+                        onLoad={() => {
+                            if (this.props.notifyLoad)
+                                this.props.notifyLoad();
+                            if (this.mounted)
+                                this.setState({mediaLoaded: true});
+                        }}
                         className={this.props.className || null}
                     />}
                 {this.props.expanded && 
