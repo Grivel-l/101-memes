@@ -16,7 +16,8 @@ module.exports = dtb => {
             }
         },
         deleted: {type: Boolean, default: false},
-        createDate: {type: Date, required: true}
+        createDate: {type: Date, required: true},
+        votes: {type: Array, required: true}
     }));
 };
 
