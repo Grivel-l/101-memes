@@ -75,7 +75,7 @@ class MediasController {
     }
 
     getAll(page, limit, author) {
-        return this.medias.getAll(page, limit)
+        return this.medias.getAll(page, limit, author)
             .then(result => {
                 let role;
                 if (this.globalUsers.admins.filter(user => user.login === author).length !== 0) {
@@ -153,7 +153,7 @@ class MediasController {
             });
 
     }
-    searchMedia(searchParams) {
+    searchMedia(searchParams, author) {
         if (searchParams.limit)
             searchParams.limit = Number(searchParams.limit);
         else {
@@ -168,14 +168,19 @@ class MediasController {
 
         switch(searchParams.type) {
         case "latest":
-            return this.medias.findLatest(searchParams.page, searchParams.limit);
+            return this.medias.findLatest(searchParams.page, searchParams.limit, author);
         case "popular": 
             return this.medias.findPopular(searchParams.limit);
         case "custom":
             if (!searchParams.terms || searchParams.terms.trim().length === 0)
                 return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit);
+            return this.medias.findCustom(searchParams.page, searchParams.terms, searchParams.limit, author);
         }
+    }
+
+    vote(author, mediaId) {
+        return this.medias.hasVoted(author, mediaId)
+            .then(voted => this.medias.vote(author, mediaId, voted.length > 0));
     }
 }
 

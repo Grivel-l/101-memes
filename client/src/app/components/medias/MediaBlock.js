@@ -18,6 +18,7 @@ class MediaBlock extends Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (
+            this.props.media.voted !== nextProps.media.voted ||
             this.props.media._id !== nextProps.media._id ||
             this.props.index !== nextProps.index || 
             this.props.triggerRender !== nextProps.triggerRender || 

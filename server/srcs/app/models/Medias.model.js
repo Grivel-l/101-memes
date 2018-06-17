@@ -7,7 +7,16 @@ class MediasModel {
             this.condition = {
                 deleted: false
             };
-            this.fieldsToGet = ["name", "tags", "path", "author", "type",  "createDate", "width", "height"];
+            this.fieldsToGet = {
+                name: 1,
+                tags: 1,
+                path: 1,
+                author: 1,
+                type: 1,
+                createDate: 1,
+                width: 1,
+                height: 1
+            };
             schema.count(this.condition).then((total) => {
                 this.total = total;
                 resolve(this);
@@ -25,18 +34,19 @@ class MediasModel {
             tags: tags.split(",").filter(tag => tag.length > 0),
             path: `${config.imgsDirPath}${filepath.substr(1)}`,
             createDate: new Date()
-        }).then(result => {
-            this.total += 1;
-            return result;
-        });
+        })
+            .then(result => {
+                this.total += 1;
+                return {...result._doc, votes: 0};
+            });
     }
 
-    getAll(page = 1, limit = 20) {
-        return this.findLatest(page, limit);
+    getAll(page = 1, limit = 20, author) {
+        return this.findLatest(page, limit, author);
     }
 
     getById(_id) {
-        return schema.findById(_id, this.fieldsToGet);
+        return schema.findById(_id, Object.keys(this.fieldsToGet));
     }
 
     deleteMedia(_id) {
@@ -52,7 +62,7 @@ class MediasModel {
     }
 
     findAndSkip(rand) {
-        return schema.findOne(this.condition, this.fieldsToGet).skip(rand);
+        return schema.findOne(this.condition, Object.keys(this.fieldsToGet)).skip(rand);
     }
 
     /*
@@ -61,25 +71,37 @@ class MediasModel {
     ***
     */
 
-    findLatest(page, limit) {
-        return schema.find(this.condition, this.fieldsToGet)
+    findLatest(page, limit, author) {
+        return schema.aggregate([{
+            $match: this.condition
+        }, {
+            $project: {
+                voted: {
+                    $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
+                },
+                votes: {
+                    $size: "$votes"
+                },
+                ...this.fieldsToGet
+            }
+        }])
             .sort({createDate: -1})
             .skip((page - 1) * limit)
             .limit(limit)
-            .then(data => {
-                return {
-                    total: this.total,
-                    pageNbr: Math.floor(this.total / limit) + 1,
-                    data
-                };
-            });
+            .then(data => ({
+                data,
+                total: this.total,
+                pageNbr: this.total === limit ? 1 : Math.floor(this.total / limit) + 1
+            }));
     }
+
     findPopular() {
         return new Promise(() => {
             throw ({statusCode: 501, error: "not yet implemented"});
         });
     }
-    findCustom(page, terms, limit) {
+
+    findCustom(page, terms, limit, author) {
         /*const before = Date.now();*/
         return schema.aggregate([
             {
@@ -129,7 +151,17 @@ class MediasModel {
                 }
             }, {
                 $project: {
-                    binMatchTags: 0
+                    voted: {
+                        $cond: {if: {$in: [author, "$votes"]}, then: true, else: false}
+                    },
+                    votes: {
+                        $size: "$votes"
+                    },
+                    ...this.fieldsToGet
+                }
+            }, {
+                $project: {
+                    binMatchTags: 0,
                 }
             }, {
                 $sort: {
@@ -168,6 +200,14 @@ class MediasModel {
                 ...data[0]
             };
         });
+    }
+
+    hasVoted(author, _id) {
+        return schema.find({_id, votes: {$in: [author]}});
+    }
+
+    vote(author, _id, deleteVote) {
+        return schema.findOneAndUpdate({_id}, deleteVote ? {$pull: {votes: author}} : {$push: {votes: author}}, {fields: Object.keys(this.fieldsToGet)});
     }
 }
 

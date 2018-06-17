@@ -16,7 +16,8 @@ import {
     MEDIAS_SEARCH_ERROR,
     MEDIAS_SWAP_PAGE_PENDING,
     MEDIAS_SWAP_PAGE_SUCCESS,
-    MEDIAS_SWAP_PAGE_ERROR
+    MEDIAS_SWAP_PAGE_ERROR,
+    MEDIAS_UPVOTE_UPDATE
 } from "../actions/medias";
 
 const initialState = {
@@ -43,6 +44,37 @@ const initialState = {
     expand: null,
     gotSound: null
 };
+
+function updateVotes(state, _id) {
+    const expand = state.expand === null ? null : {...state.expand};
+    if (expand !== null) {
+        if (expand._id === _id) {
+            expand.votes = expand.voted ? expand.votes - 1 : expand.votes + 1;
+            expand.voted = !expand.voted;
+        }
+    }
+    return {
+        ...state,
+        results: {
+            ...state.results,
+            data: [
+                ...state.results.data.map(media => {
+                    if (media._id === _id) {
+                        return {
+                            ...media,
+                            voted: !media.voted,
+                            votes: media.voted ? media.votes - 1 : media.votes + 1
+                        };
+                    }
+                    return {
+                        ...media
+                    };
+                })
+            ]
+        },
+        expand
+    };
+}
 
 const medias = (state = {
     ...initialState, 
@@ -149,7 +181,7 @@ const medias = (state = {
             ...state,
             gotSound: payload
         };
-    case MEDIAS_SEARCH_PENDING: {
+    case MEDIAS_SEARCH_PENDING:
         return {
             ...state,
             status: {
@@ -157,8 +189,7 @@ const medias = (state = {
                 searching: "PENDING",
             }
         };
-    }
-    case MEDIAS_SEARCH_ERROR: {
+    case MEDIAS_SEARCH_ERROR:
         return {
             ...state,
             status: {
@@ -166,8 +197,7 @@ const medias = (state = {
                 searching: "ERROR",
             },
         };
-    }
-    case MEDIAS_SEARCH_SUCCESS: {
+    case MEDIAS_SEARCH_SUCCESS:
         return {
             ...state,
             status: {
@@ -176,8 +206,7 @@ const medias = (state = {
             results: payload.response.results,
             searchRequest: payload.request,
         };
-    }
-    case MEDIAS_SWAP_PAGE_PENDING: {
+    case MEDIAS_SWAP_PAGE_PENDING:
         return {
             ...state,
             status: {
@@ -185,8 +214,7 @@ const medias = (state = {
                 get: "PENDING"
             }
         };
-    }
-    case MEDIAS_SWAP_PAGE_ERROR: {
+    case MEDIAS_SWAP_PAGE_ERROR:
         return {
             ...state,
             status: {
@@ -194,8 +222,7 @@ const medias = (state = {
                 get: "ERROR"
             }
         };
-    }
-    case MEDIAS_SWAP_PAGE_SUCCESS: {
+    case MEDIAS_SWAP_PAGE_SUCCESS:
         return {
             ...state,
             status: {
@@ -204,7 +231,8 @@ const medias = (state = {
             searchRequest: payload.request.searchRequest,
             results: payload.results
         };
-    }
+    case MEDIAS_UPVOTE_UPDATE:
+        return updateVotes(state, payload._id);
     default:
         return state;
     }

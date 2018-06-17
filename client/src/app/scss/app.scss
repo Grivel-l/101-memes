@@ -294,3 +294,27 @@ body {
         }
     }
 }
+
+.upVoteContainer {
+    background-color: white;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+    padding: 3px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    p {
+        margin: 0;
+        font-size: 0.7em;
+        font-weight: bolder;
+        margin-right: 5px;
+    }
+}
+
+.upVoteVoted svg {
+    fill: $selected;
+}

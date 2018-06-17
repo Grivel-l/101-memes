@@ -15,6 +15,7 @@ class App extends Component {
     constructor(props) {
         super(props);
 
+        this.page = 1;
         this.keyDown = this.keyDown.bind(this);
         this.triggerRender = this.triggerRender.bind(this);
         this.state = {
@@ -53,11 +54,7 @@ class App extends Component {
     }
 
     renderMedias() {
-        return this.props.results.data.map((media, index) => {
-            return (
-                <MediaBlock key={`media${index}`} triggerRender={this.state.triggerRender} index={index} media={media} />
-            );
-        });
+        return this.props.results.data.map((media, index) => <MediaBlock key={`media${index}`} triggerRender={this.state.triggerRender} index={index} media={media} />);
     }
 
     getY(el) {
