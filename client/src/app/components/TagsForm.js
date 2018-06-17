@@ -18,10 +18,12 @@ class TagsForm extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         return (nextProps.reset !== this.props.reset ||
+            this.state.tagsArray.length !== nextState.tagsArray.length ||
             nextState.tagsArray.filter((el, index) => {
                 return (el !== this.state.tagsArray[index]);
             }).length > 0);
     }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.reset === true) {
             this.setState({
