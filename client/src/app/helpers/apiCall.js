@@ -25,7 +25,7 @@ function* handleError(error) {
     }
 }
 
-export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaster = null, rightAfter = null) {
+export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaster = null, rightBefore = null) {
     const cookies = new Cookies();
     const token = cookies.get("userToken") || new URLSearchParams(window.location.search).get("token");
     if (typeof payload === "object") {
@@ -37,10 +37,10 @@ export default function *(funcApi, payload, ACTION_ERROR, ACTION_SUCCESS, toaste
         }
     }
     try {
-        const result = yield call(funcApi, payload, token);
-        if (rightAfter !== null) {
-            yield rightAfter();
+        if (rightBefore !== null) {
+            yield rightBefore();
         }
+        const result = yield call(funcApi, payload, token);
         if (result.error !== undefined) {
             if (ACTION_ERROR !== null) {
                 yield put({type: ACTION_ERROR, payload: result});
