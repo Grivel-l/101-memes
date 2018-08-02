@@ -100,6 +100,9 @@ class MediasController {
                 if (media === null) {
                     throw {statusCode: 400};
                 }
+                if (media.deleted) {
+                    throw {statusCode: 400, error: "Already deleted"};
+                }
                 if (media.author !== author) {
                     if (this.globalUsers.admins.filter(admin => admin.login === author).length === 0 &&
                         this.globalUsers.moderators.filter(moderator => moderator.login === author).length === 0) {

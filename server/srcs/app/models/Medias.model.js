@@ -15,7 +15,8 @@ class MediasModel {
                 type: 1,
                 createDate: 1,
                 width: 1,
-                height: 1
+                height: 1,
+                deleted: 1
             };
             schema.count(this.condition).then((total) => {
                 this.total = total;
