@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import {Transition} from "react-transition-group";
 import PropTypes from "prop-types";
 
-import "../scss/loader.css";
+import "../../scss/loader.css";
 
 class Loader extends Component {
-
     constructor(props) {
         super(props);
         this.transparent = false;

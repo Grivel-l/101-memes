@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+
 import Toast from "./Toast";
 
 class Toaster extends Component {

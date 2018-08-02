@@ -1,14 +1,14 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
-import Loader from "./Loader";
+import Loader from "./utilities/Loader";
 import MediaHover from "./medias/MediaHover";
 import MediaBlock from "./medias/MediaBlock";
-import PostButton from "../containers/postbutton";
-import Toaster from "../containers/toaster";
+import PostButton from "../containers/medias/post/postbutton";
+import Toaster from "../containers/toasters/toaster";
 import SearchBar from "../containers/searchBar";
 import Footer from "../components/Footer";
-import Pagination from "../containers/pagination";
+import Pagination from "../containers/utilities/pagination";
 import "../scss/app.css";
 
 class App extends Component {

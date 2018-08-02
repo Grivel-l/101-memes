@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 
-import {MEDIAS_SWAP_PAGE} from "../actions/medias";
-import Paginatiom from "../components/Pagination";
+import {MEDIAS_SWAP_PAGE} from "../../actions/medias";
+import Paginatiom from "../../components/utilities/Pagination";
 
 const mapStateToProps = ({medias}) => {
     return {

@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 
-import Toaster from "../components/Toaster";
-import {TOAST_HIDE} from "../actions/toasts";
+import Toaster from "../../components/toasters/Toaster";
+import {TOAST_HIDE} from "../../actions/toasts";
 
 const mapStateToProps = ({toaster}) => {
     return {
