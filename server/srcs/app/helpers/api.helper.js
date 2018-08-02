@@ -20,8 +20,11 @@ class ApiHelper {
                     if (response.status !== 200) {
                         return res.send(response.status, {message: response.error});
                     }
-                    req.author = response.login;
-                    if (isBanned(req.author, globalUsers)) {
+                    req.author = {
+                        login: response.login,
+                        inPool: response.achievements.filter(ach => ach.id === 150).length === 0
+                    };
+                    if (isBanned(response.login, globalUsers)) {
                         return res.send(418, {});
                     }
                     next();
@@ -33,7 +36,10 @@ class ApiHelper {
         }
         else {
             if (process.env.NODE_ENV === "development") {
-                req.author = process.env.LOGIN;
+                req.author = {
+                    login: process.env.LOGIN,
+                    inPool: false
+                };
             }
             if (globalUsers.banned.filter(user => user.login === req.author).length > 0) {
                 return res.send(418, {});
