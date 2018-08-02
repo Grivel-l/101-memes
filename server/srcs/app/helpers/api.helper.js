@@ -22,7 +22,7 @@ class ApiHelper {
                     }
                     req.author = {
                         login: response.login,
-                        inPool: response.achievements.filter(ach => ach.id === 150).length === 0
+                        inPool: response.cursus_users.filter(cursus => cursus.cursus.name === "42").length === 0
                     };
                     if (isBanned(response.login, globalUsers)) {
                         return res.send(418, {});
