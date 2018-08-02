@@ -304,6 +304,38 @@ body {
     opacity: 1;
 }
 
+.upVoteContainerMobile {
+    $padding: 7px;
+    $margin: 5px;
+    $fontSize: 0.9em;
+    background-color: white;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding: $padding;
+    margin: $margin;
+    margin-right: 0px;
+    align-items: center;
+    transition: opacity .15s ease-in-out;
+    display: flex;
+    margin-top: -($padding * 2 + $margin * 2 + 11);
+    p {
+        margin: 0;
+        font-size: $fontSize;
+        font-weight: bolder;
+        margin-right: 5px;
+        color: black;
+    }
+    @media screen and (min-width: 992px) {
+        display: none;
+    }
+}
+
+.upVoteContainerMobileWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .upVoteContainer {
     background-color: white;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -325,12 +357,6 @@ body {
         margin-right: 5px;
     }
     @media screen and (max-width: 992px) { 
-        display: none;
-    }
-    @media screen and (max-width: 768px) { 
-        display: none;
-    }
-    @media screen and (max-width: 576px) { 
         display: none;
     }
 }
