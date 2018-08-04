@@ -43,7 +43,7 @@ class Footer extends Component {
                 <div className={"contentWrapper"}>
                     <h1>{"ESSENTIALS"}</h1>
                     <p>
-                        {"The use of this application is reserved exclusively for users with an active account on intra.42.fr.\
+                        {"The use of this application is reserved exclusively for users with an active student account on intra.42.fr.\
                         Using our app to do anything other than access the links to this \"Terms\" page or accessing any page of our application other than this \"Terms\" page constitutes your consent to these terms of use and to our Privacy Policy. If you do not consent, do not use our application.\
                         Your use of our application to do anything beyond simply accessing/viewing it (that is, uploading, downloading, etc.), constitutes not merely your consent, but also your electronic signature, meaning that you are contractually bound by these terms and by our Privacy Policy."}
                     </p>

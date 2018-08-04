@@ -5,7 +5,7 @@ import config from "../../config/globalConfig";
 import {TOAST_SHOW} from "../actions/toasts";
 
 function* handleError(error) {
-    if (error.status === 403 || error.status === 401) {
+    if (error.status === 403 || (error.status === 401 && error.error !== "You need to be a student")) {
         document.location = config.redirectionUrl;
     }
     if (error.statusCode === 302) {

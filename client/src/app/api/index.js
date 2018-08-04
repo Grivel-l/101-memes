@@ -19,7 +19,7 @@ export default (url, options = null) => {
     }
     return fetch(`${config.serverEndpoint}${url}`, options)
         .then(response => {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 401) {
                 return {
                     status: response.status,
                     error: response.statusText

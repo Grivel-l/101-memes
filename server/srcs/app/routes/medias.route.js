@@ -13,8 +13,10 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                 return res.send(400, {error: "name param is missing"});
             } else if (req.files.media === undefined) {
                 return res.send(400, {error: "media param is missing"});
+            } else if (req.author.inPool) {
+                return res.send(401, {error: "You need to be student"});
             }
-            medias.uploadFile(req.params.name, req.params.tags, req.files.media, req.author, Number(req.headers["content-length"]))
+            medias.uploadFile(req.params.name, req.params.tags, req.files.media, req.author.login, Number(req.headers["content-length"]))
                 .then((result) => res.send(200, result))
                 .catch(err => {
                     if (err.statusCode === 500) {
@@ -33,7 +35,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             if (typeof page !== "number" || typeof limit !== "number") {
                 return res.send(400, {});
             }
-            medias.getAll(page, limit, req.author)
+            medias.getAll(page, limit, req.author.login)
                 .then(medias => res.send(200, medias))
                 .catch(err => {
                     log.error(err);
@@ -45,7 +47,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             if (req.params.mediaId === undefined) {
                 return res.send(400, {error: "mediaId param is missing"});
             }
-            medias.deleteMedia(req.params.mediaId, req.author)
+            medias.deleteMedia(req.params.mediaId, req.author.login)
                 .then(media => res.send(200, media))
                 .catch(err => {
                     if (typeof err === "object") {
@@ -62,7 +64,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             if (req.body.mediaId === undefined) {
                 return res.send(400, {error: "mediaId param is missing"});
             }
-            medias.reportMedia(req.body.mediaId, req.author)
+            medias.reportMedia(req.body.mediaId, req.author.login)
                 .then(() => res.send(200, {}))
                 .catch(err => {
                     log.error(err);
@@ -83,7 +85,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         });
 
         server.get("/media/search", (req, res) => {
-            medias.searchMedia(req.params, req.author)
+            medias.searchMedia(req.params, req.author.login)
                 .then(results => {
                     if (results && results.data && results.data.length > 0) {
                         res.send(200, {results});
@@ -101,7 +103,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
             if (req.params.mediaId === undefined) {
                 return res.send(400, {error: "mediaId param is missing"});
             }
-            medias.vote(req.author, req.params.mediaId)
+            medias.vote(req.author.login, req.params.mediaId)
                 .then(result => res.send(200, result))
                 .catch(error => {
                     log.error(error);
