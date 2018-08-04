@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Media from "../../containers/medias/media";
 import "../../scss/app.css";
-import Loader from "../Loader";
+import Loader from "../utilities/Loader";
 
 class MediaBlock extends Component {
     constructor() {

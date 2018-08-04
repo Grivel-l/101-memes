@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import config from "../../config/globalConfig";
-
 import update from "immutability-helper";
 import PropTypes from "prop-types";
+
+import config from "../../../../config/globalConfig";
 
 class TagsForm extends Component {
     constructor(props) {

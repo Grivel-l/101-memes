@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import Media from "../../containers/medias/media";
 import MoreButton from "../../containers/medias/moreButton";
+import Upvote from "../../containers/medias/upvote";
 
 class MediaHover extends Component {
     constructor(props) {
@@ -63,7 +64,14 @@ class MediaHover extends Component {
                                         {this.props.expand.author}
                                     </a>
                                 </h3>
-                                
+                                <div className={"upVoteContainerMobileWrapper"}>
+                                    <Upvote
+                                        _id={this.props.expand._id}
+                                        votesNbr={this.props.expand.votes}
+                                        voted={this.props.expand.voted}
+                                        className={"upVoteContainerMobile"}
+                                    />
+                                </div>
                                 {(this.props.expand.tags.length > 0) && <ul className={"tags"}>
                                     {this.renderTags()}
                                 </ul>}

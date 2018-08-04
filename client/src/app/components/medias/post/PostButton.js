@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-import config from "../../config/globalConfig";
-import Media from "../containers/medias/media";
-import TagsForm from "../containers/tagsForm";
-import placeholder from "../../imgs/imgPlaceholder.svg";
-import "../scss/postbutton.css";
+import config from "../../../../config/globalConfig";
+import Media from "../../../containers/medias/media";
+import TagsForm from "../../../containers/medias/post/tagsForm";
+import placeholder from "../../../../imgs/imgPlaceholder.svg";
+import "../../../scss/postbutton.css";
 
 class PostButton extends Component {
     constructor(props) {

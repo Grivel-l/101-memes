@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
 
-import "../scss/pagination.css";
+import "../../scss/pagination.css";
 
 class Pagination extends Component {
 

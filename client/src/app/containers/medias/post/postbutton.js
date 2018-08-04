@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 
-import {MEDIA_PUBLISH} from "../actions/medias";
-import PostButton from "../components/PostButton";
+import {MEDIA_PUBLISH} from "../../../actions/medias";
+import PostButton from "../../../components/medias/post/PostButton";
 
 const mapStateToProps = ({medias, tags}) => {
     return {

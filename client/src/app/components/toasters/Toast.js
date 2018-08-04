@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import "../scss/toasters.css";
+import "../../scss/toasters.css";
 
 class Toast extends Component {
     constructor() {
