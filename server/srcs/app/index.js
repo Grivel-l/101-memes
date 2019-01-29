@@ -1,4 +1,4 @@
-require("dotenv").config({path: `${__dirname}/.env`});
+require("dotenv").config({path: `${__dirname}/../../.env`});
 const restify = require("restify");
 const bunyan = require("bunyan");
 const mongoose = require("mongoose");
