@@ -28,7 +28,7 @@ class MediasController {
     getName() {
         const filename = uuid();
         try {
-            fs.accessSync(`${__dirname}/${this.mediaDir}${filename}`, fs.constants.F_OK);
+            fs.accessSync(`${__dirname}/../../../${this.mediaDir}${filename}`, fs.constants.F_OK);
             return this.getName();
         } catch (err) {
             return filename;
@@ -58,13 +58,13 @@ class MediasController {
                 const filename = this.getName();
                 const filepath = `${this.mediaDir}${filename}.${extension}`;
                 try {
-                    fs.writeFileSync(filepath, fs.readFileSync(media.path));
+                    fs.writeFileSync(`${__dirname}/../../../${filepath}`, fs.readFileSync(media.path));
                     fs.unlinkSync(media.path);
                 } catch (err) {
                     return reject({statusCode: 500, message: err});
                 }
-                this.mediasHelper.getSizeMedia(extension, filename, this.mediaDir).then(({width, height}) => {
-                    return this.mediasHelper.convertVideo(extension, filename, this.mediaDir)
+                this.mediasHelper.getSizeMedia(extension, filename, `${__dirname}/../../../${this.mediaDir}`).then(({width, height}) => {
+                    return this.mediasHelper.convertVideo(extension, filename, `${__dirname}/../../../${this.mediaDir}`)
                         .then(() => {
                             return this.medias.addFile(name, tags, filepath, author, type, width, height)
                                 .then(result => resolve(result));
