@@ -15,7 +15,7 @@ class MediasController {
                 this.medias = medias;
                 this.mediasHelper = new MediasHelper();
                 this.users = new UsersModel(dtb);
-                this.mediaDir = `${__dirname}/../../imgs/`;
+                this.mediaDir = "./srcs/imgs/";
                 this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
                 this.globalUsers = globalUsers;
                 resolve(this);
@@ -28,7 +28,7 @@ class MediasController {
     getName() {
         const filename = uuid();
         try {
-            fs.accessSync(`${this.mediaDir}${filename}`, fs.constants.F_OK);
+            fs.accessSync(`${__dirname}/${this.mediaDir}${filename}`, fs.constants.F_OK);
             return this.getName();
         } catch (err) {
             return filename;
