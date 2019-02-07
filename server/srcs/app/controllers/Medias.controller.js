@@ -15,7 +15,7 @@ class MediasController {
                 this.medias = medias;
                 this.mediasHelper = new MediasHelper();
                 this.users = new UsersModel(dtb);
-                this.mediaDir = "./srcs/imgs/";
+                this.mediaDir = `${__dirname}/../../imgs/`;
                 this.validTypes = ["webm", "jpg", "jpeg", "png", "gif", "mp4"];    
                 this.globalUsers = globalUsers;
                 resolve(this);
