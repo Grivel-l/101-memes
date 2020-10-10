@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: ./server/
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+  database:
+    image: mongo:latest
+    ports:
+      - "27017"
+  client:
+    build:
+      context: ./client/
+      dockerfile: ./Dockerfile
+    volumes:
+      - type: volume
+        source: static
+        target: /static
+  nginx:
+    image: nginx:latest
+    volumes:
+      - type: volume
+        source: static
+        target: /usr/share/nginx/html
+volumes:
+  static:
