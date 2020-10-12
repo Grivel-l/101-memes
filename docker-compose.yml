@@ -5,12 +5,12 @@ services:
     build:
       context: ./server/
       dockerfile: ./Dockerfile
+    depends_on:
+      - database
     ports:
       - "8080:8080"
   database:
     image: mongo:latest
-    ports:
-      - "27017"
   client:
     build:
       context: ./client/
@@ -19,11 +19,17 @@ services:
       - type: volume
         source: static
         target: /static
+    depends_on:
+      - server
   nginx:
     image: nginx:latest
     volumes:
       - type: volume
         source: static
         target: /usr/share/nginx/html
+    ports:
+      - "80:80"
+    depends_on:
+      - client
 volumes:
   static:
