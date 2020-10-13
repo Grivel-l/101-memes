@@ -32,7 +32,7 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
         server.get("/media/all", (req, res) => {
             const page = parseInt(req.params.page, 10);
             const limit = parseInt(req.params.limit, 10);
-            if (typeof page !== "number" || typeof limit !== "number") {
+            if (typeof page !== "number" || typeof limit !== "number" || req.author === undefined) {
                 return res.send(400, {});
             }
             medias.getAll(page, limit, req.author.login)
