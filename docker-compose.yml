@@ -7,10 +7,10 @@ services:
       dockerfile: ./Dockerfile
     depends_on:
       - database
-    ports:
-      - "8080:8080"
+    restart: always
   database:
     image: mongo:latest
+    restart: always
   client:
     build:
       context: ./client/
@@ -31,5 +31,6 @@ services:
       - "80:80"
     depends_on:
       - client
+    restart: always
 volumes:
   static:
