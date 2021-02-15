@@ -71,16 +71,27 @@ module.exports = (server, plugins, log, dtb, globalUsers) => {
                     res.send(500, {error: "Internal Server Error"});
                 });
         });
-    
-        server.post("/media/slack/random", (req, res) => {
-            medias.getRandomUrl()
-                .then(imageUrl => res.send(200, {attachments: [{imageUrl}]}))
-                .catch(err => {
-                    if (typeof err === "object") {
-                        if (err.kind === "ObjectId" || err.statusCode === 404) {
-                            return res.send(200, "No media has been found");
-                        }
+
+        server.post("/media/slack/search", (req, res) => {
+            medias.searchMedia({
+                type: "custom",
+                terms: req.body.text,
+                page: 1,
+                limit: 1
+            }, true, true)
+                .then(({data}) => {
+                    if (data.length === 0) {
+                        throw {statusCode: 404};
                     }
+                    const split = data[0].path.split(".");
+                    if (split[split.length - 1] === "mp4" || split[split.length - 1] === "webm") {
+                        split[split.length - 1] = "gif";
+                    }
+                    res.send(200, {attachments: [{title: data.name, imageUrl: split.join(".")}]});
+                })
+                .catch(error => {
+                    log.error(error);
+                    res.send(error.statusCode || 500, error.statusCode === 500 ? "Internal server error" : error.message);
                 });
         });
 

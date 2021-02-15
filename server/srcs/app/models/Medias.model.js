@@ -62,10 +62,6 @@ class MediasModel {
         return schema.count(this.condition);
     }
 
-    findAndSkip(rand) {
-        return schema.findOne(this.condition, Object.keys(this.fieldsToGet)).skip(rand);
-    }
-
     /*
     ***
     **** SEARCH FUNCTIONS
@@ -190,17 +186,18 @@ class MediasModel {
                     }
                 }
             }
-        ]).then(data => {
-            /*const after = Date.now();
-            console.log(`Search for "${terms}", Execution time : ${after - before}ms` )*/
-            if (!data[0]) {
-                return (null);
-            }
-            return {
-                pageNbr: Math.floor(data[0].total  / limit) + 1,
-                ...data[0]
-            };
-        });
+        ])
+            .then(data => {
+                /*const after = Date.now();
+                console.log(`Search for "${terms}", Execution time : ${after - before}ms` )*/
+                if (!data[0]) {
+                    return (null);
+                }
+                return {
+                    pageNbr: Math.floor(data[0].total  / limit) + 1,
+                    ...data[0]
+                };
+            });
     }
 
     hasVoted(author, _id) {

@@ -138,37 +138,21 @@ class MediasController {
                 });
         });
     }
-  
-    getRandomUrl() {
-        return this.medias.count()
-            .then(nbr => {
-                if (nbr === 0) {
-                    throw {statusCode: 404};
-                }
-                return this.medias.findAndSkip(Math.floor(Math.random() * Math.floor(nbr)))
-                    .then(media => {
-                        const split = media.path.split(".");
-                        if (split[split.length - 1] === "mp4" || split[split.length - 1] === "webm") {
-                            split[split.length - 1] = "gif";
-                        }
-                        return split.join(".");
-                    });
-            });
 
-    }
-    searchMedia(searchParams, author) {
-        if (searchParams.limit)
-            searchParams.limit = Number(searchParams.limit);
-        else {
-            return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+    searchMedia(searchParams, author, noCheck = false) {
+        if (!noCheck) {
+            if (searchParams.limit !== undefined)
+                searchParams.limit = Number(searchParams.limit);
+            else {
+                return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+            }
+            searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
+            if (!searchParams.type ||
+                (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "custom") ||
+                searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
+                return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
+            }
         }
-        searchParams.page = searchParams.page ? Number(searchParams.page) : 1;
-        if (!searchParams.type ||
-            (searchParams.type !== "latest" && searchParams.type !== "popular" && searchParams.type !== "custom") ||
-            searchParams.limit < 1 || searchParams.limit > 24 || searchParams.page < 1)  {
-            return new Promise((resolve, reject) => reject({statusCode: 400, message: "Bad search params"}));
-        }
-
         switch(searchParams.type) {
         case "latest":
             return this.medias.findLatest(searchParams.page, searchParams.limit, author);
